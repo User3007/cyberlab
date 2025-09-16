@@ -18,7 +18,7 @@ class APTComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="🎭 Advanced Persistent Threats",
+            component_name=" Advanced Persistent Threats",
             description="Sophisticated, long-term cyber campaigns by skilled adversaries",
             color_scheme=THEORY_CONCEPTS_COLORS,
             estimated_time="20 minutes"
@@ -32,7 +32,7 @@ class APTComponent(ComponentTemplate):
         """Render APT content"""
         
         # APT characteristics
-        st.markdown("#### 🎯 APT Characteristics")
+        st.markdown("####  APT Characteristics")
         
         characteristics = {
             "Advanced": "Sophisticated tools, techniques, and procedures",
@@ -47,7 +47,7 @@ class APTComponent(ComponentTemplate):
             create_info_card(char, description, "warning", self.color_scheme)
         
         # APT lifecycle
-        st.markdown("#### 🔄 APT Attack Lifecycle")
+        st.markdown("####  APT Attack Lifecycle")
         
         lifecycle_phases = [
             {"Phase": "1. Reconnaissance", "Description": "Target research and intelligence gathering", "Duration": "Weeks to months"},
@@ -64,7 +64,7 @@ class APTComponent(ComponentTemplate):
         st.dataframe(lifecycle_df, use_container_width=True)
         
         # Notable APT groups
-        st.markdown("#### 🏴‍☠️ Notable APT Groups")
+        st.markdown("####  Notable APT Groups")
         
         apt_groups = {
             "APT1 (Comment Crew)": {
@@ -94,7 +94,7 @@ class APTComponent(ComponentTemplate):
         }
         
         selected_apt = st.selectbox(
-            "🔍 Explore APT Group:",
+            " Explore APT Group:",
             list(apt_groups.keys()),
             key="apt_group_selector"
         )
@@ -103,7 +103,7 @@ class APTComponent(ComponentTemplate):
         
         st.markdown(f"""
         <div style="background: {self.color_scheme['background']}; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; border-left: 5px solid {self.color_scheme['primary']};">
-            <h4 style="color: {self.color_scheme['primary']}; margin-top: 0;">🏴‍☠️ {selected_apt} Profile</h4>
+            <h4 style="color: {self.color_scheme['primary']}; margin-top: 0;"> {selected_apt} Profile</h4>
             <p><strong>Attribution:</strong> {apt_info['Attribution']}</p>
             <p><strong>Primary Targets:</strong> {apt_info['Targets']}</p>
             <p><strong>Active Since:</strong> {apt_info['Active Since']}</p>
@@ -115,7 +115,7 @@ class APTComponent(ComponentTemplate):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("**🛡️ Detection Strategies:**")
+            st.markdown("** Detection Strategies:**")
             detection = [
                 "Behavioral analytics and anomaly detection",
                 "Threat hunting and proactive monitoring", 
@@ -123,10 +123,10 @@ class APTComponent(ComponentTemplate):
                 "Endpoint detection and response (EDR)"
             ]
             for strategy in detection:
-                st.markdown(f"• {strategy}")
+                st.markdown(f" {strategy}")
         
         with col2:
-            st.markdown("**🔒 Prevention Measures:**")
+            st.markdown("** Prevention Measures:**")
             prevention = [
                 "Zero trust architecture implementation",
                 "Regular security assessments and penetration testing",
@@ -134,11 +134,11 @@ class APTComponent(ComponentTemplate):
                 "Incident response and recovery planning"
             ]
             for measure in prevention:
-                st.markdown(f"• {measure}")
+                st.markdown(f" {measure}")
         
         # APT vs regular attacks
-        if st.button("📊 APT vs Regular Cyber Attacks"):
-            st.markdown("#### ⚖️ APT vs Regular Cyber Attacks Comparison")
+        if st.button(" APT vs Regular Cyber Attacks"):
+            st.markdown("####  APT vs Regular Cyber Attacks Comparison")
             
             comparison_data = [
                 {"Aspect": "Duration", "Regular Attacks": "Minutes to hours", "APT": "Months to years"},

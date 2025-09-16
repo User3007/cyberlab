@@ -13,7 +13,7 @@ except ImportError:
 def explain_scrum():
     """Placeholder for scrum component"""
     import streamlit as st
-    st.info("🚧 Scrum Methodologies component is being refactored. Coming soon!")
+    st.info(" Scrum Methodologies component is being refactored. Coming soon!")
 
 try:
     from .design_patterns import explain_design_patterns
@@ -23,7 +23,7 @@ except ImportError:
     def explain_design_patterns():
         """Placeholder for design patterns component"""
         import streamlit as st
-        st.info("🚧 Design Patterns component is being refactored. Coming soon!")
+        st.info(" Design Patterns component is being refactored. Coming soon!")
 
 try:
     from .project_planning import explain_project_planning
@@ -33,12 +33,37 @@ except ImportError:
     def explain_project_planning():
         """Placeholder for project planning component"""
         import streamlit as st
-        st.info("🚧 Project Planning component is being refactored. Coming soon!")
+        st.info(" Project Planning component is being refactored. Coming soon!")
 
-def explain_programming_paradigms():
-    """Placeholder for programming paradigms component"""
-    import streamlit as st
-    st.info("🚧 Programming Paradigms component is being refactored. Coming soon!")
+try:
+    from .risk_management_pm import explain_risk_management_pm
+    _risk_management_pm_available = True
+except ImportError:
+    _risk_management_pm_available = False
+    def explain_risk_management_pm():
+        """Placeholder for risk management component"""
+        import streamlit as st
+        st.info(" Risk Management component is being refactored. Coming soon!")
+
+try:
+    from .team_management import explain_team_management
+    _team_management_available = True
+except ImportError:
+    _team_management_available = False
+    def explain_team_management():
+        """Placeholder for team management component"""
+        import streamlit as st
+        st.info(" Team Management component is being refactored. Coming soon!")
+
+try:
+    from .programming_paradigms import explain_programming_paradigms
+    _programming_paradigms_available = True
+except ImportError:
+    _programming_paradigms_available = False
+    def explain_programming_paradigms():
+        """Placeholder for programming paradigms component"""
+        import streamlit as st
+        st.info(" Programming Paradigms component is being refactored. Coming soon!")
 
 __all__ = []
 if _sdlc_agile_available:
@@ -50,13 +75,27 @@ if _design_patterns_available:
 if _project_planning_available:
     __all__.append('explain_project_planning')
 
+if _risk_management_pm_available:
+    __all__.append('explain_risk_management_pm')
+
+if _team_management_available:
+    __all__.append('explain_team_management')
+
 __all__.extend([
-    'explain_scrum',
-    'explain_programming_paradigms'
+    'explain_scrum'
 ])
+
+if _programming_paradigms_available:
+    __all__.append('explain_programming_paradigms')
+else:
+    __all__.append('explain_programming_paradigms')  # Include placeholder
 
 # Add placeholders if not available
 if not _design_patterns_available:
     __all__.append('explain_design_patterns')
 if not _project_planning_available:
     __all__.append('explain_project_planning')
+if not _risk_management_pm_available:
+    __all__.append('explain_risk_management_pm')
+if not _team_management_available:
+    __all__.append('explain_team_management')

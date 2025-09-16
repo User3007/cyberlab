@@ -73,6 +73,12 @@ try:
 except ImportError:
     _apt_available = False
 
+try:
+    from .risk_management_principles import explain_risk_management_principles
+    _risk_management_principles_available = True
+except ImportError:
+    _risk_management_principles_available = False
+
 __all__ = []
 if _cia_triad_available:
     __all__.append('explain_cia_triad')
@@ -96,3 +102,5 @@ if _security_by_design_available:
     __all__.append('explain_security_by_design')
 if _apt_available:
     __all__.append('explain_advanced_persistent_threats')
+if _risk_management_principles_available:
+    __all__.append('explain_risk_management_principles')

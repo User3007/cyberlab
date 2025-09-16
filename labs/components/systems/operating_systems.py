@@ -49,7 +49,7 @@ def explain_operating_systems():
     st.plotly_chart(fig, use_container_width=True)
 
     # Compact content with tight spacing
-    with st.expander("📚 OS Fundamentals"):
+    with st.expander(" OS Fundamentals"):
         st.markdown("""
         <div style="line-height: 1.4;">
         
@@ -73,7 +73,7 @@ def explain_operating_systems():
         """, unsafe_allow_html=True)
 
     # Compact Cheat Sheet with highlighted keywords
-    st.markdown("## 📋 OS Cheat Sheet")
+    st.markdown("##  OS Cheat Sheet")
     
     tab1, tab2, tab3 = st.tabs(["Core Concepts", "Process Management", "Memory & Storage"])
     
@@ -184,7 +184,7 @@ def explain_operating_systems():
         st.dataframe(df_memory, use_container_width=True, height=200)
 
     # Compact Interactive Demo
-    st.markdown("## 🔧 Interactive OS Demo")
+    st.markdown("##  Interactive OS Demo")
     
     with st.expander("Process Scheduler Simulator"):
         col1, col2 = st.columns([2, 1])
@@ -201,20 +201,20 @@ def explain_operating_systems():
             
         with col2:
             if st.button("Run Simulation", key="os_run_sim"):
-                st.success("✅ Scheduler running!")
+                st.success(" Scheduler running!")
                 
                 # Simple process simulation
                 processes = ["P1", "P2", "P3"]
                 if algorithm == "First-Come-First-Served":
-                    st.write("**Execution Order:** P1 → P2 → P3")
+                    st.write("**Execution Order:** P1  P2  P3")
                 elif algorithm == "Shortest Job First":
-                    st.write("**Execution Order:** P3 → P1 → P2")
+                    st.write("**Execution Order:** P3  P1  P2")
                 else:  # Round Robin
                     st.write(f"**Time Quantum:** {time_quantum}ms")
-                    st.write("**Execution:** P1({time_quantum}) → P2({time_quantum}) → P3({time_quantum}) → ...")
+                    st.write("**Execution:** P1({time_quantum})  P2({time_quantum})  P3({time_quantum})  ...")
 
     # OS Comparison
-    st.markdown("## 🔄 OS Comparison")
+    st.markdown("##  OS Comparison")
     
     comparison_data = [
         {
@@ -253,25 +253,25 @@ def explain_operating_systems():
     # Compact Key Takeaways
     st.markdown("""
     <div style="background: #e8f4fd; padding: 1rem; border-radius: 8px; border-left: 4px solid #56ab2f; margin-top: 1rem;">
-        <h4 style="margin: 0 0 0.5rem 0; color: #56ab2f; font-size: 1.1rem;">🎯 Key Takeaways</h4>
+        <h4 style="margin: 0 0 0.5rem 0; color: #56ab2f; font-size: 1.1rem;"> Key Takeaways</h4>
         <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.4;">
             <li><strong>OS Role:</strong> Manages hardware resources and provides services to applications</li>
             <li><strong>Core Functions:</strong> Process, memory, file system, I/O, and security management</li>
             <li><strong>Architecture:</strong> Layered design with kernel as the core component</li>
-            <li><strong>Process States:</strong> New → Ready → Running → Waiting → Terminated lifecycle</li>
-            <li><strong>Memory Hierarchy:</strong> Cache → RAM → Virtual Memory → Storage for optimal performance</li>
+            <li><strong>Process States:</strong> New  Ready  Running  Waiting  Terminated lifecycle</li>
+            <li><strong>Memory Hierarchy:</strong> Cache  RAM  Virtual Memory  Storage for optimal performance</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
 
     # Resources section
-    st.markdown("## 📚 Learning Resources")
+    st.markdown("##  Learning Resources")
     
     col1, col2 = st.columns(2)
     
     with col1:
         st.markdown("""
-        **📖 Essential Reading:**
+        ** Essential Reading:**
         - [Operating System Concepts](https://www.os-book.com/) - Silberschatz textbook
         - [Linux Kernel Documentation](https://www.kernel.org/doc/)
         - [Windows Internals](https://docs.microsoft.com/en-us/sysinternals/)
@@ -279,7 +279,7 @@ def explain_operating_systems():
     
     with col2:
         st.markdown("""
-        **🎥 Video Learning:**
+        ** Video Learning:**
         - [OS Course - MIT](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/)
         - [Linux System Programming](https://www.youtube.com/watch?v=bkSWJJZNgf8)
         - [Windows Architecture](https://channel9.msdn.com/Shows/Going+Deep)

@@ -20,7 +20,7 @@ class ProjectPlanningComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="📋 Project Planning",
+            component_name=" Project Planning",
             description="Software project management methodologies, planning techniques, and best practices",
             color_scheme=SOFTWARE_DEVELOPMENT_COLORS,
             estimated_time="25 minutes"
@@ -154,7 +154,7 @@ class ProjectPlanningComponent(ComponentTemplate):
 
     def _render_methodology_overview(self):
         """Render project methodologies overview"""
-        st.subheader("🎯 Project Methodologies")
+        st.subheader(" Project Methodologies")
         
         # Methodology selector
         methodology = st.selectbox(
@@ -171,25 +171,25 @@ class ProjectPlanningComponent(ComponentTemplate):
             st.markdown(f"### {methodology} Methodology")
             st.markdown(f"**Description:** {method_data['description']}")
             
-            st.markdown("#### 🎯 Core Principles")
+            st.markdown("####  Core Principles")
             for principle in method_data['principles']:
-                st.markdown(f"• {principle}")
+                st.markdown(f" {principle}")
             
             st.markdown(f"**Best For:** {method_data['best_for']}")
             st.markdown(f"**Typical Timeline:** {method_data['timeline']}")
         
         with col2:
             # Pros and Cons
-            st.markdown("#### ✅ Advantages")
+            st.markdown("####  Advantages")
             for pro in method_data['pros']:
-                st.markdown(f"• {pro}")
+                st.markdown(f" {pro}")
             
-            st.markdown("#### ⚠️ Challenges")
+            st.markdown("####  Challenges")
             for con in method_data['cons']:
-                st.markdown(f"• {con}")
+                st.markdown(f" {con}")
         
         # Frameworks comparison
-        st.subheader("🔄 Framework Comparison")
+        st.subheader(" Framework Comparison")
         
         comparison_data = []
         for name, data in self.methodologies.items():
@@ -206,7 +206,7 @@ class ProjectPlanningComponent(ComponentTemplate):
 
     def _render_project_phases(self):
         """Render project phases breakdown"""
-        st.subheader("📊 Project Phases")
+        st.subheader(" Project Phases")
         
         # Phase selector
         phase = st.selectbox(
@@ -221,25 +221,25 @@ class ProjectPlanningComponent(ComponentTemplate):
         
         with col1:
             create_info_card(
-                f"🎯 {phase} Phase",
+                f" {phase} Phase",
                 phase_data["description"],
                 card_type="info",
                 color_scheme=self.color_scheme
             )
             
-            st.markdown("#### 📋 Key Activities")
+            st.markdown("####  Key Activities")
             for activity in phase_data["activities"]:
-                st.markdown(f"• {activity}")
+                st.markdown(f" {activity}")
         
         with col2:
-            st.markdown("#### 📦 Deliverables")
+            st.markdown("####  Deliverables")
             for deliverable in phase_data["deliverables"]:
-                st.markdown(f"• {deliverable}")
+                st.markdown(f" {deliverable}")
             
-            st.markdown(f"**⏱️ Duration:** {phase_data['duration']}")
+            st.markdown(f"** Duration:** {phase_data['duration']}")
         
         # Project timeline visualization
-        st.subheader("📅 Project Timeline Example")
+        st.subheader(" Project Timeline Example")
         
         # Sample project timeline
         phases = list(self.project_phases.keys())
@@ -275,7 +275,7 @@ class ProjectPlanningComponent(ComponentTemplate):
 
     def _render_planning_tools(self):
         """Render planning tools and techniques"""
-        st.subheader("🛠️ Planning Tools & Techniques")
+        st.subheader(" Planning Tools & Techniques")
         
         # Tools by category
         tool_category = st.selectbox(
@@ -306,7 +306,7 @@ class ProjectPlanningComponent(ComponentTemplate):
                     st.caption(descriptions[tool])
         
         # Tool recommendations by project type
-        st.subheader("🎯 Tool Recommendations by Project Type")
+        st.subheader(" Tool Recommendations by Project Type")
         
         recommendations = {
             "Small Team (2-5 people)": {
@@ -330,19 +330,19 @@ class ProjectPlanningComponent(ComponentTemplate):
         }
         
         for team_size, tools in recommendations.items():
-            with st.expander(f"📊 {team_size}"):
+            with st.expander(f" {team_size}"):
                 for category, tool_list in tools.items():
                     st.markdown(f"**{category}:** {tool_list}")
 
     def _render_estimation_guide(self):
         """Render estimation techniques guide"""
-        st.subheader("📏 Estimation Techniques")
+        st.subheader(" Estimation Techniques")
         
         tabs = st.tabs(["Story Points", "Planning Poker", "T-Shirt Sizing", "Best Practices"])
         
         with tabs[0]:
             st.markdown("""
-            #### 🔢 Story Points
+            ####  Story Points
             
             **Concept:** Relative estimation using Fibonacci sequence
             
@@ -365,7 +365,7 @@ class ProjectPlanningComponent(ComponentTemplate):
         
         with tabs[1]:
             st.markdown("""
-            #### 🃏 Planning Poker
+            ####  Planning Poker
             
             **Process:**
             1. Product Owner reads user story
@@ -375,18 +375,18 @@ class ProjectPlanningComponent(ComponentTemplate):
             5. Discuss differences (especially high/low outliers)
             6. Re-estimate until consensus
             
-            **Cards:** 0, ½, 1, 2, 3, 5, 8, 13, 20, 40, 100, ?, ☕
+            **Cards:** 0, , 1, 2, 3, 5, 8, 13, 20, 40, 100, ?, 
             
             **Special Cards:**
             - **?** - Need more information
-            - **☕** - Need a break
+            - **** - Need a break
             - **0** - Already done
-            - **∞** - Too big, needs breakdown
+            - **** - Too big, needs breakdown
             """)
         
         with tabs[2]:
             st.markdown("""
-            #### 👕 T-Shirt Sizing
+            ####  T-Shirt Sizing
             
             **Scale:** XS, S, M, L, XL, XXL
             
@@ -406,23 +406,23 @@ class ProjectPlanningComponent(ComponentTemplate):
         
         with tabs[3]:
             st.markdown("""
-            #### 🎯 Estimation Best Practices
+            ####  Estimation Best Practices
             
-            **✅ Do:**
+            ** Do:**
             - Include whole team in estimation
             - Consider complexity, risk, and effort
             - Use historical data for calibration
             - Re-estimate when requirements change
             - Track actual vs estimated for learning
             
-            **❌ Don't:**
+            ** Don't:**
             - Convert story points to hours directly
             - Compare velocity between teams
             - Use estimates for performance evaluation
             - Estimate without understanding requirements
             - Ignore team feedback on estimates
             
-            **🔧 Tips:**
+            ** Tips:**
             - Start with reference stories
             - Break down large items (>13 points)
             - Consider dependencies and risks
@@ -437,26 +437,26 @@ def explain_project_planning():
     
     # Summary points for the banner
     summary_points = [
-        "📋 Project management methodologies",
-        "🎯 Planning phases and deliverables",
-        "🛠️ Tools and estimation techniques",
-        "📊 Best practices and frameworks"
+        " Project management methodologies",
+        " Planning phases and deliverables",
+        " Tools and estimation techniques",
+        " Best practices and frameworks"
     ]
     
     # Learning resources
     resources = [
         {
-            "title": "📚 PMI Project Management Guide",
+            "title": " PMI Project Management Guide",
             "url": "https://www.pmi.org/pmbok-guide-standards",
             "description": "Industry standard project management practices"
         },
         {
-            "title": "🏃 Agile Alliance Resources",
+            "title": " Agile Alliance Resources",
             "url": "https://www.agilealliance.org/agile101/",
             "description": "Comprehensive agile methodology guide"
         },
         {
-            "title": "🔧 Atlassian Project Management",
+            "title": " Atlassian Project Management",
             "url": "https://www.atlassian.com/project-management",
             "description": "Modern project management tools and techniques"
         }

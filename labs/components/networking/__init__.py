@@ -62,11 +62,17 @@ try:
 except ImportError:
     _common_protocols_available = False
 
+try:
+    from .network_troubleshooting import explain_network_troubleshooting
+    _network_troubleshooting_available = True
+except ImportError:
+    _network_troubleshooting_available = False
+
 # Placeholder functions for components not yet implemented
 def explain_network_models():
     """Placeholder for network models component"""
     import streamlit as st
-    st.info("🚧 Network Models component is being refactored. Coming soon!")
+    st.info(" Network Models component is being refactored. Coming soon!")
 
 __all__ = []
 if _osi_model_available:
@@ -87,6 +93,8 @@ if _network_devices_available:
     __all__.append('explain_network_devices')
 if _common_protocols_available:
     __all__.append('explain_common_protocols')
+if _network_troubleshooting_available:
+    __all__.append('explain_network_troubleshooting')
 
 __all__.extend([
     'explain_network_models'

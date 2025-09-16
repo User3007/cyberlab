@@ -19,6 +19,33 @@ from ..components.systems.computer_architecture import explain_computer_architec
 from ..components.systems.operating_systems import explain_operating_systems
 from ..components.systems.virtualization import explain_virtualization
 from ..components.systems.database_concepts import explain_database_concepts
+from ..components.systems import (
+    explain_process_management,
+    explain_memory_management,
+    explain_file_systems,
+    explain_relational_databases,
+    explain_sql_basics,
+    explain_database_design,
+    explain_os_comparison
+)
+
+# Import sysadmin components
+from ..components.sysadmin import (
+    explain_user_management,
+    explain_system_monitoring,
+    explain_backup_recovery,
+    explain_performance_tuning,
+    explain_security_hardening
+)
+
+# Import ITSM components
+from ..components.itsm import (
+    explain_itil_framework,
+    explain_incident_management,
+    explain_change_management,
+    explain_service_level_management,
+    explain_it_governance
+)
 
 # Import networking components
 from ..components.networking.common_protocols import explain_common_protocols
@@ -124,6 +151,7 @@ def operating_systems_lab():
     
     os_topic = st.selectbox("Chọn chủ đề OS:", [
         "OS Fundamentals",
+        "OS Comparison",
         "Process Management", 
         "Memory Management", 
         "File Systems",
@@ -132,6 +160,8 @@ def operating_systems_lab():
     
     if os_topic == "OS Fundamentals":
         explain_operating_systems()
+    elif os_topic == "OS Comparison":
+        explain_os_comparison()
     elif os_topic == "Process Management":
         explain_process_management()
     elif os_topic == "Memory Management":
@@ -150,8 +180,8 @@ def database_fundamentals_lab():
         "Database Concepts",
         "Relational Databases",
         "SQL Fundamentals",
-        "Database Security",
-        "NoSQL Databases"
+        "Database Design",
+        "Database Security"
     ], key="it_db_topic")
     
     if db_topic == "Database Concepts":
@@ -159,11 +189,11 @@ def database_fundamentals_lab():
     elif db_topic == "Relational Databases":
         explain_relational_databases()
     elif db_topic == "SQL Fundamentals":
-        explain_sql_fundamentals()
+        explain_sql_basics()
+    elif db_topic == "Database Design":
+        explain_database_design()
     elif db_topic == "Database Security":
         explain_database_security()
-    elif db_topic == "NoSQL Databases":
-        explain_nosql_databases()
 
 
 def system_administration_lab():
@@ -175,20 +205,23 @@ def system_administration_lab():
         "User & Group Management",
         "System Monitoring",
         "Backup & Recovery",
-        "System Security",
+        "Performance Tuning",
+        "Security Hardening",
         "Automation & Scripting"
     ], key="it_sysadmin_topic")
     
     if sysadmin_topic == "Virtualization Fundamentals":
         explain_virtualization()
     elif sysadmin_topic == "User & Group Management":
-        explain_user_group_management()
+        explain_user_management()
     elif sysadmin_topic == "System Monitoring":
         explain_system_monitoring()
     elif sysadmin_topic == "Backup & Recovery":
         explain_backup_recovery()
-    elif sysadmin_topic == "System Security":
-        explain_system_security()
+    elif sysadmin_topic == "Performance Tuning":
+        explain_performance_tuning()
+    elif sysadmin_topic == "Security Hardening":
+        explain_security_hardening()
     elif sysadmin_topic == "Automation & Scripting":
         explain_automation_scripting()
 
@@ -245,9 +278,8 @@ def explain_performance_analysis():
 
 
 def explain_network_troubleshooting():
-    """Network troubleshooting - to be refactored"""
-    st.markdown("### 🔧 Network Troubleshooting")
-    st.info("🚧 Network Troubleshooting component is being refactored. Coming soon!")
+    from ..components.networking import explain_network_troubleshooting as _impl
+    _impl()
 
 
 def explain_network_security_basics():
@@ -256,40 +288,10 @@ def explain_network_security_basics():
     st.info("🚧 Network Security Basics component is being refactored. Coming soon!")
 
 
-def explain_process_management():
-    """Process management - to be refactored"""
-    st.markdown("### 🔄 Process Management")
-    st.info("🚧 Process Management component is being refactored. Coming soon!")
-
-
-def explain_memory_management():
-    """Memory management - to be refactored"""
-    st.markdown("### 💾 Memory Management")
-    st.info("🚧 Memory Management component is being refactored. Coming soon!")
-
-
-def explain_file_systems():
-    """File systems - to be refactored"""
-    st.markdown("### 📁 File Systems")
-    st.info("🚧 File Systems component is being refactored. Coming soon!")
-
-
 def explain_os_security():
     """OS security - to be refactored"""
     st.markdown("### 🔒 OS Security")
     st.info("🚧 OS Security component is being refactored. Coming soon!")
-
-
-def explain_relational_databases():
-    """Relational databases - to be refactored"""
-    st.markdown("### 🗄️ Relational Databases")
-    st.info("🚧 Relational Databases component is being refactored. Coming soon!")
-
-
-def explain_sql_fundamentals():
-    """SQL fundamentals - to be refactored"""
-    st.markdown("### 📝 SQL Fundamentals")
-    st.info("🚧 SQL Fundamentals component is being refactored. Coming soon!")
 
 
 def explain_database_security():
@@ -304,64 +306,10 @@ def explain_nosql_databases():
     st.info("🚧 NoSQL Databases component is being refactored. Coming soon!")
 
 
-def explain_user_group_management():
-    """User & group management - to be refactored"""
-    st.markdown("### 👥 User & Group Management")
-    st.info("🚧 User & Group Management component is being refactored. Coming soon!")
-
-
-def explain_system_monitoring():
-    """System monitoring - to be refactored"""
-    st.markdown("### 📊 System Monitoring")
-    st.info("🚧 System Monitoring component is being refactored. Coming soon!")
-
-
-def explain_backup_recovery():
-    """Backup & recovery - to be refactored"""
-    st.markdown("### 💾 Backup & Recovery")
-    st.info("🚧 Backup & Recovery component is being refactored. Coming soon!")
-
-
-def explain_system_security():
-    """System security - to be refactored"""
-    st.markdown("### 🔒 System Security")
-    st.info("🚧 System Security component is being refactored. Coming soon!")
-
-
 def explain_automation_scripting():
     """Automation & scripting - to be refactored"""
     st.markdown("### 🤖 Automation & Scripting")
     st.info("🚧 Automation & Scripting component is being refactored. Coming soon!")
-
-
-def explain_itil_framework():
-    """ITIL framework - to be refactored"""
-    st.markdown("### 📋 ITIL Framework")
-    st.info("🚧 ITIL Framework component is being refactored. Coming soon!")
-
-
-def explain_incident_management():
-    """Incident management - to be refactored"""
-    st.markdown("### 🚨 Incident Management")
-    st.info("🚧 Incident Management component is being refactored. Coming soon!")
-
-
-def explain_change_management():
-    """Change management - to be refactored"""
-    st.markdown("### 🔄 Change Management")
-    st.info("🚧 Change Management component is being refactored. Coming soon!")
-
-
-def explain_service_level_management():
-    """Service level management - to be refactored"""
-    st.markdown("### 📊 Service Level Management")
-    st.info("🚧 Service Level Management component is being refactored. Coming soon!")
-
-
-def explain_it_governance():
-    """IT governance - to be refactored"""
-    st.markdown("### ⚖️ IT Governance")
-    st.info("🚧 IT Governance component is being refactored. Coming soon!")
 
 
 # Add takeaways for the entire module

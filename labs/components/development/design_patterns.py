@@ -19,7 +19,7 @@ class DesignPatternsComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="🎨 Design Patterns",
+            component_name=" Design Patterns",
             description="Essential software design patterns with practical implementation examples",
             color_scheme=SOFTWARE_DEVELOPMENT_COLORS,
             estimated_time="30 minutes"
@@ -218,13 +218,13 @@ class SaveCommand(Command):
 
     def _render_pattern_overview(self):
         """Render design patterns overview"""
-        st.subheader("🎯 Design Patterns Overview")
+        st.subheader(" Design Patterns Overview")
         
         col1, col2 = st.columns(2)
         
         with col1:
             create_info_card(
-                "🏗️ What are Design Patterns?",
+                " What are Design Patterns?",
                 "Reusable solutions to commonly occurring problems in software design. They represent best practices evolved over time by experienced developers.",
                 card_type="info",
                 color_scheme=self.color_scheme
@@ -232,14 +232,14 @@ class SaveCommand(Command):
         
         with col2:
             create_info_card(
-                "📊 Pattern Categories",
-                "• **Creational**: Object creation mechanisms\n• **Structural**: Object composition\n• **Behavioral**: Communication between objects",
+                " Pattern Categories",
+                " **Creational**: Object creation mechanisms\n **Structural**: Object composition\n **Behavioral**: Communication between objects",
                 card_type="success",
                 color_scheme=self.color_scheme
             )
         
         # Pattern usage chart
-        st.subheader("📈 Pattern Usage in Industry")
+        st.subheader(" Pattern Usage in Industry")
         
         usage_df = pd.DataFrame(
             list(self.pattern_usage.items()),
@@ -262,7 +262,7 @@ class SaveCommand(Command):
 
     def _render_pattern_explorer(self):
         """Render interactive pattern explorer"""
-        st.subheader("🔍 Pattern Explorer")
+        st.subheader(" Pattern Explorer")
         
         # Category selection
         category = st.selectbox(
@@ -289,37 +289,37 @@ class SaveCommand(Command):
             st.markdown(f"**Common Use Cases:** {pattern['use_case']}")
             
             # Code example
-            st.markdown("#### 💻 Implementation Example")
+            st.markdown("####  Implementation Example")
             st.code(pattern['example'], language='python')
         
         with col2:
             # Pros and Cons
-            st.markdown("#### ✅ Advantages")
+            st.markdown("####  Advantages")
             for pro in pattern['pros']:
-                st.markdown(f"• {pro}")
+                st.markdown(f" {pro}")
             
-            st.markdown("#### ⚠️ Disadvantages")
+            st.markdown("####  Disadvantages")
             for con in pattern['cons']:
-                st.markdown(f"• {con}")
+                st.markdown(f" {con}")
 
     def _render_implementation_guide(self):
         """Render implementation guide"""
-        st.subheader("🛠️ Implementation Guide")
+        st.subheader(" Implementation Guide")
         
         tabs = st.tabs(["When to Use", "How to Choose", "Common Mistakes"])
         
         with tabs[0]:
             st.markdown("""
-            #### 🎯 When to Use Design Patterns
+            ####  When to Use Design Patterns
             
-            **✅ Good Scenarios:**
+            ** Good Scenarios:**
             - Recurring design problems
             - Need for code reusability
             - Complex object relationships
             - Framework development
             - Large team projects
             
-            **❌ Avoid When:**
+            ** Avoid When:**
             - Simple, straightforward solutions exist
             - Over-engineering small projects
             - Performance is critical
@@ -328,13 +328,13 @@ class SaveCommand(Command):
         
         with tabs[1]:
             st.markdown("""
-            #### 🤔 How to Choose the Right Pattern
+            ####  How to Choose the Right Pattern
             
             **Ask These Questions:**
             1. **What problem am I solving?**
-               - Object creation → Creational patterns
-               - Object composition → Structural patterns
-               - Object interaction → Behavioral patterns
+               - Object creation  Creational patterns
+               - Object composition  Structural patterns
+               - Object interaction  Behavioral patterns
             
             2. **What are the constraints?**
                - Performance requirements
@@ -348,7 +348,7 @@ class SaveCommand(Command):
         
         with tabs[2]:
             st.markdown("""
-            #### 🚫 Common Implementation Mistakes
+            ####  Common Implementation Mistakes
             
             **1. Pattern Overuse**
             - Don't force patterns where simple solutions work
@@ -369,7 +369,7 @@ class SaveCommand(Command):
 
     def _render_best_practices(self):
         """Render best practices and cheat sheet"""
-        st.subheader("📚 Design Patterns Cheat Sheet")
+        st.subheader(" Design Patterns Cheat Sheet")
         
         # Quick reference table
         cheat_data = []
@@ -387,13 +387,13 @@ class SaveCommand(Command):
         st.dataframe(df, use_container_width=True)
         
         # Resources
-        st.subheader("📖 Learning Resources")
+        st.subheader(" Learning Resources")
         
         col1, col2 = st.columns(2)
         
         with col1:
             st.markdown("""
-            #### 📚 Books
+            ####  Books
             - **Gang of Four** - Design Patterns: Elements of Reusable Object-Oriented Software
             - **Head First Design Patterns** - Freeman & Robson
             - **Clean Code** - Robert C. Martin
@@ -401,7 +401,7 @@ class SaveCommand(Command):
         
         with col2:
             st.markdown("""
-            #### 🌐 Online Resources
+            ####  Online Resources
             - [Refactoring.Guru](https://refactoring.guru/design-patterns) - Interactive examples
             - [SourceMaking](https://sourcemaking.com/design_patterns) - Comprehensive guide
             - [Design Patterns Game](https://designpatternsgame.com/) - Learning through practice
@@ -414,26 +414,26 @@ def explain_design_patterns():
     
     # Summary points for the banner
     summary_points = [
-        "🎨 Essential software design patterns",
-        "💻 Practical implementation examples", 
-        "📊 Industry usage statistics",
-        "🛠️ Implementation best practices"
+        " Essential software design patterns",
+        " Practical implementation examples", 
+        " Industry usage statistics",
+        " Implementation best practices"
     ]
     
     # Learning resources
     resources = [
         {
-            "title": "📚 Gang of Four Design Patterns",
+            "title": " Gang of Four Design Patterns",
             "url": "https://springframework.guru/gang-of-four-design-patterns/",
             "description": "Classic design patterns reference"
         },
         {
-            "title": "🎮 Design Patterns Game", 
+            "title": " Design Patterns Game", 
             "url": "https://designpatternsgame.com/",
             "description": "Interactive learning platform"
         },
         {
-            "title": "📖 Refactoring Guru",
+            "title": " Refactoring Guru",
             "url": "https://refactoring.guru/design-patterns",
             "description": "Visual design patterns guide"
         }

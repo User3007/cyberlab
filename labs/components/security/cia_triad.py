@@ -20,7 +20,7 @@ class CIATriadComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="🔒 CIA Triad",
+            component_name=" CIA Triad",
             description="Confidentiality, Integrity, and Availability - The foundation of information security",
             color_scheme=THEORY_CONCEPTS_COLORS,
             estimated_time="20 minutes"
@@ -63,7 +63,7 @@ class CIATriadComponent(ComponentTemplate):
     
     def _render_cia_triangle(self):
         """Render interactive CIA Triangle"""
-        st.subheader("🔺 CIA Triad Visualization")
+        st.subheader(" CIA Triad Visualization")
         
         # Create the security triangle
         fig = create_basic_figure("CIA Triad - Information Security Foundation", 
@@ -94,7 +94,7 @@ class CIATriadComponent(ComponentTemplate):
                     "Trade secrets protection",
                     "Personal data privacy"
                 ],
-                "icon": "🔐",
+                "icon": "",
                 "color": self.color_scheme['primary']
             },
             "Integrity": {
@@ -107,7 +107,7 @@ class CIATriadComponent(ComponentTemplate):
                     "Database consistency",
                     "Document authenticity"
                 ],
-                "icon": "✅",
+                "icon": "",
                 "color": self.color_scheme['secondary']
             },
             "Availability": {
@@ -120,7 +120,7 @@ class CIATriadComponent(ComponentTemplate):
                     "E-commerce platforms",
                     "Critical infrastructure"
                 ],
-                "icon": "🌐",
+                "icon": "",
                 "color": self.color_scheme['accent']
             }
         }
@@ -137,24 +137,24 @@ class CIATriadComponent(ComponentTemplate):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown(f"**🚨 Common Threats:**")
+            st.markdown(f"** Common Threats:**")
             for threat in info['threats']:
-                st.markdown(f"• {threat}")
+                st.markdown(f" {threat}")
         
         with col2:
-            st.markdown(f"**🛡️ Security Controls:**")
+            st.markdown(f"** Security Controls:**")
             for control in info['controls']:
-                st.markdown(f"• {control}")
+                st.markdown(f" {control}")
         
-        st.markdown(f"**📋 Real-world Examples:**")
+        st.markdown(f"** Real-world Examples:**")
         for example in info['examples']:
-            st.markdown(f"• {example}")
+            st.markdown(f" {example}")
     
     def _render_detailed_explanations(self):
         """Render detailed explanations with examples"""
-        st.subheader("📚 Detailed Analysis")
+        st.subheader(" Detailed Analysis")
         
-        with st.expander("🔍 CIA Triad in Practice", expanded=False):
+        with st.expander(" CIA Triad in Practice", expanded=False):
             st.markdown("""
             ### Understanding the Balance
             
@@ -208,7 +208,7 @@ class CIATriadComponent(ComponentTemplate):
     
     def _render_examples(self):
         """Render real-world examples and case studies"""
-        st.subheader("🌍 Real-world Case Studies")
+        st.subheader(" Real-world Case Studies")
         
         case_studies = {
             "Confidentiality Breach": {
@@ -247,13 +247,13 @@ class CIATriadComponent(ComponentTemplate):
         
         col1, col2 = st.columns(2)
         with col1:
-            st.markdown(f"**💥 Impact:**\n{case['impact']}")
+            st.markdown(f"** Impact:**\n{case['impact']}")
         with col2:
-            st.markdown(f"**📖 Lessons Learned:**\n{case['lessons']}")
+            st.markdown(f"** Lessons Learned:**\n{case['lessons']}")
     
     def _render_assessment(self):
         """Render interactive assessment"""
-        st.subheader("🧪 Knowledge Assessment")
+        st.subheader(" Knowledge Assessment")
         
         questions = [
             {
@@ -283,12 +283,12 @@ class CIATriadComponent(ComponentTemplate):
             
             if st.button(f"Check Answer {i+1}", key=f"check{i}"):
                 if answer == q['correct']:
-                    st.success("✅ Correct!")
+                    st.success(" Correct!")
                     score += 1
                 else:
-                    st.error(f"❌ Incorrect. The correct answer is: {q['correct']}")
+                    st.error(f" Incorrect. The correct answer is: {q['correct']}")
                 
-                st.info(f"💡 **Explanation:** {q['explanation']}")
+                st.info(f" **Explanation:** {q['explanation']}")
         
         if st.button("Show Final Score"):
             percentage = (score / len(questions)) * 100
@@ -296,7 +296,7 @@ class CIATriadComponent(ComponentTemplate):
     
     def _render_security_controls(self):
         """Render security controls mapping"""
-        st.subheader("🛡️ Security Controls Mapping")
+        st.subheader(" Security Controls Mapping")
         
         controls_data = [
             {"Control": "Encryption", "Confidentiality": "High", "Integrity": "Medium", "Availability": "Low"},
@@ -323,9 +323,9 @@ class CIATriadComponent(ComponentTemplate):
         
         st.markdown("""
         **Legend:**
-        - 🟢 **High**: Primary protection for this pillar
-        - 🟡 **Medium**: Moderate protection for this pillar  
-        - 🔴 **Low**: Minimal protection for this pillar
+        -  **High**: Primary protection for this pillar
+        -  **Medium**: Moderate protection for this pillar  
+        -  **Low**: Minimal protection for this pillar
         """)
 
 

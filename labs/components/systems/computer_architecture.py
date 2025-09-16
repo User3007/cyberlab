@@ -21,7 +21,7 @@ class ComputerArchitectureComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="🖥️ Computer Architecture",
+            component_name=" Computer Architecture",
             description="Understanding computer systems architecture and components",
             color_scheme=IT_FUNDAMENTALS_COLORS,
             estimated_time="25 minutes"
@@ -64,7 +64,7 @@ class ComputerArchitectureComponent(ComponentTemplate):
     
     def _render_architecture_overview(self):
         """Render computer architecture overview"""
-        st.subheader("🏗️ Computer System Architecture")
+        st.subheader(" Computer System Architecture")
         
         # Von Neumann Architecture
         architecture_layers = [
@@ -109,7 +109,7 @@ class ComputerArchitectureComponent(ComponentTemplate):
         component_info = next(layer for layer in architecture_layers if layer["name"] == selected_component)
         
         create_info_card(
-            f"🔍 {component_info['name']}",
+            f" {component_info['name']}",
             component_info['description'],
             card_type="info",
             color_scheme=self.color_scheme
@@ -117,11 +117,11 @@ class ComputerArchitectureComponent(ComponentTemplate):
         
         st.markdown("**Key Components:**")
         for component in component_info['components']:
-            st.markdown(f"• {component}")
+            st.markdown(f" {component}")
     
     def _render_cpu_components(self):
         """Render CPU components explanation"""
-        st.subheader("⚡ CPU Components & Operation")
+        st.subheader(" CPU Components & Operation")
         
         cpu_components = {
             "Control Unit (CU)": {
@@ -137,7 +137,7 @@ class ComputerArchitectureComponent(ComponentTemplate):
             "Arithmetic Logic Unit (ALU)": {
                 "function": "Performs mathematical and logical operations",
                 "responsibilities": [
-                    "Arithmetic operations (+, -, ×, ÷)",
+                    "Arithmetic operations (+, -, , )",
                     "Logical operations (AND, OR, NOT)",
                     "Comparison operations",
                     "Bit manipulation"
@@ -172,7 +172,7 @@ class ComputerArchitectureComponent(ComponentTemplate):
         for tab, (component_name, component_info) in zip(tabs, cpu_components.items()):
             with tab:
                 create_info_card(
-                    f"⚙️ {component_name}",
+                    f" {component_name}",
                     component_info['function'],
                     card_type="primary",
                     color_scheme=self.color_scheme
@@ -181,23 +181,23 @@ class ComputerArchitectureComponent(ComponentTemplate):
                 col1, col2 = st.columns(2)
                 
                 with col1:
-                    st.markdown("**📋 Responsibilities:**")
+                    st.markdown("** Responsibilities:**")
                     for responsibility in component_info['responsibilities']:
-                        st.markdown(f"• {responsibility}")
+                        st.markdown(f" {responsibility}")
                 
                 with col2:
-                    st.markdown("**🔒 Security Impact:**")
+                    st.markdown("** Security Impact:**")
                     st.markdown(component_info['security_impact'])
     
     def _render_memory_hierarchy(self):
         """Render memory hierarchy explanation"""
-        st.subheader("💾 Memory Hierarchy")
+        st.subheader(" Memory Hierarchy")
         
         # Memory hierarchy data
         memory_levels = [
             {
                 "Level": "CPU Registers",
-                "Capacity": "32-64 bits × 16-32",
+                "Capacity": "32-64 bits  16-32",
                 "Speed": "1 cycle",
                 "Cost": "Very High",
                 "Volatility": "Volatile",
@@ -290,7 +290,7 @@ class ComputerArchitectureComponent(ComponentTemplate):
         st.plotly_chart(fig, use_container_width=True)
         
         # Memory access patterns
-        st.markdown("#### 📊 Memory Access Patterns")
+        st.markdown("####  Memory Access Patterns")
         
         # Simulate memory access times
         import numpy as np
@@ -324,7 +324,7 @@ class ComputerArchitectureComponent(ComponentTemplate):
     
     def _render_performance_analysis(self):
         """Render system performance analysis"""
-        st.subheader("📈 System Performance Analysis")
+        st.subheader(" System Performance Analysis")
         
         st.markdown("Analyze key performance metrics:")
         
@@ -338,7 +338,7 @@ class ComputerArchitectureComponent(ComponentTemplate):
         with col3:
             storage_type = st.selectbox("Storage Type:", ["HDD", "SSD", "NVMe"])
         
-        if st.button("🚀 Calculate Performance Score"):
+        if st.button(" Calculate Performance Score"):
             # Simple performance scoring algorithm
             cpu_score = cpu_speed * 20
             memory_score = min(memory_size * 2, 50)  # Cap at 50 points
@@ -365,23 +365,23 @@ class ComputerArchitectureComponent(ComponentTemplate):
             
             # Performance classification
             if performance_percentage >= 80:
-                st.success("🟢 **High Performance System** - Excellent for demanding applications")
+                st.success(" **High Performance System** - Excellent for demanding applications")
             elif performance_percentage >= 60:
-                st.warning("🟡 **Medium Performance System** - Good for general use")
+                st.warning(" **Medium Performance System** - Good for general use")
             else:
-                st.error("🔴 **Basic Performance System** - Suitable for light workloads")
+                st.error(" **Basic Performance System** - Suitable for light workloads")
             
             # Bottleneck analysis
-            st.markdown("#### 🔍 Bottleneck Analysis")
+            st.markdown("####  Bottleneck Analysis")
             
             scores = {"CPU": cpu_score/100*50, "Memory": memory_score, "Storage": storage_score}
             min_component = min(scores, key=scores.get)
             
-            st.warning(f"⚠️ **Primary Bottleneck:** {min_component} - Consider upgrading this component first")
+            st.warning(f" **Primary Bottleneck:** {min_component} - Consider upgrading this component first")
     
     def _render_security_implications(self):
         """Render security implications of computer architecture"""
-        st.subheader("🔒 Security Implications")
+        st.subheader(" Security Implications")
         
         security_considerations = {
             "Hardware-Level Attacks": {
@@ -433,7 +433,7 @@ class ComputerArchitectureComponent(ComponentTemplate):
         
         # Display security considerations
         for category, details in security_considerations.items():
-            with st.expander(f"🔍 {category}", expanded=False):
+            with st.expander(f" {category}", expanded=False):
                 create_info_card(
                     category,
                     details['description'],
@@ -444,14 +444,14 @@ class ComputerArchitectureComponent(ComponentTemplate):
                 col1, col2 = st.columns(2)
                 
                 with col1:
-                    st.markdown("**⚠️ Attack Examples:**")
+                    st.markdown("** Attack Examples:**")
                     for example in details['examples']:
-                        st.markdown(f"• {example}")
+                        st.markdown(f" {example}")
                 
                 with col2:
-                    st.markdown("**🛡️ Mitigations:**")
+                    st.markdown("** Mitigations:**")
                     for mitigation in details['mitigations']:
-                        st.markdown(f"• {mitigation}")
+                        st.markdown(f" {mitigation}")
 
 
 def explain_computer_architecture():

@@ -53,7 +53,7 @@ def explain_virtualization():
     st.plotly_chart(fig, use_container_width=True)
 
     # Compact content
-    with st.expander("📚 Virtualization Fundamentals"):
+    with st.expander(" Virtualization Fundamentals"):
         st.markdown("""
         <div style="line-height: 1.4;">
         
@@ -77,7 +77,7 @@ def explain_virtualization():
         """, unsafe_allow_html=True)
 
     # Compact Cheat Sheet
-    st.markdown("## 📋 Virtualization Cheat Sheet")
+    st.markdown("##  Virtualization Cheat Sheet")
     
     tab1, tab2, tab3 = st.tabs(["VM vs Containers", "Hypervisors", "Cloud Services"])
     
@@ -178,7 +178,7 @@ def explain_virtualization():
         st.dataframe(df_cloud, use_container_width=True, height=200)
 
     # Interactive Demo
-    st.markdown("## 🔧 Virtualization Calculator")
+    st.markdown("##  Virtualization Calculator")
     
     with st.expander("Resource Planning Tool"):
         col1, col2 = st.columns([2, 1])
@@ -200,12 +200,12 @@ def explain_virtualization():
                 st.info(f"**RAM Limit:** {max_vms_ram} VMs")
                 
                 if max_vms_cpu < max_vms_ram:
-                    st.warning("⚠️ CPU is the bottleneck")
+                    st.warning(" CPU is the bottleneck")
                 else:
-                    st.warning("⚠️ RAM is the bottleneck")
+                    st.warning(" RAM is the bottleneck")
 
     # Container vs VM Performance Comparison
-    st.markdown("## 📊 Performance Comparison")
+    st.markdown("##  Performance Comparison")
     
     # Create performance comparison chart
     metrics = ['Boot Time', 'Memory Usage', 'CPU Overhead', 'Storage Efficiency']
@@ -247,7 +247,7 @@ def explain_virtualization():
     # Compact Key Takeaways
     st.markdown("""
     <div style="background: #e8f4fd; padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea; margin-top: 1rem;">
-        <h4 style="margin: 0 0 0.5rem 0; color: #667eea; font-size: 1.1rem;">🎯 Key Takeaways</h4>
+        <h4 style="margin: 0 0 0.5rem 0; color: #667eea; font-size: 1.1rem;"> Key Takeaways</h4>
         <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.4;">
             <li><strong>Virtualization Benefits:</strong> Better resource utilization, isolation, and scalability</li>
             <li><strong>Hypervisor Types:</strong> Type 1 (bare metal) for production, Type 2 (hosted) for development</li>
@@ -259,13 +259,13 @@ def explain_virtualization():
     """, unsafe_allow_html=True)
 
     # Resources
-    st.markdown("## 📚 Learning Resources")
+    st.markdown("##  Learning Resources")
     
     col1, col2 = st.columns(2)
     
     with col1:
         st.markdown("""
-        **📖 Documentation:**
+        ** Documentation:**
         - [VMware vSphere Docs](https://docs.vmware.com/en/VMware-vSphere/)
         - [Docker Documentation](https://docs.docker.com/)
         - [Kubernetes Concepts](https://kubernetes.io/docs/concepts/)
@@ -273,7 +273,7 @@ def explain_virtualization():
     
     with col2:
         st.markdown("""
-        **🎥 Video Learning:**
+        ** Video Learning:**
         - [Virtualization Explained](https://www.youtube.com/watch?v=FZR0rG3HKIk)
         - [Docker vs VMs](https://www.youtube.com/watch?v=TvnZTi_gaNc)
         - [Cloud Computing Basics](https://www.youtube.com/watch?v=M988_fsOSWo)

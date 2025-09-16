@@ -42,7 +42,16 @@ from ..components.cryptography import (
     explain_encryption_types,
     explain_hash_signatures,
     explain_key_management,
-    explain_modern_crypto
+    explain_modern_crypto,
+    explain_cryptographic_attacks,
+    explain_modern_cryptography_standards
+)
+
+# Import legal components
+from ..components.legal import (
+    explain_ethical_hacking_guidelines,
+    explain_privacy_data_protection,
+    explain_incident_response_legal
 )
 
 
@@ -195,11 +204,13 @@ def cryptography_concepts():
     # Cryptography Concepts section
     st.header("🔐 Cryptography Concepts")
     
-    crypto_tab1, crypto_tab2, crypto_tab3, crypto_tab4 = st.tabs([
+    crypto_tab1, crypto_tab2, crypto_tab3, crypto_tab4, crypto_tab5, crypto_tab6 = st.tabs([
         "🔐 Encryption Types",
         "🔒 Hash & Signatures",
         "🗝️ Key Management",
-        "🚀 Modern Crypto"
+        "🚀 Modern Crypto",
+        "⚔️ Crypto Attacks",
+        "🔬 Modern Standards"
     ])
     
     with crypto_tab1:
@@ -213,6 +224,12 @@ def cryptography_concepts():
     
     with crypto_tab4:
         explain_modern_crypto()
+    
+    with crypto_tab5:
+        explain_cryptographic_attacks()
+    
+    with crypto_tab6:
+        explain_modern_cryptography_standards()
 
 
 def risk_assessment_section():
@@ -227,17 +244,20 @@ def legal_ethics():
     """Legal and ethics section"""
     st.subheader("⚖️ Legal & Ethics")
     
-    st.info("🚧 Legal & Ethics components are being developed. Coming soon!")
+    legal_tab1, legal_tab2, legal_tab3 = st.tabs([
+        "🎯 Ethical Hacking",
+        "🛡️ Privacy & Data Protection", 
+        "⚖️ Incident Response Legal"
+    ])
     
-    legal_concepts = [
-        "**Cybersecurity Laws & Regulations** - GDPR, CCPA, SOX compliance",
-        "**Ethical Hacking Guidelines** - Responsible disclosure, authorization",
-        "**Privacy & Data Protection** - Data handling, breach notification",
-        "**Incident Response Legal** - Evidence preservation, law enforcement"
-    ]
+    with legal_tab1:
+        explain_ethical_hacking_guidelines()
     
-    for concept in legal_concepts:
-        st.markdown(concept)
+    with legal_tab2:
+        explain_privacy_data_protection()
+    
+    with legal_tab3:
+        explain_incident_response_legal()
 
 
 # Add takeaways for the entire module

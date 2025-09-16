@@ -50,7 +50,7 @@ def explain_database_concepts():
     st.plotly_chart(fig, use_container_width=True)
 
     # Compact content
-    with st.expander("📚 Database Fundamentals"):
+    with st.expander(" Database Fundamentals"):
         st.markdown("""
         <div style="line-height: 1.4;">
         
@@ -74,7 +74,7 @@ def explain_database_concepts():
         """, unsafe_allow_html=True)
 
     # Compact Cheat Sheet
-    st.markdown("## 📋 Database Cheat Sheet")
+    st.markdown("##  Database Cheat Sheet")
     
     tab1, tab2, tab3 = st.tabs(["SQL vs NoSQL", "Database Operations", "Data Types"])
     
@@ -187,7 +187,7 @@ def explain_database_concepts():
         st.dataframe(df_datatypes, use_container_width=True, height=200)
 
     # Interactive SQL Query Builder
-    st.markdown("## 🔧 Interactive SQL Builder")
+    st.markdown("##  Interactive SQL Builder")
     
     with st.expander("SQL Query Constructor"):
         col1, col2 = st.columns([2, 1])
@@ -214,10 +214,10 @@ def explain_database_concepts():
                     sql_query += ";"
                     
                     st.code(sql_query, language="sql")
-                    st.success("✅ SQL Query Generated!")
+                    st.success(" SQL Query Generated!")
 
     # Database Performance Comparison
-    st.markdown("## 📊 Database Performance Comparison")
+    st.markdown("##  Database Performance Comparison")
     
     # Create performance comparison chart
     databases = ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis', 'SQLite']
@@ -259,18 +259,18 @@ def explain_database_concepts():
     st.plotly_chart(fig, use_container_width=True)
 
     # Database Design Principles
-    st.markdown("## 🎯 Database Design Principles")
+    st.markdown("##  Database Design Principles")
     
     col1, col2 = st.columns(2)
     
     with col1:
         st.markdown("""
-        **🔑 Normalization:**
+        ** Normalization:**
         - **1NF:** Eliminate duplicate columns
         - **2NF:** Remove partial dependencies
         - **3NF:** Remove transitive dependencies
         
-        **📊 Indexing:**
+        ** Indexing:**
         - Primary keys for unique identification
         - Foreign keys for relationships
         - Composite indexes for multi-column queries
@@ -278,13 +278,13 @@ def explain_database_concepts():
     
     with col2:
         st.markdown("""
-        **🔒 ACID Properties:**
+        ** ACID Properties:**
         - **Atomicity:** All or nothing transactions
         - **Consistency:** Data integrity maintained
         - **Isolation:** Concurrent transaction safety
         - **Durability:** Permanent data storage
         
-        **⚡ Performance:**
+        ** Performance:**
         - Query optimization techniques
         - Proper indexing strategies
         - Connection pooling
@@ -293,7 +293,7 @@ def explain_database_concepts():
     # Compact Key Takeaways
     st.markdown("""
     <div style="background: #e8f4fd; padding: 1rem; border-radius: 8px; border-left: 4px solid #56ab2f; margin-top: 1rem;">
-        <h4 style="margin: 0 0 0.5rem 0; color: #56ab2f; font-size: 1.1rem;">🎯 Key Takeaways</h4>
+        <h4 style="margin: 0 0 0.5rem 0; color: #56ab2f; font-size: 1.1rem;"> Key Takeaways</h4>
         <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.4;">
             <li><strong>Database Purpose:</strong> Organized, secure, and efficient data storage and retrieval</li>
             <li><strong>SQL vs NoSQL:</strong> Choose based on data structure, scalability, and consistency needs</li>
@@ -305,13 +305,13 @@ def explain_database_concepts():
     """, unsafe_allow_html=True)
 
     # Resources
-    st.markdown("## 📚 Learning Resources")
+    st.markdown("##  Learning Resources")
     
     col1, col2 = st.columns(2)
     
     with col1:
         st.markdown("""
-        **📖 SQL Learning:**
+        ** SQL Learning:**
         - [W3Schools SQL Tutorial](https://www.w3schools.com/sql/)
         - [SQLBolt Interactive Lessons](https://sqlbolt.com/)
         - [PostgreSQL Documentation](https://www.postgresql.org/docs/)
@@ -319,7 +319,7 @@ def explain_database_concepts():
     
     with col2:
         st.markdown("""
-        **🎥 Video Courses:**
+        ** Video Courses:**
         - [Database Design Course](https://www.youtube.com/watch?v=ztHopE5Wnpc)
         - [SQL Crash Course](https://www.youtube.com/watch?v=HXV3zeQKqGY)
         - [NoSQL Explained](https://www.youtube.com/watch?v=0buKQHokLK8)

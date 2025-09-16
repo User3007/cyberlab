@@ -18,7 +18,7 @@ class TCPIPStackComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="🌐 TCP/IP Protocol Stack",
+            component_name=" TCP/IP Protocol Stack",
             description="Internet protocol suite - the foundation of modern networking",
             color_scheme=THEORY_CONCEPTS_COLORS,
             estimated_time="15 minutes"
@@ -75,7 +75,7 @@ class TCPIPStackComponent(ComponentTemplate):
         
         with col1:
             create_info_card(
-                "🚀 TCP (Transmission Control Protocol)",
+                " TCP (Transmission Control Protocol)",
                 "Reliable, connection-oriented protocol for data delivery",
                 "primary", self.color_scheme
             )
@@ -83,14 +83,14 @@ class TCPIPStackComponent(ComponentTemplate):
         
         with col2:
             create_info_card(
-                "⚡ UDP (User Datagram Protocol)",
+                " UDP (User Datagram Protocol)",
                 "Fast, connectionless protocol for simple data transmission",
                 "info", self.color_scheme
             )
             st.markdown("**Features:** Connectionless, Fast delivery, No error correction, Minimal overhead")
         
         # Common ports
-        st.markdown("#### 🔌 Common Port Numbers")
+        st.markdown("####  Common Port Numbers")
         
         common_ports = [
             {"Port": "80", "Protocol": "HTTP", "Service": "Web traffic", "Security": "Unencrypted"},
@@ -105,7 +105,7 @@ class TCPIPStackComponent(ComponentTemplate):
         st.dataframe(ports_df, use_container_width=True)
         
         # Security implications
-        st.markdown("#### 🛡️ Security Implications")
+        st.markdown("####  Security Implications")
         
         security_points = [
             "**IP Spoofing:** Attackers can forge source IP addresses",

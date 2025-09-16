@@ -18,7 +18,7 @@ class NetworkProtocolsComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="🌐 Network Protocols",
+            component_name=" Network Protocols",
             description="Essential networking protocols and their security considerations",
             color_scheme=THEORY_CONCEPTS_COLORS,
             estimated_time="20 minutes"
@@ -60,7 +60,7 @@ class NetworkProtocolsComponent(ComponentTemplate):
         
         # Interactive protocol explorer
         selected_category = st.selectbox(
-            "🔍 Explore Protocol Category:",
+            " Explore Protocol Category:",
             list(protocol_categories.keys()),
             key="protocol_category_selector"
         )
@@ -68,7 +68,7 @@ class NetworkProtocolsComponent(ComponentTemplate):
         category_protocols = protocol_categories[selected_category]["protocols"]
         
         create_info_card(
-            f"📊 {selected_category} Protocols",
+            f" {selected_category} Protocols",
             f"Essential protocols operating at the {selected_category.lower()}",
             "primary", self.color_scheme
         )
@@ -92,7 +92,7 @@ class NetworkProtocolsComponent(ComponentTemplate):
             st.plotly_chart(fig, use_container_width=True)
         
         # Common protocol vulnerabilities
-        st.markdown("#### ⚠️ Common Protocol Vulnerabilities")
+        st.markdown("####  Common Protocol Vulnerabilities")
         
         vulnerabilities = {
             "HTTP": "Man-in-the-middle, data interception, session hijacking",
@@ -110,29 +110,29 @@ class NetworkProtocolsComponent(ComponentTemplate):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("**🔧 Network Analysis Tools:**")
+            st.markdown("** Network Analysis Tools:**")
             tools = ["Wireshark - Packet analysis", "Nmap - Network scanning", 
                     "Netstat - Connection monitoring", "TCPdump - Traffic capture"]
             for tool in tools:
-                st.markdown(f"• {tool}")
+                st.markdown(f" {tool}")
         
         with col2:
-            st.markdown("**🛡️ Security Best Practices:**")
+            st.markdown("** Security Best Practices:**")
             practices = ["Use encrypted protocols (HTTPS, SFTP)", "Implement network segmentation",
                         "Monitor unusual protocol usage", "Regular security assessments"]
             for practice in practices:
-                st.markdown(f"• {practice}")
+                st.markdown(f" {practice}")
         
         # Protocol security comparison
-        if st.button("📊 Show Protocol Security Comparison"):
-            st.markdown("#### 🔒 Secure vs Insecure Protocol Alternatives")
+        if st.button(" Show Protocol Security Comparison"):
+            st.markdown("####  Secure vs Insecure Protocol Alternatives")
             
             alternatives = [
-                {"Insecure": "HTTP", "Secure": "HTTPS", "Improvement": "TLS encryption", "Port Change": "80 → 443"},
-                {"Insecure": "FTP", "Secure": "SFTP/FTPS", "Improvement": "SSH/TLS encryption", "Port Change": "21 → 22/990"},
-                {"Insecure": "Telnet", "Secure": "SSH", "Improvement": "Encrypted terminal", "Port Change": "23 → 22"},
-                {"Insecure": "SMTP", "Secure": "SMTPS", "Improvement": "TLS encryption", "Port Change": "25 → 465/587"},
-                {"Insecure": "POP3", "Secure": "POP3S", "Improvement": "TLS encryption", "Port Change": "110 → 995"}
+                {"Insecure": "HTTP", "Secure": "HTTPS", "Improvement": "TLS encryption", "Port Change": "80  443"},
+                {"Insecure": "FTP", "Secure": "SFTP/FTPS", "Improvement": "SSH/TLS encryption", "Port Change": "21  22/990"},
+                {"Insecure": "Telnet", "Secure": "SSH", "Improvement": "Encrypted terminal", "Port Change": "23  22"},
+                {"Insecure": "SMTP", "Secure": "SMTPS", "Improvement": "TLS encryption", "Port Change": "25  465/587"},
+                {"Insecure": "POP3", "Secure": "POP3S", "Improvement": "TLS encryption", "Port Change": "110  995"}
             ]
             
             alt_df = pd.DataFrame(alternatives)
@@ -146,7 +146,7 @@ def explain_network_protocols():
     summary_points = [
         "Network protocols enable communication between systems across different layers",
         "Many legacy protocols lack built-in security and transmit data in plaintext",
-        "Secure alternatives exist for most insecure protocols (HTTP→HTTPS, FTP→SFTP)",
+        "Secure alternatives exist for most insecure protocols (HTTPHTTPS, FTPSFTP)",
         "Protocol analysis tools help identify security risks and unusual network behavior"
     ]
     

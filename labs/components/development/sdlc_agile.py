@@ -21,7 +21,7 @@ class SDLCAgileComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="🏗️ SDLC & Agile Methodologies",
+            component_name=" SDLC & Agile Methodologies",
             description="Software Development Life Cycle and Agile development approaches",
             color_scheme=SOFTWARE_DEV_COLORS,
             estimated_time="30 minutes"
@@ -64,7 +64,7 @@ class SDLCAgileComponent(ComponentTemplate):
     
     def _render_sdlc_overview(self):
         """Render SDLC overview"""
-        st.subheader("🔄 Software Development Life Cycle (SDLC)")
+        st.subheader(" Software Development Life Cycle (SDLC)")
         
         # SDLC phases
         sdlc_phases = [
@@ -127,7 +127,7 @@ class SDLCAgileComponent(ComponentTemplate):
         phase_info = next(phase for phase in sdlc_phases if phase["name"] == selected_phase)
         
         create_info_card(
-            f"📋 {phase_info['name']} Phase",
+            f" {phase_info['name']} Phase",
             phase_info['description'],
             card_type="primary",
             color_scheme=self.color_scheme
@@ -136,18 +136,18 @@ class SDLCAgileComponent(ComponentTemplate):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("**📋 Key Activities:**")
+            st.markdown("** Key Activities:**")
             for activity in phase_info['activities']:
-                st.markdown(f"• {activity}")
+                st.markdown(f" {activity}")
         
         with col2:
-            st.markdown("**📦 Deliverables:**")
+            st.markdown("** Deliverables:**")
             for deliverable in phase_info['deliverables']:
-                st.markdown(f"• {deliverable}")
+                st.markdown(f" {deliverable}")
     
     def _render_methodology_comparison(self):
         """Render development methodology comparison"""
-        st.subheader("⚖️ Development Methodology Comparison")
+        st.subheader(" Development Methodology Comparison")
         
         methodologies = {
             "Waterfall": {
@@ -200,7 +200,7 @@ class SDLCAgileComponent(ComponentTemplate):
         methodology_info = methodologies[selected_methodology]
         
         create_info_card(
-            f"🚀 {selected_methodology} Methodology",
+            f" {selected_methodology} Methodology",
             methodology_info['description'],
             card_type="info",
             color_scheme=self.color_scheme
@@ -209,26 +209,26 @@ class SDLCAgileComponent(ComponentTemplate):
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            st.markdown("**✅ Advantages:**")
+            st.markdown("** Advantages:**")
             for advantage in methodology_info['advantages']:
-                st.markdown(f"• {advantage}")
+                st.markdown(f" {advantage}")
         
         with col2:
-            st.markdown("**⚠️ Challenges:**")
+            st.markdown("** Challenges:**")
             for disadvantage in methodology_info['disadvantages']:
-                st.markdown(f"• {disadvantage}")
+                st.markdown(f" {disadvantage}")
         
         with col3:
-            st.markdown("**🎯 Best For:**")
+            st.markdown("** Best For:**")
             for use_case in methodology_info['best_for']:
-                st.markdown(f"• {use_case}")
+                st.markdown(f" {use_case}")
     
     def _render_agile_principles(self):
         """Render Agile principles and practices"""
-        st.subheader("⚡ Agile Principles & Practices")
+        st.subheader(" Agile Principles & Practices")
         
         # Agile Manifesto
-        st.markdown("#### 📜 Agile Manifesto Values")
+        st.markdown("####  Agile Manifesto Values")
         
         manifesto_values = [
             {
@@ -261,7 +261,7 @@ class SDLCAgileComponent(ComponentTemplate):
             """)
         
         # Agile practices
-        st.markdown("#### 🔄 Common Agile Practices")
+        st.markdown("####  Common Agile Practices")
         
         agile_practices = {
             "Sprint Planning": {
@@ -300,7 +300,7 @@ class SDLCAgileComponent(ComponentTemplate):
     
     def _render_security_integration(self):
         """Render security integration in development"""
-        st.subheader("🔒 Security Integration in Development")
+        st.subheader(" Security Integration in Development")
         
         security_practices = {
             "Secure SDLC (SSDLC)": {
@@ -340,7 +340,7 @@ class SDLCAgileComponent(ComponentTemplate):
         
         # Display security approaches
         for approach, details in security_practices.items():
-            with st.expander(f"🔍 {approach}", expanded=False):
+            with st.expander(f" {approach}", expanded=False):
                 create_info_card(
                     approach,
                     details['description'],
@@ -351,18 +351,18 @@ class SDLCAgileComponent(ComponentTemplate):
                 col1, col2 = st.columns(2)
                 
                 with col1:
-                    st.markdown("**🛠️ Key Practices:**")
+                    st.markdown("** Key Practices:**")
                     for practice in details['practices']:
-                        st.markdown(f"• {practice}")
+                        st.markdown(f" {practice}")
                 
                 with col2:
-                    st.markdown("**💡 Benefits:**")
+                    st.markdown("** Benefits:**")
                     for benefit in details['benefits']:
-                        st.markdown(f"• {benefit}")
+                        st.markdown(f" {benefit}")
     
     def _render_project_planner(self):
         """Render interactive project planner"""
-        st.subheader("📋 Interactive Project Planner")
+        st.subheader(" Interactive Project Planner")
         
         st.markdown("Plan your development project:")
         
@@ -392,9 +392,9 @@ class SDLCAgileComponent(ComponentTemplate):
             value="Moderate"
         )
         
-        if st.button("🚀 Generate Project Plan"):
+        if st.button(" Generate Project Plan"):
             # Generate project recommendations
-            st.markdown("### 📊 Project Analysis & Recommendations")
+            st.markdown("###  Project Analysis & Recommendations")
             
             # Calculate project metrics
             complexity_multiplier = {
@@ -422,7 +422,7 @@ class SDLCAgileComponent(ComponentTemplate):
             
             # Methodology recommendations
             if methodology == "Agile/Scrum":
-                st.success("✅ **Agile/Scrum** is well-suited for this project type and complexity")
+                st.success(" **Agile/Scrum** is well-suited for this project type and complexity")
                 recommendations = [
                     "Use 2-week sprints for iterative development",
                     "Implement daily standups for team coordination",
@@ -431,9 +431,9 @@ class SDLCAgileComponent(ComponentTemplate):
                 ]
             elif methodology == "Waterfall":
                 if requirements_complexity in ["Simple", "Moderate"]:
-                    st.success("✅ **Waterfall** can work for well-defined requirements")
+                    st.success(" **Waterfall** can work for well-defined requirements")
                 else:
-                    st.warning("⚠️ **Waterfall** may be risky for complex requirements")
+                    st.warning(" **Waterfall** may be risky for complex requirements")
                 
                 recommendations = [
                     "Invest heavily in upfront requirements analysis",
@@ -442,12 +442,12 @@ class SDLCAgileComponent(ComponentTemplate):
                     "Establish clear milestone gates"
                 ]
             
-            st.markdown("#### 💡 Recommendations:")
+            st.markdown("####  Recommendations:")
             for recommendation in recommendations:
-                st.markdown(f"• {recommendation}")
+                st.markdown(f" {recommendation}")
             
             # Security considerations
-            st.markdown("#### 🔒 Security Considerations:")
+            st.markdown("####  Security Considerations:")
             security_recommendations = [
                 "Implement secure coding standards from day one",
                 "Plan for regular security testing and code reviews",
@@ -456,7 +456,7 @@ class SDLCAgileComponent(ComponentTemplate):
             ]
             
             for rec in security_recommendations:
-                st.markdown(f"• {rec}")
+                st.markdown(f" {rec}")
 
 
 def explain_sdlc():

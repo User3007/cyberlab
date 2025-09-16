@@ -21,7 +21,7 @@ class ZeroTrustComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="🚫 Zero Trust Architecture",
+            component_name=" Zero Trust Architecture",
             description="Never trust, always verify - Modern security architecture approach",
             color_scheme=THEORY_CONCEPTS_COLORS,
             estimated_time="30 minutes"
@@ -66,28 +66,28 @@ class ZeroTrustComponent(ComponentTemplate):
     
     def _render_core_principles(self):
         """Render Zero Trust core principles"""
-        st.subheader("🎯 Core Zero Trust Principles")
+        st.subheader(" Core Zero Trust Principles")
         
         principles = {
             "Never Trust, Always Verify": {
                 "description": "No implicit trust based on network location or previous authentication",
                 "implementation": ["Continuous authentication", "Real-time risk assessment", "Dynamic access controls"],
-                "icon": "🔐"
+                "icon": ""
             },
             "Least Privilege Access": {
                 "description": "Grant minimal access rights necessary for users to perform their job functions", 
                 "implementation": ["Role-based access control", "Just-in-time access", "Regular access reviews"],
-                "icon": "🔒"
+                "icon": ""
             },
             "Assume Breach": {
                 "description": "Operate under the assumption that threats exist within the network",
                 "implementation": ["Continuous monitoring", "Threat hunting", "Incident response readiness"],
-                "icon": "🚨"
+                "icon": ""
             },
             "Verify Explicitly": {
                 "description": "Make access decisions based on all available data points",
                 "implementation": ["Multi-factor authentication", "Device compliance", "User behavior analytics"],
-                "icon": "✅"
+                "icon": ""
             }
         }
         
@@ -103,11 +103,11 @@ class ZeroTrustComponent(ComponentTemplate):
                 
                 st.markdown("**Implementation Approaches:**")
                 for approach in details['implementation']:
-                    st.markdown(f"• {approach}")
+                    st.markdown(f" {approach}")
     
     def _render_model_comparison(self):
         """Render traditional vs Zero Trust model comparison"""
-        st.subheader("⚖️ Traditional vs Zero Trust Security Models")
+        st.subheader(" Traditional vs Zero Trust Security Models")
         
         comparison_data = [
             {
@@ -183,7 +183,7 @@ class ZeroTrustComponent(ComponentTemplate):
     
     def _render_architecture_components(self):
         """Render Zero Trust architecture components"""
-        st.subheader("🏗️ Zero Trust Architecture Components")
+        st.subheader(" Zero Trust Architecture Components")
         
         # Architecture layers
         architecture_layers = [
@@ -229,7 +229,7 @@ class ZeroTrustComponent(ComponentTemplate):
         component_info = next(layer for layer in architecture_layers if layer["name"] == selected_component)
         
         create_info_card(
-            f"🔍 {component_info['name']}",
+            f" {component_info['name']}",
             component_info['description'],
             card_type="info",
             color_scheme=self.color_scheme
@@ -237,11 +237,11 @@ class ZeroTrustComponent(ComponentTemplate):
         
         st.markdown("**Key Technologies:**")
         for component in component_info['components']:
-            st.markdown(f"• {component}")
+            st.markdown(f" {component}")
     
     def _render_implementation_roadmap(self):
         """Render Zero Trust implementation roadmap"""
-        st.subheader("🛣️ Zero Trust Implementation Roadmap")
+        st.subheader(" Zero Trust Implementation Roadmap")
         
         implementation_phases = [
             {
@@ -318,18 +318,18 @@ class ZeroTrustComponent(ComponentTemplate):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("**📋 Key Activities:**")
+            st.markdown("** Key Activities:**")
             for activity in phase_info["activities"]:
-                st.markdown(f"• {activity}")
+                st.markdown(f" {activity}")
         
         with col2:
-            st.markdown("**📦 Deliverables:**")
+            st.markdown("** Deliverables:**")
             for deliverable in phase_info["deliverables"]:
-                st.markdown(f"• {deliverable}")
+                st.markdown(f" {deliverable}")
     
     def _render_maturity_assessment(self):
         """Render Zero Trust maturity assessment"""
-        st.subheader("📊 Zero Trust Maturity Assessment")
+        st.subheader(" Zero Trust Maturity Assessment")
         
         st.markdown("Assess your organization's Zero Trust maturity:")
         
@@ -372,7 +372,7 @@ class ZeroTrustComponent(ComponentTemplate):
                 index=0
             )
         
-        if st.button("📈 Calculate Maturity Score"):
+        if st.button(" Calculate Maturity Score"):
             # Calculate overall maturity
             total_score = 0
             max_score = len(maturity_areas) * 3
@@ -405,7 +405,7 @@ class ZeroTrustComponent(ComponentTemplate):
                 st.metric("Classification", maturity_level)
             
             # Recommendations based on maturity
-            st.markdown("### 🎯 Recommendations")
+            st.markdown("###  Recommendations")
             
             if maturity_percentage < 40:
                 st.error("**Focus on Foundation:** Start with basic identity management and network segmentation.")

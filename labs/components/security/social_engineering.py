@@ -18,7 +18,7 @@ class SocialEngineeringComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="🎭 Social Engineering",
+            component_name=" Social Engineering",
             description="Human-based attack techniques exploiting psychology and trust",
             color_scheme=THEORY_CONCEPTS_COLORS,
             estimated_time="20 minutes"
@@ -61,7 +61,7 @@ class SocialEngineeringComponent(ComponentTemplate):
         
         # Interactive technique explorer
         selected_technique = st.selectbox(
-            "🎯 Explore Social Engineering Technique:",
+            " Explore Social Engineering Technique:",
             list(techniques.keys()),
             key="social_engineering_technique_selector"
         )
@@ -69,7 +69,7 @@ class SocialEngineeringComponent(ComponentTemplate):
         technique_info = techniques[selected_technique]
         
         create_info_card(
-            f"🎭 {selected_technique}",
+            f" {selected_technique}",
             technique_info['description'],
             "warning", self.color_scheme
         )
@@ -77,19 +77,19 @@ class SocialEngineeringComponent(ComponentTemplate):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("**🔧 Common Variants:**")
+            st.markdown("** Common Variants:**")
             for variant in technique_info['variants']:
-                st.markdown(f"• {variant}")
+                st.markdown(f" {variant}")
             
             st.metric("Success Rate", technique_info['success_rate'])
         
         with col2:
-            st.markdown("**🛡️ Key Defenses:**")
+            st.markdown("** Key Defenses:**")
             for defense in technique_info['defenses']:
-                st.markdown(f"• {defense}")
+                st.markdown(f" {defense}")
         
         # Psychological principles
-        st.markdown("#### 🧠 Psychological Principles Exploited")
+        st.markdown("####  Psychological Principles Exploited")
         
         psychology_principles = {
             "Authority": "People comply with requests from authority figures",
@@ -104,7 +104,7 @@ class SocialEngineeringComponent(ComponentTemplate):
             st.markdown(f"**{principle}:** {description}")
         
         # Defense strategies
-        st.markdown("#### 🛡️ Defense Strategies")
+        st.markdown("####  Defense Strategies")
         
         defense_layers = [
             "Security Awareness Training - Regular education on social engineering tactics",
@@ -118,8 +118,8 @@ class SocialEngineeringComponent(ComponentTemplate):
             st.markdown(f"**{i}.** {defense}")
         
         # Quick assessment
-        if st.button("🧪 Quick Vulnerability Assessment"):
-            st.markdown("#### 📊 Social Engineering Vulnerability Factors")
+        if st.button(" Quick Vulnerability Assessment"):
+            st.markdown("####  Social Engineering Vulnerability Factors")
             
             vulnerability_factors = [
                 {"Factor": "Employee Training", "Risk Level": "Medium", "Recommendation": "Implement regular awareness training"},

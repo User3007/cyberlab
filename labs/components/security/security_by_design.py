@@ -18,7 +18,7 @@ class SecurityByDesignComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="🛡️ Security by Design",
+            component_name=" Security by Design",
             description="Integrate security from the beginning of system development",
             color_scheme=THEORY_CONCEPTS_COLORS,
             estimated_time="25 minutes"
@@ -32,7 +32,7 @@ class SecurityByDesignComponent(ComponentTemplate):
         """Render Security by Design content"""
         
         # Core principles
-        st.markdown("#### 🎯 Core Principles")
+        st.markdown("####  Core Principles")
         
         principles = {
             "Security from Start": "Integrate security considerations from project inception",
@@ -47,7 +47,7 @@ class SecurityByDesignComponent(ComponentTemplate):
             create_info_card(principle, description, "primary", self.color_scheme)
         
         # SDLC integration
-        st.markdown("#### 🔄 Secure SDLC Integration")
+        st.markdown("####  Secure SDLC Integration")
         
         sdlc_phases = [
             {"Phase": "Requirements", "Security Activities": "Security requirements, compliance needs, risk assessment", "Deliverables": "Security requirements document"},
@@ -62,7 +62,7 @@ class SecurityByDesignComponent(ComponentTemplate):
         st.dataframe(df, use_container_width=True)
         
         # Threat modeling process
-        st.markdown("#### 🎯 Threat Modeling Process")
+        st.markdown("####  Threat Modeling Process")
         
         threat_steps = [
             "**1. Define Scope** - Identify system boundaries and assets",
@@ -80,7 +80,7 @@ class SecurityByDesignComponent(ComponentTemplate):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("**🎭 STRIDE Threat Categories:**")
+            st.markdown("** STRIDE Threat Categories:**")
             stride = [
                 "**S**poofing - Identity impersonation",
                 "**T**ampering - Data modification", 
@@ -90,10 +90,10 @@ class SecurityByDesignComponent(ComponentTemplate):
                 "**E**levation of Privilege - Unauthorized access"
             ]
             for threat in stride:
-                st.markdown(f"• {threat}")
+                st.markdown(f" {threat}")
         
         with col2:
-            st.markdown("**🔧 Security Controls:**")
+            st.markdown("** Security Controls:**")
             controls = [
                 "Authentication & Authorization",
                 "Input Validation & Sanitization",
@@ -103,10 +103,10 @@ class SecurityByDesignComponent(ComponentTemplate):
                 "Access Controls & Permissions"
             ]
             for control in controls:
-                st.markdown(f"• {control}")
+                st.markdown(f" {control}")
         
         # Implementation challenges
-        st.markdown("#### ⚠️ Common Implementation Challenges")
+        st.markdown("####  Common Implementation Challenges")
         
         challenges = {
             "Time Pressure": "Security activities seen as delaying delivery",
@@ -120,8 +120,8 @@ class SecurityByDesignComponent(ComponentTemplate):
             st.markdown(f"**{challenge}:** {description}")
         
         # Benefits analysis
-        if st.button("📊 Show Benefits Analysis"):
-            st.markdown("#### 💰 Security by Design Benefits")
+        if st.button(" Show Benefits Analysis"):
+            st.markdown("####  Security by Design Benefits")
             
             benefits_data = {
                 "Metric": ["Cost of Security Fix", "Time to Market", "Security Incidents", "Compliance Effort"],

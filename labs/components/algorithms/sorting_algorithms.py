@@ -21,7 +21,7 @@ class SortingAlgorithmsComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="🔢 Sorting Algorithms",
+            component_name=" Sorting Algorithms",
             description="Fundamental sorting algorithms with complexity analysis and visual demonstrations",
             color_scheme=SOFTWARE_DEVELOPMENT_COLORS,
             estimated_time="30 minutes"
@@ -48,13 +48,13 @@ class SortingAlgorithmsComponent(ComponentTemplate):
     
     def _render_algorithm_overview(self):
         """Render sorting algorithms overview"""
-        st.subheader("🔢 Sorting Algorithms Overview")
+        st.subheader(" Sorting Algorithms Overview")
         
         # Algorithm categories
         algorithms = {
             "Bubble Sort": {
                 "description": "Simple comparison-based algorithm that repeatedly steps through the list",
-                "time_complexity": "O(n²)",
+                "time_complexity": "O(n)",
                 "space_complexity": "O(1)",
                 "stability": "Stable",
                 "best_case": "O(n) with optimization",
@@ -62,15 +62,15 @@ class SortingAlgorithmsComponent(ComponentTemplate):
             },
             "Selection Sort": {
                 "description": "Finds minimum element and places it at the beginning",
-                "time_complexity": "O(n²)",
+                "time_complexity": "O(n)",
                 "space_complexity": "O(1)",
                 "stability": "Unstable",
-                "best_case": "O(n²)",
+                "best_case": "O(n)",
                 "use_case": "Small datasets, memory-constrained environments"
             },
             "Insertion Sort": {
                 "description": "Builds sorted array one element at a time",
-                "time_complexity": "O(n²)",
+                "time_complexity": "O(n)",
                 "space_complexity": "O(1)",
                 "stability": "Stable",
                 "best_case": "O(n)",
@@ -104,7 +104,7 @@ class SortingAlgorithmsComponent(ComponentTemplate):
         
         # Algorithm selector
         selected_algorithm = st.selectbox(
-            "🔍 Explore Sorting Algorithm:",
+            " Explore Sorting Algorithm:",
             list(algorithms.keys()),
             key="sorting_algorithm_selector"
         )
@@ -112,7 +112,7 @@ class SortingAlgorithmsComponent(ComponentTemplate):
         algo_info = algorithms[selected_algorithm]
         
         create_info_card(
-            f"🔢 {selected_algorithm}",
+            f" {selected_algorithm}",
             algo_info['description'],
             card_type="primary",
             color_scheme=self.color_scheme
@@ -122,19 +122,19 @@ class SortingAlgorithmsComponent(ComponentTemplate):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("**⏱️ Complexity:**")
-            st.markdown(f"• **Time:** {algo_info['time_complexity']}")
-            st.markdown(f"• **Space:** {algo_info['space_complexity']}")
-            st.markdown(f"• **Best Case:** {algo_info['best_case']}")
+            st.markdown("** Complexity:**")
+            st.markdown(f" **Time:** {algo_info['time_complexity']}")
+            st.markdown(f" **Space:** {algo_info['space_complexity']}")
+            st.markdown(f" **Best Case:** {algo_info['best_case']}")
         
         with col2:
-            st.markdown("**🔧 Properties:**")
-            st.markdown(f"• **Stability:** {algo_info['stability']}")
-            st.markdown(f"• **Use Case:** {algo_info['use_case']}")
+            st.markdown("** Properties:**")
+            st.markdown(f" **Stability:** {algo_info['stability']}")
+            st.markdown(f" **Use Case:** {algo_info['use_case']}")
     
     def _render_interactive_demo(self):
         """Render interactive sorting demonstration"""
-        st.subheader("🎮 Interactive Sorting Demo")
+        st.subheader(" Interactive Sorting Demo")
         
         # Input controls
         col1, col2, col3 = st.columns(3)
@@ -150,7 +150,7 @@ class SortingAlgorithmsComponent(ComponentTemplate):
             )
         
         with col3:
-            if st.button("🎲 Generate Random Array", key="generate_array_btn"):
+            if st.button(" Generate Random Array", key="generate_array_btn"):
                 st.session_state.demo_array = np.random.randint(1, 100, array_size).tolist()
         
         # Initialize array if not exists
@@ -162,7 +162,7 @@ class SortingAlgorithmsComponent(ComponentTemplate):
         st.write(st.session_state.demo_array)
         
         # Sorting demonstration
-        if st.button("🚀 Sort Array", key="sort_array_btn"):
+        if st.button(" Sort Array", key="sort_array_btn"):
             if demo_algorithm == "Bubble Sort":
                 sorted_array = self._bubble_sort_demo(st.session_state.demo_array.copy())
             elif demo_algorithm == "Selection Sort":
@@ -241,15 +241,15 @@ class SortingAlgorithmsComponent(ComponentTemplate):
     
     def _render_complexity_analysis(self):
         """Render complexity analysis"""
-        st.subheader("📊 Complexity Analysis")
+        st.subheader(" Complexity Analysis")
         
         # Time complexity comparison
         complexity_data = [
-            {"Algorithm": "Bubble Sort", "Best": "O(n)", "Average": "O(n²)", "Worst": "O(n²)", "Space": "O(1)"},
-            {"Algorithm": "Selection Sort", "Best": "O(n²)", "Average": "O(n²)", "Worst": "O(n²)", "Space": "O(1)"},
-            {"Algorithm": "Insertion Sort", "Best": "O(n)", "Average": "O(n²)", "Worst": "O(n²)", "Space": "O(1)"},
+            {"Algorithm": "Bubble Sort", "Best": "O(n)", "Average": "O(n)", "Worst": "O(n)", "Space": "O(1)"},
+            {"Algorithm": "Selection Sort", "Best": "O(n)", "Average": "O(n)", "Worst": "O(n)", "Space": "O(1)"},
+            {"Algorithm": "Insertion Sort", "Best": "O(n)", "Average": "O(n)", "Worst": "O(n)", "Space": "O(1)"},
             {"Algorithm": "Merge Sort", "Best": "O(n log n)", "Average": "O(n log n)", "Worst": "O(n log n)", "Space": "O(n)"},
-            {"Algorithm": "Quick Sort", "Best": "O(n log n)", "Average": "O(n log n)", "Worst": "O(n²)", "Space": "O(log n)"},
+            {"Algorithm": "Quick Sort", "Best": "O(n log n)", "Average": "O(n log n)", "Worst": "O(n)", "Space": "O(log n)"},
             {"Algorithm": "Heap Sort", "Best": "O(n log n)", "Average": "O(n log n)", "Worst": "O(n log n)", "Space": "O(1)"}
         ]
         
@@ -257,15 +257,15 @@ class SortingAlgorithmsComponent(ComponentTemplate):
         st.dataframe(df, use_container_width=True)
         
         # Big O notation explanation
-        st.markdown("#### 🔍 Big O Notation Guide")
+        st.markdown("####  Big O Notation Guide")
         
         big_o_examples = [
             "**O(1)** - Constant time: Array access, hash table lookup",
             "**O(log n)** - Logarithmic: Binary search, heap operations",
             "**O(n)** - Linear: Array traversal, linear search",
             "**O(n log n)** - Linearithmic: Efficient sorting algorithms",
-            "**O(n²)** - Quadratic: Nested loops, simple sorting algorithms",
-            "**O(2ⁿ)** - Exponential: Brute force algorithms, recursive Fibonacci"
+            "**O(n)** - Quadratic: Nested loops, simple sorting algorithms",
+            "**O(2)** - Exponential: Brute force algorithms, recursive Fibonacci"
         ]
         
         for example in big_o_examples:
@@ -273,7 +273,7 @@ class SortingAlgorithmsComponent(ComponentTemplate):
     
     def _render_algorithm_comparison(self):
         """Render algorithm comparison"""
-        st.subheader("⚖️ Algorithm Comparison")
+        st.subheader(" Algorithm Comparison")
         
         # Performance comparison chart
         algorithms = ["Bubble", "Selection", "Insertion", "Merge", "Quick", "Heap"]
@@ -307,7 +307,7 @@ class SortingAlgorithmsComponent(ComponentTemplate):
         st.plotly_chart(fig, use_container_width=True)
         
         # Algorithm selection guide
-        st.markdown("#### 🎯 Algorithm Selection Guide")
+        st.markdown("####  Algorithm Selection Guide")
         
         selection_guide = [
             "**Small datasets (n < 50):** Insertion Sort - Simple and efficient",
@@ -327,7 +327,7 @@ def explain_sorting_algorithms():
     component = SortingAlgorithmsComponent()
     
     summary_points = [
-        "Sorting algorithms vary in time complexity from O(n²) to O(n log n)",
+        "Sorting algorithms vary in time complexity from O(n) to O(n log n)",
         "Algorithm choice depends on dataset size, memory constraints, and stability requirements",
         "Divide-and-conquer algorithms (Merge, Quick) generally perform better on large datasets",
         "Understanding Big O notation is crucial for algorithm analysis and selection"

@@ -18,7 +18,7 @@ class OSIModelComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="📊 OSI Model",
+            component_name=" OSI Model",
             description="7-layer networking model for understanding network communication",
             color_scheme=THEORY_CONCEPTS_COLORS,
             estimated_time="15 minutes"
@@ -78,14 +78,14 @@ class OSIModelComponent(ComponentTemplate):
         
         with col1:
             create_info_card(
-                "🔄 Data Encapsulation",
+                " Data Encapsulation",
                 "Each layer adds headers/trailers as data moves down the stack",
                 "info", self.color_scheme
             )
         
         with col2:
             create_info_card(
-                "🛡️ Security Implications",
+                " Security Implications",
                 "Each layer has specific attack vectors and defense mechanisms",
                 "warning", self.color_scheme
             )

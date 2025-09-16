@@ -18,7 +18,7 @@ class NetworkTopologiesComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="🕸️ Network Topologies",
+            component_name=" Network Topologies",
             description="Network design patterns and their characteristics",
             color_scheme=THEORY_CONCEPTS_COLORS,
             estimated_time="15 minutes"
@@ -27,6 +27,16 @@ class NetworkTopologiesComponent(ComponentTemplate):
         self.set_key_concepts([
             "Physical Topologies", "Logical Topologies", "Scalability", "Fault Tolerance"
         ])
+    
+    def render_header(self):
+        """Render a compact header to minimize vertical space."""
+        create_banner(
+            title=self.component_name,
+            description=self.description,
+            color_scheme=self.color_scheme,
+            icon="",
+            estimated_time=self.estimated_time
+        )
     
     def render_content(self):
         """Render Network Topologies content"""
@@ -72,7 +82,7 @@ class NetworkTopologiesComponent(ComponentTemplate):
         
         # Interactive topology explorer
         selected_topology = st.selectbox(
-            "🔍 Explore Network Topology:",
+            " Explore Network Topology:",
             list(topologies.keys()),
             key="network_topology_selector"
         )
@@ -80,7 +90,7 @@ class NetworkTopologiesComponent(ComponentTemplate):
         topology_info = topologies[selected_topology]
         
         create_info_card(
-            f"🕸️ {selected_topology} Topology",
+            f" {selected_topology} Topology",
             topology_info['description'],
             "primary", self.color_scheme
         )
@@ -88,20 +98,20 @@ class NetworkTopologiesComponent(ComponentTemplate):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("**✅ Advantages:**")
+            st.markdown("** Advantages:**")
             for advantage in topology_info['advantages']:
-                st.markdown(f"• {advantage}")
+                st.markdown(f" {advantage}")
         
         with col2:
-            st.markdown("**❌ Disadvantages:**")
+            st.markdown("** Disadvantages:**")
             for disadvantage in topology_info['disadvantages']:
-                st.markdown(f"• {disadvantage}")
+                st.markdown(f" {disadvantage}")
         
-        st.markdown(f"**🎯 Use Case:** {topology_info['use_case']}")
-        st.markdown(f"**🛡️ Fault Tolerance:** {topology_info['fault_tolerance']}")
+        st.markdown(f"** Use Case:** {topology_info['use_case']}")
+        st.markdown(f"** Fault Tolerance:** {topology_info['fault_tolerance']}")
         
         # Topology comparison table
-        st.markdown("#### 📊 Topology Comparison Matrix")
+        st.markdown("####  Topology Comparison Matrix")
         
         comparison_data = [
             {"Topology": "Bus", "Cost": "Low", "Scalability": "Poor", "Fault Tolerance": "Low", "Performance": "Degrades", "Maintenance": "Difficult"},
@@ -115,7 +125,7 @@ class NetworkTopologiesComponent(ComponentTemplate):
         st.dataframe(comparison_df, use_container_width=True)
         
         # Modern network architectures
-        st.markdown("#### 🏗️ Modern Network Architectures")
+        st.markdown("####  Modern Network Architectures")
         
         modern_architectures = {
             "Three-Tier": "Core, Distribution, Access layers for hierarchical design",
@@ -129,7 +139,7 @@ class NetworkTopologiesComponent(ComponentTemplate):
             st.markdown(f"**{architecture}:** {description}")
         
         # Security implications
-        st.markdown("#### 🛡️ Security Implications by Topology")
+        st.markdown("####  Security Implications by Topology")
         
         security_implications = [
             "**Bus Topology:** Shared medium - all traffic visible to all devices",
@@ -143,8 +153,8 @@ class NetworkTopologiesComponent(ComponentTemplate):
             st.markdown(implication)
         
         # Design considerations
-        if st.button("🎯 Show Design Considerations"):
-            st.markdown("#### 📋 Network Design Considerations")
+        if st.button(" Show Design Considerations"):
+            st.markdown("####  Network Design Considerations")
             
             considerations = [
                 {"Factor": "Business Requirements", "Consideration": "Bandwidth needs, application requirements, growth plans"},

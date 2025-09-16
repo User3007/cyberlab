@@ -23,7 +23,7 @@ class RiskAssessmentComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="📊 Risk Assessment",
+            component_name=" Risk Assessment",
             description="Systematic evaluation of security risks and vulnerabilities",
             color_scheme=THEORY_CONCEPTS_COLORS,
             estimated_time="35 minutes"
@@ -44,7 +44,7 @@ class RiskAssessmentComponent(ComponentTemplate):
         ])
         
         self.set_key_concepts([
-            "Risk = Threat × Vulnerability × Impact", "Risk Matrix", "Qualitative vs Quantitative",
+            "Risk = Threat  Vulnerability  Impact", "Risk Matrix", "Qualitative vs Quantitative",
             "Risk Appetite", "Risk Treatment", "Residual Risk"
         ])
     
@@ -71,7 +71,7 @@ class RiskAssessmentComponent(ComponentTemplate):
     
     def _render_risk_fundamentals(self):
         """Render risk assessment fundamentals"""
-        st.subheader("🎯 Risk Assessment Fundamentals")
+        st.subheader(" Risk Assessment Fundamentals")
         
         # Risk equation visualization
         st.markdown("### Risk Equation")
@@ -81,9 +81,9 @@ class RiskAssessmentComponent(ComponentTemplate):
         # Create risk equation visualization
         equation_elements = [
             {"name": "Threat", "value": 0.3, "color": self.color_scheme['danger']},
-            {"name": "×", "value": 0.1, "color": "#666666"},
+            {"name": "", "value": 0.1, "color": "#666666"},
             {"name": "Vulnerability", "value": 0.3, "color": self.color_scheme['warning']},
-            {"name": "×", "value": 0.1, "color": "#666666"},
+            {"name": "", "value": 0.1, "color": "#666666"},
             {"name": "Impact", "value": 0.3, "color": self.color_scheme['primary']},
             {"name": "=", "value": 0.1, "color": "#666666"},
             {"name": "Risk", "value": 0.4, "color": self.color_scheme['accent']}
@@ -91,7 +91,7 @@ class RiskAssessmentComponent(ComponentTemplate):
         
         x_pos = 0
         for element in equation_elements:
-            if element["name"] not in ["×", "="]:
+            if element["name"] not in ["", "="]:
                 fig.add_shape(
                     type="rect",
                     x0=x_pos, y0=0.4,
@@ -106,7 +106,7 @@ class RiskAssessmentComponent(ComponentTemplate):
                 y=0.5,
                 text=f"<b>{element['name']}</b>",
                 showarrow=False,
-                font=dict(size=14, color="white" if element["name"] not in ["×", "="] else element["color"])
+                font=dict(size=14, color="white" if element["name"] not in ["", "="] else element["color"])
             )
             
             x_pos += element["value"]
@@ -148,7 +148,7 @@ class RiskAssessmentComponent(ComponentTemplate):
         component_info = risk_components[selected_component]
         
         create_info_card(
-            f"🔍 {selected_component}",
+            f" {selected_component}",
             component_info['definition'],
             card_type="info",
             color_scheme=self.color_scheme
@@ -157,18 +157,18 @@ class RiskAssessmentComponent(ComponentTemplate):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("**📋 Examples:**")
+            st.markdown("** Examples:**")
             for example in component_info['examples']:
-                st.markdown(f"• {example}")
+                st.markdown(f" {example}")
         
         with col2:
-            st.markdown("**⚖️ Assessment Factors:**")
+            st.markdown("** Assessment Factors:**")
             for factor in component_info['factors']:
-                st.markdown(f"• {factor}")
+                st.markdown(f" {factor}")
     
     def _render_assessment_methodologies(self):
         """Render risk assessment methodologies"""
-        st.subheader("📋 Risk Assessment Methodologies")
+        st.subheader(" Risk Assessment Methodologies")
         
         methodologies = {
             "Qualitative Assessment": {
@@ -217,7 +217,7 @@ class RiskAssessmentComponent(ComponentTemplate):
         methodology_info = methodologies[selected_methodology]
         
         create_info_card(
-            f"📊 {selected_methodology}",
+            f" {selected_methodology}",
             methodology_info['description'],
             card_type="primary",
             color_scheme=self.color_scheme
@@ -226,23 +226,23 @@ class RiskAssessmentComponent(ComponentTemplate):
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            st.markdown("**✅ Advantages:**")
+            st.markdown("** Advantages:**")
             for pro in methodology_info['pros']:
-                st.markdown(f"• {pro}")
+                st.markdown(f" {pro}")
         
         with col2:
-            st.markdown("**⚠️ Limitations:**")
+            st.markdown("** Limitations:**")
             for con in methodology_info['cons']:
-                st.markdown(f"• {con}")
+                st.markdown(f" {con}")
         
         with col3:
-            st.markdown("**🎯 Best Use Cases:**")
+            st.markdown("** Best Use Cases:**")
             for use_case in methodology_info['use_cases']:
-                st.markdown(f"• {use_case}")
+                st.markdown(f" {use_case}")
     
     def _render_risk_calculator(self):
         """Render interactive risk calculator"""
-        st.subheader("🧮 Interactive Risk Calculator")
+        st.subheader(" Interactive Risk Calculator")
         
         st.markdown("Calculate risk scores using different methodologies:")
         
@@ -317,11 +317,11 @@ class RiskAssessmentComponent(ComponentTemplate):
             }
             
             if risk_level in ["Very Low", "Low"]:
-                st.success(f"🟢 Risk Level: **{risk_level}**")
+                st.success(f" Risk Level: **{risk_level}**")
             elif risk_level == "Medium":
-                st.warning(f"🟡 Risk Level: **{risk_level}**")
+                st.warning(f" Risk Level: **{risk_level}**")
             else:
-                st.error(f"🔴 Risk Level: **{risk_level}**")
+                st.error(f" Risk Level: **{risk_level}**")
             
             # Recommendations
             recommendations = {
@@ -333,7 +333,7 @@ class RiskAssessmentComponent(ComponentTemplate):
                 "Critical": "Implement immediate controls. Daily monitoring required."
             }
             
-            st.info(f"💡 **Recommendation:** {recommendations[risk_level]}")
+            st.info(f" **Recommendation:** {recommendations[risk_level]}")
     
     def _render_semiquantitative_calculator(self):
         """Render semi-quantitative risk calculator"""
@@ -364,16 +364,16 @@ class RiskAssessmentComponent(ComponentTemplate):
             # Risk level classification
             if risk_score <= 3:
                 risk_level = "Low Risk"
-                st.success(f"🟢 {risk_level}")
+                st.success(f" {risk_level}")
             elif risk_score <= 6:
                 risk_level = "Medium Risk"
-                st.warning(f"🟡 {risk_level}")
+                st.warning(f" {risk_level}")
             elif risk_score <= 8:
                 risk_level = "High Risk"
-                st.error(f"🟠 {risk_level}")
+                st.error(f" {risk_level}")
             else:
                 risk_level = "Critical Risk"
-                st.error(f"🔴 {risk_level}")
+                st.error(f" {risk_level}")
             
             # Create risk visualization
             fig = go.Figure(go.Indicator(
@@ -405,7 +405,7 @@ class RiskAssessmentComponent(ComponentTemplate):
         """Render quantitative risk calculator (ALE)"""
         st.markdown("#### Quantitative Risk Assessment (Annual Loss Expectancy)")
         
-        st.markdown("**ALE = SLE × ARO**")
+        st.markdown("**ALE = SLE  ARO**")
         st.markdown("- **SLE** = Single Loss Expectancy (cost of one incident)")
         st.markdown("- **ARO** = Annual Rate of Occurrence (incidents per year)")
         
@@ -423,13 +423,13 @@ class RiskAssessmentComponent(ComponentTemplate):
             
             # Risk tolerance assessment
             if ale < 10000:
-                st.success("🟢 **Low Financial Risk** - Acceptable risk level")
+                st.success(" **Low Financial Risk** - Acceptable risk level")
             elif ale < 100000:
-                st.warning("🟡 **Medium Financial Risk** - Consider risk mitigation")
+                st.warning(" **Medium Financial Risk** - Consider risk mitigation")
             elif ale < 500000:
-                st.error("🟠 **High Financial Risk** - Risk mitigation recommended")
+                st.error(" **High Financial Risk** - Risk mitigation recommended")
             else:
-                st.error("🔴 **Critical Financial Risk** - Immediate action required")
+                st.error(" **Critical Financial Risk** - Immediate action required")
             
             # Cost-benefit analysis helper
             st.markdown("#### Cost-Benefit Analysis")
@@ -451,13 +451,13 @@ class RiskAssessmentComponent(ComponentTemplate):
                 st.metric("ROI", f"{roi:.1f}%")
             
             if net_benefit > 0:
-                st.success("✅ **Control is cost-effective** - Implement recommended")
+                st.success(" **Control is cost-effective** - Implement recommended")
             else:
-                st.warning("⚠️ **Control may not be cost-effective** - Consider alternatives")
+                st.warning(" **Control may not be cost-effective** - Consider alternatives")
     
     def _render_risk_matrix(self):
         """Render risk matrix visualization"""
-        st.subheader("🎯 Risk Matrix Visualization")
+        st.subheader(" Risk Matrix Visualization")
         
         # Generate sample risk data
         risks_data = [
@@ -521,7 +521,7 @@ class RiskAssessmentComponent(ComponentTemplate):
     
     def _render_treatment_strategies(self):
         """Render risk treatment strategies"""
-        st.subheader("🛡️ Risk Treatment Strategies")
+        st.subheader(" Risk Treatment Strategies")
         
         treatment_options = {
             "Risk Mitigation": {
@@ -576,7 +576,7 @@ class RiskAssessmentComponent(ComponentTemplate):
         treatment_info = treatment_options[selected_treatment]
         
         create_info_card(
-            f"🎯 {selected_treatment}",
+            f" {selected_treatment}",
             treatment_info['description'],
             card_type="info",
             color_scheme=self.color_scheme
@@ -585,19 +585,19 @@ class RiskAssessmentComponent(ComponentTemplate):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("**📋 Examples:**")
+            st.markdown("** Examples:**")
             for example in treatment_info['examples']:
-                st.markdown(f"• {example}")
+                st.markdown(f" {example}")
         
         with col2:
-            st.markdown("**📊 Characteristics:**")
-            st.markdown(f"• **Cost:** {treatment_info['cost']}")
-            st.markdown(f"• **Effectiveness:** {treatment_info['effectiveness']}")
-            st.markdown(f"• **Best Used:** {treatment_info['when_to_use']}")
+            st.markdown("** Characteristics:**")
+            st.markdown(f" **Cost:** {treatment_info['cost']}")
+            st.markdown(f" **Effectiveness:** {treatment_info['effectiveness']}")
+            st.markdown(f" **Best Used:** {treatment_info['when_to_use']}")
     
     def _render_report_generator(self):
         """Render risk assessment report generator"""
-        st.subheader("📄 Risk Assessment Report Generator")
+        st.subheader(" Risk Assessment Report Generator")
         
         st.markdown("Generate a comprehensive risk assessment report:")
         
@@ -626,7 +626,7 @@ class RiskAssessmentComponent(ComponentTemplate):
         with col4:
             low_risks = st.number_input("Low Risk Items:", min_value=0, value=8)
         
-        if st.button("🚀 Generate Report"):
+        if st.button(" Generate Report"):
             # Create report content
             st.markdown("---")
             st.markdown("## Risk Assessment Report")
@@ -665,13 +665,13 @@ class RiskAssessmentComponent(ComponentTemplate):
             st.markdown("### Key Findings")
             
             if high_risks > 0:
-                st.error(f"🔴 **{high_risks} High Risk items** require immediate attention and should be addressed within 30 days.")
+                st.error(f" **{high_risks} High Risk items** require immediate attention and should be addressed within 30 days.")
             
             if medium_risks > 0:
-                st.warning(f"🟡 **{medium_risks} Medium Risk items** should be addressed within 90 days through appropriate controls.")
+                st.warning(f" **{medium_risks} Medium Risk items** should be addressed within 90 days through appropriate controls.")
             
             if low_risks > 0:
-                st.success(f"🟢 **{low_risks} Low Risk items** can be monitored and addressed as resources permit.")
+                st.success(f" **{low_risks} Low Risk items** can be monitored and addressed as resources permit.")
             
             # Recommendations
             st.markdown("### Recommendations")
@@ -703,7 +703,7 @@ def explain_risk_assessment():
     # Summary points for the component
     summary_points = [
         "Risk assessment systematically identifies and evaluates security risks",
-        "Risk = Threat × Vulnerability × Impact provides the foundation for calculations",
+        "Risk = Threat  Vulnerability  Impact provides the foundation for calculations",
         "Different methodologies (qualitative, quantitative, semi-quantitative) serve different needs",
         "Risk treatment strategies include mitigation, avoidance, transfer, and acceptance",
         "Regular risk assessments are essential for maintaining effective security posture"

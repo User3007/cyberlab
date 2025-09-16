@@ -12,28 +12,38 @@ except ImportError:
     def explain_sorting_algorithms():
         """Placeholder for sorting algorithms component"""
         import streamlit as st
-        st.info("🚧 Sorting Algorithms component is being refactored. Coming soon!")
+        st.info(" Sorting Algorithms component is being refactored. Coming soon!")
+
+# Import new data structures and algorithms components
+try:
+    from .data_structures import (
+        explain_advanced_data_structures,
+        explain_searching_algorithms,
+        explain_algorithm_complexity
+    )
+    _data_structures_available = True
+except ImportError:
+    _data_structures_available = False
+    def explain_advanced_data_structures():
+        """Placeholder for advanced data structures component"""
+        import streamlit as st
+        st.info(" Advanced Data Structures component is being refactored. Coming soon!")
+    
+    def explain_searching_algorithms():
+        """Placeholder for searching algorithms component"""
+        import streamlit as st
+        st.info(" Searching Algorithms component is being refactored. Coming soon!")
+    
+    def explain_algorithm_complexity():
+        """Placeholder for algorithm complexity component"""
+        import streamlit as st
+        st.info(" Algorithm Complexity component is being refactored. Coming soon!")
 
 # Placeholder functions for components not yet implemented
 def explain_basic_data_structures():
     """Placeholder for basic data structures component"""
     import streamlit as st
-    st.info("🚧 Basic Data Structures component is being refactored. Coming soon!")
-
-def explain_advanced_data_structures():
-    """Placeholder for advanced data structures component"""
-    import streamlit as st
-    st.info("🚧 Advanced Data Structures component is being refactored. Coming soon!")
-
-def explain_searching_algorithms():
-    """Placeholder for searching algorithms component"""
-    import streamlit as st
-    st.info("🚧 Searching Algorithms component is being refactored. Coming soon!")
-
-def explain_algorithm_complexity():
-    """Placeholder for algorithm complexity component"""
-    import streamlit as st
-    st.info("🚧 Algorithm Complexity component is being refactored. Coming soon!")
+    st.info(" Basic Data Structures component is being refactored. Coming soon!")
 
 __all__ = []
 if _sorting_algorithms_available:

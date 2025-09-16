@@ -18,7 +18,7 @@ class RoutingSwitchingComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="🔀 Routing & Switching",
+            component_name=" Routing & Switching",
             description="Network routing and switching concepts for data forwarding",
             color_scheme=THEORY_CONCEPTS_COLORS,
             estimated_time="20 minutes"
@@ -32,7 +32,7 @@ class RoutingSwitchingComponent(ComponentTemplate):
         """Render Routing and Switching content"""
         
         # Switching vs Routing comparison
-        st.markdown("#### ⚖️ Switching vs Routing Comparison")
+        st.markdown("####  Switching vs Routing Comparison")
         
         comparison = [
             {"Aspect": "OSI Layer", "Switching": "Layer 2 (Data Link)", "Routing": "Layer 3 (Network)"},
@@ -51,7 +51,7 @@ class RoutingSwitchingComponent(ComponentTemplate):
         
         with col1:
             create_info_card(
-                "🔄 Layer 2 Switching",
+                " Layer 2 Switching",
                 "Forwards frames based on MAC addresses within a LAN",
                 "primary", self.color_scheme
             )
@@ -65,11 +65,11 @@ class RoutingSwitchingComponent(ComponentTemplate):
                 "VLANs (Virtual LANs)"
             ]
             for concept in switching_concepts:
-                st.markdown(f"• {concept}")
+                st.markdown(f" {concept}")
         
         with col2:
             create_info_card(
-                "🌐 Layer 3 Routing",
+                " Layer 3 Routing",
                 "Routes packets between different networks using IP addresses",
                 "info", self.color_scheme
             )
@@ -83,10 +83,10 @@ class RoutingSwitchingComponent(ComponentTemplate):
                 "Route Metrics"
             ]
             for concept in routing_concepts:
-                st.markdown(f"• {concept}")
+                st.markdown(f" {concept}")
         
         # Common protocols
-        st.markdown("#### 📡 Common Routing Protocols")
+        st.markdown("####  Common Routing Protocols")
         
         routing_protocols = [
             {"Protocol": "RIP", "Type": "Distance Vector", "Metric": "Hop Count", "Max Hops": "15", "Use Case": "Small networks"},
@@ -99,7 +99,7 @@ class RoutingSwitchingComponent(ComponentTemplate):
         st.dataframe(protocols_df, use_container_width=True)
         
         # Network devices
-        st.markdown("#### 🖥️ Network Devices")
+        st.markdown("####  Network Devices")
         
         devices = {
             "Hub": {
@@ -122,12 +122,12 @@ class RoutingSwitchingComponent(ComponentTemplate):
             }
         }
         
-        device_selector = st.selectbox("🔍 Explore Network Device:", list(devices.keys()), key="network_device_selector")
+        device_selector = st.selectbox(" Explore Network Device:", list(devices.keys()), key="network_device_selector")
         device_info = devices[device_selector]
         
         st.markdown(f"""
         <div style="background: {self.color_scheme['background']}; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; border-left: 5px solid {self.color_scheme['primary']};">
-            <h4 style="color: {self.color_scheme['primary']}; margin-top: 0;">🖥️ {device_selector}</h4>
+            <h4 style="color: {self.color_scheme['primary']}; margin-top: 0;"> {device_selector}</h4>
             <p><strong>Layer:</strong> {device_info['layer']}</p>
             <p><strong>Function:</strong> {device_info['function']}</p>
             <p><strong>Collision Domain:</strong> {device_info['collision_domain']}</p>
@@ -136,7 +136,7 @@ class RoutingSwitchingComponent(ComponentTemplate):
         """, unsafe_allow_html=True)
         
         # Security considerations
-        st.markdown("#### 🛡️ Security Considerations")
+        st.markdown("####  Security Considerations")
         
         security_issues = [
             "**MAC Flooding:** Overwhelming switch MAC table to force hub-like behavior",
@@ -150,7 +150,7 @@ class RoutingSwitchingComponent(ComponentTemplate):
             st.markdown(issue)
         
         # Best practices
-        st.markdown("#### ✅ Best Practices")
+        st.markdown("####  Best Practices")
         
         best_practices = [
             "Implement port security on switches",
@@ -162,7 +162,7 @@ class RoutingSwitchingComponent(ComponentTemplate):
         ]
         
         for practice in best_practices:
-            st.markdown(f"• {practice}")
+            st.markdown(f" {practice}")
 
 
 def explain_routing_switching():

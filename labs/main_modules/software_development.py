@@ -17,9 +17,26 @@ from ..shared.ui_components import create_banner, create_takeaways
 
 # Import development components
 from ..components.development.sdlc_agile import explain_sdlc
-from ..components.development import explain_design_patterns, explain_project_planning
-from ..components.algorithms import explain_sorting_algorithms
-from ..components.devops import explain_continuous_integration
+from ..components.development import explain_design_patterns, explain_project_planning, explain_risk_management_pm, explain_team_management
+from ..components.algorithms import (
+    explain_sorting_algorithms,
+    explain_advanced_data_structures,
+    explain_searching_algorithms,
+    explain_algorithm_complexity
+)
+from ..components.devops import (
+    explain_continuous_integration,
+    explain_devops_culture,
+    explain_continuous_deployment,
+    explain_infrastructure_as_code,
+    explain_monitoring_logging
+)
+from ..components.testing import (
+    explain_testing_fundamentals,
+    explain_testing_types,
+    explain_quality_assurance_process,
+    explain_testing_tools
+)
 # from ..components.development.scrum_methodologies import explain_scrum
 # from ..components.development.design_patterns import explain_design_patterns
 # from ..components.development.programming_paradigms import explain_programming_paradigms
@@ -105,8 +122,8 @@ def programming_concepts_lab():
     ])
     
     if concept_choice == "Programming Paradigms":
-        # explain_programming_paradigms()  # Will be implemented
-        st.info("🚧 Programming Paradigms component is being refactored. Coming soon!")
+        from ..components.development import explain_programming_paradigms
+        explain_programming_paradigms()
     elif concept_choice == "Object-Oriented Programming":
         explain_oop()
     elif concept_choice == "Functional Programming":
@@ -132,24 +149,25 @@ def data_structures_algorithms_lab():
         explain_sorting_algorithms()
     
     with algo_tab2:
-        st.info("🚧 Data Structures components are being developed. Coming soon!")
-        data_structures = [
-            "**Basic Data Structures** - Arrays, lists, stacks, queues",
-            "**Advanced Data Structures** - Trees, graphs, hash tables",
-            "**Specialized Structures** - Heaps, tries, bloom filters"
-        ]
-        for structure in data_structures:
-            st.markdown(structure)
+        ds_choice = st.selectbox(
+            "Choose data structure topic:",
+            [
+                "Advanced Data Structures",
+                "Searching Algorithms", 
+                "Basic Data Structures (Coming Soon)"
+            ],
+            key="ds_selector"
+        )
+        
+        if ds_choice == "Advanced Data Structures":
+            explain_advanced_data_structures()
+        elif ds_choice == "Searching Algorithms":
+            explain_searching_algorithms()
+        else:
+            st.info("🚧 Basic Data Structures component is being developed. Coming soon!")
     
     with algo_tab3:
-        st.info("🚧 Algorithm Analysis components are being developed. Coming soon!")
-        analysis_topics = [
-            "**Big O Notation** - Time and space complexity analysis",
-            "**Algorithm Comparison** - Performance benchmarking",
-            "**Optimization Techniques** - Algorithm improvement strategies"
-        ]
-        for topic in analysis_topics:
-            st.markdown(topic)
+        explain_algorithm_complexity()
 
 
 def testing_qa_lab():
@@ -158,22 +176,22 @@ def testing_qa_lab():
     
     testing_choice = st.selectbox("Chọn testing topic:", [
         "Testing Fundamentals",
-        "Unit Testing",
-        "Integration Testing",
-        "Security Testing",
-        "Test Automation"
+        "Testing Types",
+        "Quality Assurance Process",
+        "Testing Tools",
+        "Test Automation (Coming Soon)"
     ])
     
     if testing_choice == "Testing Fundamentals":
         explain_testing_fundamentals()
-    elif testing_choice == "Unit Testing":
-        explain_unit_testing()
-    elif testing_choice == "Integration Testing":
-        explain_integration_testing()
-    elif testing_choice == "Security Testing":
-        explain_security_testing()
-    elif testing_choice == "Test Automation":
-        explain_test_automation()
+    elif testing_choice == "Testing Types":
+        explain_testing_types()
+    elif testing_choice == "Quality Assurance Process":
+        explain_quality_assurance_process()
+    elif testing_choice == "Testing Tools":
+        explain_testing_tools()
+    else:
+        st.info("🚧 Test Automation component is being developed. Coming soon!")
 
 
 def devops_cicd_lab():
@@ -181,23 +199,23 @@ def devops_cicd_lab():
     st.subheader("🔧 DevOps & CI/CD")
     
     devops_choice = st.selectbox("Chọn DevOps topic:", [
-        "DevOps Principles",
+        "DevOps Culture",
         "Continuous Integration",
         "Continuous Deployment",
         "Infrastructure as Code",
-        "Container Security"
+        "Monitoring & Logging"
     ])
     
-    if devops_choice == "DevOps Principles":
-        explain_devops_principles()
+    if devops_choice == "DevOps Culture":
+        explain_devops_culture()
     elif devops_choice == "Continuous Integration":
         explain_continuous_integration()
     elif devops_choice == "Continuous Deployment":
         explain_continuous_deployment()
     elif devops_choice == "Infrastructure as Code":
         explain_infrastructure_as_code()
-    elif devops_choice == "Container Security":
-        explain_container_security()
+    elif devops_choice == "Monitoring & Logging":
+        explain_monitoring_logging()
 
 
 def project_management_lab():
@@ -360,15 +378,14 @@ def explain_agile_pm():
 
 
 def explain_project_risk_management():
-    """Project risk management - to be refactored"""
-    st.markdown("### ⚠️ Project Risk Management")
-    st.info("🚧 Project Risk Management component is being refactored. Coming soon!")
+    """Project risk management - now using component"""
+    explain_risk_management_pm()
 
 
 def explain_team_management():
-    """Team management - to be refactored"""
-    st.markdown("### 👥 Team Management")
-    st.info("🚧 Team Management component is being refactored. Coming soon!")
+    """Team management - now using component"""
+    from ..components.development.team_management import explain_team_management as team_mgmt_func
+    team_mgmt_func()
 
 
 def explain_quality_management():

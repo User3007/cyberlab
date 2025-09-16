@@ -18,7 +18,7 @@ class IPAddressingComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="🌐 IP Addressing",
+            component_name=" IP Addressing",
             description="IP addressing, subnetting, and network design fundamentals",
             color_scheme=THEORY_CONCEPTS_COLORS,
             estimated_time="25 minutes"
@@ -32,7 +32,7 @@ class IPAddressingComponent(ComponentTemplate):
         """Render IP Addressing content"""
         
         # IP version comparison
-        st.markdown("#### 📊 IPv4 vs IPv6 Comparison")
+        st.markdown("####  IPv4 vs IPv6 Comparison")
         
         ip_comparison = [
             {"Aspect": "Address Length", "IPv4": "32 bits (4 bytes)", "IPv6": "128 bits (16 bytes)"},
@@ -47,7 +47,7 @@ class IPAddressingComponent(ComponentTemplate):
         st.dataframe(df, use_container_width=True)
         
         # IPv4 address classes
-        st.markdown("#### 📋 IPv4 Address Classes")
+        st.markdown("####  IPv4 Address Classes")
         
         address_classes = [
             {"Class": "A", "Range": "1.0.0.0 - 126.255.255.255", "Default Mask": "/8 (255.0.0.0)", "Networks": "126", "Hosts": "16.7M"},
@@ -63,7 +63,7 @@ class IPAddressingComponent(ComponentTemplate):
         
         with col1:
             create_info_card(
-                "🏠 Private IP Ranges",
+                " Private IP Ranges",
                 "Non-routable addresses for internal networks",
                 "info", self.color_scheme
             )
@@ -79,7 +79,7 @@ class IPAddressingComponent(ComponentTemplate):
         
         with col2:
             create_info_card(
-                "🌐 Special IP Ranges",
+                " Special IP Ranges",
                 "Reserved and special-purpose addresses",
                 "warning", self.color_scheme
             )
@@ -95,7 +95,7 @@ class IPAddressingComponent(ComponentTemplate):
                 st.markdown(range_info)
         
         # Interactive subnet calculator
-        st.markdown("#### 🧮 Interactive Subnet Calculator")
+        st.markdown("####  Interactive Subnet Calculator")
         
         col1, col2 = st.columns(2)
         
@@ -104,23 +104,23 @@ class IPAddressingComponent(ComponentTemplate):
             subnet_input = st.number_input("Subnet Mask (CIDR):", min_value=8, max_value=30, value=24)
         
         with col2:
-            if st.button("🔍 Calculate Subnets"):
+            if st.button(" Calculate Subnets"):
                 try:
                     network = ipaddress.IPv4Network(f"{ip_input}/{subnet_input}", strict=False)
                     
-                    st.markdown("**📊 Network Information:**")
-                    st.markdown(f"• **Network:** {network.network_address}")
-                    st.markdown(f"• **Broadcast:** {network.broadcast_address}")
-                    st.markdown(f"• **Netmask:** {network.netmask}")
-                    st.markdown(f"• **Host Count:** {network.num_addresses - 2}")
-                    st.markdown(f"• **First Host:** {network.network_address + 1}")
-                    st.markdown(f"• **Last Host:** {network.broadcast_address - 1}")
+                    st.markdown("** Network Information:**")
+                    st.markdown(f" **Network:** {network.network_address}")
+                    st.markdown(f" **Broadcast:** {network.broadcast_address}")
+                    st.markdown(f" **Netmask:** {network.netmask}")
+                    st.markdown(f" **Host Count:** {network.num_addresses - 2}")
+                    st.markdown(f" **First Host:** {network.network_address + 1}")
+                    st.markdown(f" **Last Host:** {network.broadcast_address - 1}")
                     
                 except Exception as e:
                     st.error(f"Invalid IP address or subnet: {e}")
         
         # Subnetting examples
-        st.markdown("#### 📝 Common Subnetting Examples")
+        st.markdown("####  Common Subnetting Examples")
         
         subnetting_examples = [
             {"Network": "192.168.1.0/24", "Subnets": "2", "New Mask": "/25", "Hosts per Subnet": "126", "Use Case": "Split network in half"},
@@ -133,7 +133,7 @@ class IPAddressingComponent(ComponentTemplate):
         st.dataframe(subnetting_df, use_container_width=True)
         
         # Security considerations
-        st.markdown("#### 🛡️ IP Addressing Security Considerations")
+        st.markdown("####  IP Addressing Security Considerations")
         
         security_considerations = [
             "**IP Spoofing:** Attackers can forge source IP addresses",
@@ -146,7 +146,7 @@ class IPAddressingComponent(ComponentTemplate):
             st.markdown(consideration)
         
         # Best practices
-        st.markdown("#### ✅ IP Addressing Best Practices")
+        st.markdown("####  IP Addressing Best Practices")
         
         best_practices = [
             "Use private IP ranges for internal networks",
@@ -158,7 +158,7 @@ class IPAddressingComponent(ComponentTemplate):
         ]
         
         for practice in best_practices:
-            st.markdown(f"• {practice}")
+            st.markdown(f" {practice}")
 
 
 def explain_ip_addressing():

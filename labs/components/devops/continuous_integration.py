@@ -18,7 +18,7 @@ class ContinuousIntegrationComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="🔄 Continuous Integration",
+            component_name=" Continuous Integration",
             description="Modern CI/CD practices for automated software delivery",
             color_scheme=SOFTWARE_DEVELOPMENT_COLORS,
             estimated_time="25 minutes"
@@ -45,7 +45,7 @@ class ContinuousIntegrationComponent(ComponentTemplate):
     
     def _render_cicd_overview(self):
         """Render CI/CD overview"""
-        st.subheader("🔄 CI/CD Overview")
+        st.subheader(" CI/CD Overview")
         
         # CI vs CD comparison
         cicd_comparison = [
@@ -64,7 +64,7 @@ class ContinuousIntegrationComponent(ComponentTemplate):
         
         with col1:
             create_info_card(
-                "✅ CI Benefits",
+                " CI Benefits",
                 "Early detection of integration issues and bugs",
                 card_type="success",
                 color_scheme=self.color_scheme
@@ -78,11 +78,11 @@ class ContinuousIntegrationComponent(ComponentTemplate):
                 "Better team collaboration"
             ]
             for benefit in ci_benefits:
-                st.markdown(f"• {benefit}")
+                st.markdown(f" {benefit}")
         
         with col2:
             create_info_card(
-                "🚀 CD Benefits",
+                " CD Benefits",
                 "Automated and reliable software delivery",
                 card_type="primary",
                 color_scheme=self.color_scheme
@@ -96,11 +96,11 @@ class ContinuousIntegrationComponent(ComponentTemplate):
                 "Improved user feedback loop"
             ]
             for benefit in cd_benefits:
-                st.markdown(f"• {benefit}")
+                st.markdown(f" {benefit}")
     
     def _render_pipeline_stages(self):
         """Render CI/CD pipeline stages"""
-        st.subheader("🔧 CI/CD Pipeline Stages")
+        st.subheader(" CI/CD Pipeline Stages")
         
         pipeline_stages = [
             {
@@ -143,7 +143,7 @@ class ContinuousIntegrationComponent(ComponentTemplate):
         
         # Interactive stage explorer
         selected_stage = st.selectbox(
-            "🔍 Explore Pipeline Stage:",
+            " Explore Pipeline Stage:",
             [stage["stage"] for stage in pipeline_stages],
             key="pipeline_stage_selector"
         )
@@ -152,7 +152,7 @@ class ContinuousIntegrationComponent(ComponentTemplate):
         stage_info = next(stage for stage in pipeline_stages if stage["stage"] == selected_stage)
         
         create_info_card(
-            f"🔧 {stage_info['stage']}",
+            f" {stage_info['stage']}",
             stage_info['description'],
             card_type="primary",
             color_scheme=self.color_scheme
@@ -161,18 +161,18 @@ class ContinuousIntegrationComponent(ComponentTemplate):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("**🛠️ Common Tools:**")
+            st.markdown("** Common Tools:**")
             for tool in stage_info['tools']:
-                st.markdown(f"• {tool}")
+                st.markdown(f" {tool}")
         
         with col2:
-            st.markdown("**📋 Key Activities:**")
+            st.markdown("** Key Activities:**")
             for activity in stage_info['activities']:
-                st.markdown(f"• {activity}")
+                st.markdown(f" {activity}")
     
     def _render_tools_platforms(self):
         """Render CI/CD tools and platforms"""
-        st.subheader("🛠️ CI/CD Tools & Platforms")
+        st.subheader(" CI/CD Tools & Platforms")
         
         cicd_platforms = {
             "GitHub Actions": {
@@ -209,7 +209,7 @@ class ContinuousIntegrationComponent(ComponentTemplate):
         
         # Platform selector
         selected_platform = st.selectbox(
-            "🔍 Explore CI/CD Platform:",
+            " Explore CI/CD Platform:",
             list(cicd_platforms.keys()),
             key="cicd_platform_selector"
         )
@@ -217,7 +217,7 @@ class ContinuousIntegrationComponent(ComponentTemplate):
         platform_info = cicd_platforms[selected_platform]
         
         create_info_card(
-            f"🛠️ {selected_platform}",
+            f" {selected_platform}",
             f"Type: {platform_info['type']} | Pricing: {platform_info['pricing']}",
             card_type="info",
             color_scheme=self.color_scheme
@@ -226,18 +226,18 @@ class ContinuousIntegrationComponent(ComponentTemplate):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("**✅ Key Strengths:**")
+            st.markdown("** Key Strengths:**")
             for strength in platform_info['strengths']:
-                st.markdown(f"• {strength}")
+                st.markdown(f" {strength}")
         
         with col2:
-            st.markdown("**🎯 Best Use Cases:**")
+            st.markdown("** Best Use Cases:**")
             for use_case in platform_info['use_cases']:
-                st.markdown(f"• {use_case}")
+                st.markdown(f" {use_case}")
     
     def _render_best_practices(self):
         """Render CI/CD best practices"""
-        st.subheader("✅ CI/CD Best Practices")
+        st.subheader(" CI/CD Best Practices")
         
         best_practices = {
             "Code Management": [
@@ -274,12 +274,12 @@ class ContinuousIntegrationComponent(ComponentTemplate):
         
         # Display best practices in expandable sections
         for category, practices in best_practices.items():
-            with st.expander(f"📋 {category}"):
+            with st.expander(f" {category}"):
                 for practice in practices:
-                    st.markdown(f"• {practice}")
+                    st.markdown(f" {practice}")
         
         # Common pitfalls
-        st.markdown("#### ⚠️ Common CI/CD Pitfalls")
+        st.markdown("####  Common CI/CD Pitfalls")
         
         pitfalls = [
             "**Slow builds** - Long feedback loops reduce productivity",

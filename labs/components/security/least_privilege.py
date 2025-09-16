@@ -18,7 +18,7 @@ class LeastPrivilegeComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="🔐 Principle of Least Privilege",
+            component_name=" Principle of Least Privilege",
             description="Grant minimum access rights needed for job functions",
             color_scheme=THEORY_CONCEPTS_COLORS,
             estimated_time="20 minutes"
@@ -32,7 +32,7 @@ class LeastPrivilegeComponent(ComponentTemplate):
         """Render Least Privilege content"""
         
         # Core principles
-        st.markdown("#### 🎯 Core Principles")
+        st.markdown("####  Core Principles")
         
         principles = {
             "Minimum Necessary Access": "Grant only permissions required for specific tasks",
@@ -45,7 +45,7 @@ class LeastPrivilegeComponent(ComponentTemplate):
             create_info_card(principle, description, "primary", self.color_scheme)
         
         # Access control matrix example
-        st.markdown("#### 📊 Access Control Matrix")
+        st.markdown("####  Access Control Matrix")
         
         access_data = [
             {"Role": "End User", "File Access": "Read Own", "System Config": "None", "Admin Rights": "None"},
@@ -62,21 +62,21 @@ class LeastPrivilegeComponent(ComponentTemplate):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("**🔧 Implementation Methods:**")
+            st.markdown("** Implementation Methods:**")
             methods = ["Role-Based Access Control (RBAC)", "Attribute-Based Access Control (ABAC)", 
                       "Just-In-Time (JIT) Access", "Privileged Access Management (PAM)"]
             for method in methods:
-                st.markdown(f"• {method}")
+                st.markdown(f" {method}")
         
         with col2:
-            st.markdown("**📈 Benefits:**")
+            st.markdown("** Benefits:**")
             benefits = ["Reduced attack surface", "Limited blast radius", "Compliance alignment", 
                        "Better accountability"]
             for benefit in benefits:
-                st.markdown(f"• {benefit}")
+                st.markdown(f" {benefit}")
         
         # Common challenges
-        st.markdown("#### ⚠️ Implementation Challenges")
+        st.markdown("####  Implementation Challenges")
         
         challenges = {
             "User Resistance": "Users want more access than needed",

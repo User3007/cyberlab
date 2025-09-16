@@ -18,7 +18,7 @@ class AttackVectorsComponent(ComponentTemplate):
     
     def __init__(self):
         super().__init__(
-            component_name="🎯 Common Attack Vectors",
+            component_name=" Common Attack Vectors",
             description="Primary methods attackers use to compromise systems",
             color_scheme=THEORY_CONCEPTS_COLORS,
             estimated_time="25 minutes"
@@ -62,7 +62,7 @@ class AttackVectorsComponent(ComponentTemplate):
         
         # Interactive category explorer
         selected_category = st.selectbox(
-            "🔍 Explore Attack Category:",
+            " Explore Attack Category:",
             list(attack_categories.keys()),
             key="attack_category_selector"
         )
@@ -70,7 +70,7 @@ class AttackVectorsComponent(ComponentTemplate):
         category_info = attack_categories[selected_category]
         
         create_info_card(
-            f"🎯 {selected_category}",
+            f" {selected_category}",
             category_info['description'],
             "warning", self.color_scheme
         )
@@ -78,17 +78,17 @@ class AttackVectorsComponent(ComponentTemplate):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("**⚔️ Common Vectors:**")
+            st.markdown("** Common Vectors:**")
             for vector in category_info['vectors']:
-                st.markdown(f"• {vector}")
+                st.markdown(f" {vector}")
         
         with col2:
-            st.markdown("**🛡️ Key Defenses:**")
+            st.markdown("** Key Defenses:**")
             for defense in category_info['defenses']:
-                st.markdown(f"• {defense}")
+                st.markdown(f" {defense}")
         
         # Attack frequency statistics (simulated)
-        st.markdown("#### 📊 Attack Vector Frequency (2024)")
+        st.markdown("####  Attack Vector Frequency (2024)")
         
         frequency_data = {
             "Attack Vector": ["Phishing", "Malware", "Credential Theft", "DDoS", "SQL Injection", "Insider Threat"],
