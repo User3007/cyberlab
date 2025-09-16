@@ -66,15 +66,12 @@ except ImportError:
         st.info(" Database Design component is being refactored. Coming soon!")
 
 # Import OS comparison component
-try:
-    from .os_comparison import explain_os_comparison
-    _os_comparison_available = True
-except ImportError:
-    _os_comparison_available = False
-    def explain_os_comparison():
-        """Placeholder for OS comparison component"""
-        import streamlit as st
-        st.info(" OS Comparison component is being refactored. Coming soon!")
+# Import working systems components
+from .os_comparison import explain_os_comparison
+from .cpu_memory_advanced import explain_cpu_memory
+from .storage_systems_advanced import explain_storage_systems
+from .nosql_databases import explain_nosql_databases
+from .os_security import explain_os_security
 
 # Placeholder functions for components not yet implemented
 def explain_os_fundamentals():
@@ -102,5 +99,9 @@ __all__.extend([
     'explain_relational_databases',
     'explain_sql_basics',
     'explain_database_design',
-    'explain_os_comparison'
+    'explain_os_comparison',
+    'explain_cpu_memory',
+    'explain_storage_systems',
+    'explain_nosql_databases',
+    'explain_os_security'
 ])

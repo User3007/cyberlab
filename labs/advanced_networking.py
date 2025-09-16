@@ -6,27 +6,114 @@ import time
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 import subprocess
 import re
 import json
 from datetime import datetime, timedelta
 import ipaddress
 import random
+import hashlib
+import base64
+import binascii
+import scapy.all as scapy
+import numpy as np
+from typing import Dict, List, Tuple, Optional, Any
+import asyncio
+import concurrent.futures
+from dataclasses import dataclass
+from enum import Enum
+import sys
+import os
 
 def run_lab():
-    """Advanced Networking Lab - Học về mạng nâng cao"""
+    """Advanced Networking Lab - Master Advanced Network Concepts"""
     
-    st.title("🌐 Advanced Networking Lab")
-    st.markdown("---")
+    # Enhanced header with animation
+    st.markdown("""
+    <style>
+    .advanced-network-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 2.5rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .network-animation {
+        animation: network-pulse 3s ease-in-out infinite;
+    }
+    @keyframes network-pulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.05); opacity: 0.9; }
+    }
+    .stat-card {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 1rem;
+        border-radius: 10px;
+        text-align: center;
+        margin: 0.5rem;
+    }
+    </style>
+    """, unsafe_allow_html=True)
     
-    # Tabs cho các bài thực hành khác nhau
-    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-        "🔍 Network Reconnaissance", 
+    st.markdown("""
+    <div class="advanced-network-header network-animation">
+        <h1 style="color: white; text-align: center; margin: 0; font-size: 2.5rem;">
+            🌐 Advanced Networking Lab
+        </h1>
+        <p style="color: white; text-align: center; margin-top: 10px; font-size: 1.2rem;">
+            Deep Dive into Network Protocols, Security & Performance
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Quick stats dashboard
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.markdown("""
+        <div class="stat-card">
+            <h3>🌍</h3>
+            <p><b>IPv4 Space</b></p>
+            <p>4.3 Billion IPs</p>
+        </div>
+        """, unsafe_allow_html=True)
+    with col2:
+        st.markdown("""
+        <div class="stat-card">
+            <h3>🚀</h3>
+            <p><b>IPv6 Space</b></p>
+            <p>340 Undecillion IPs</p>
+        </div>
+        """, unsafe_allow_html=True)
+    with col3:
+        st.markdown("""
+        <div class="stat-card">
+            <h3>📡</h3>
+            <p><b>Protocols</b></p>
+            <p>300+ Standards</p>
+        </div>
+        """, unsafe_allow_html=True)
+    with col4:
+        st.markdown("""
+        <div class="stat-card">
+            <h3>🔒</h3>
+            <p><b>Security</b></p>
+            <p>7 OSI Layers</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Enhanced tabs with more labs
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
+        "🔍 Network Reconnaissance",
         "📡 Protocol Analysis",
-        "🌍 Network Topology Mapping", 
+        "🌍 Network Topology",
         "🚦 Traffic Monitoring",
-        "🔒 Network Security Testing",
-        "📊 Network Performance Analysis"
+        "🔒 Security Testing",
+        "📊 Performance Analysis",
+        "🔄 Packet Crafting",
+        "🌐 VLAN & Subnetting",
+        "🔗 BGP & Routing",
+        "☁️ SDN & Cloud Networking"
     ])
     
     with tab1:
@@ -46,6 +133,18 @@ def run_lab():
         
     with tab6:
         network_performance_lab()
+        
+    with tab7:
+        packet_crafting_lab()
+        
+    with tab8:
+        vlan_subnetting_lab()
+        
+    with tab9:
+        bgp_routing_lab()
+        
+    with tab10:
+        sdn_cloud_networking_lab()
 
 def network_reconnaissance_lab():
     """Lab Network Reconnaissance"""
@@ -904,3 +1003,586 @@ def calculate_performance_grade(results):
         return 'D'
     else:
         return 'F'
+
+# New advanced lab functions
+def packet_crafting_lab():
+    """Lab for custom packet crafting"""
+    
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%);
+                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="color: white; margin: 0;">🔄 Packet Crafting Lab</h2>
+        <p style="color: white; margin: 5px 0 0 0;">Build Custom Network Packets from Scratch</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Theory section with visual diagrams
+    with st.expander("📚 **Packet Structure & Crafting Theory**", expanded=False):
+        st.markdown("""
+        ### 📦 **Packet Anatomy**
+        
+        ```
+        Ethernet Frame Structure:
+        ┌──────────┬──────────┬──────────┬──────────┬──────────┐
+        │ Preamble │ Dest MAC │ Src MAC  │   Type   │  Payload │
+        │  8 bytes │ 6 bytes  │ 6 bytes  │ 2 bytes  │ 46-1500B │
+        └──────────┴──────────┴──────────┴──────────┴──────────┘
+        
+        IP Packet Structure:
+        ┌────────┬────────┬────────┬────────┬────────┐
+        │Version │  IHL   │  ToS   │ Length │  ID    │
+        │4 bits  │ 4 bits │ 8 bits │16 bits │16 bits │
+        ├────────┼────────┼────────┼────────┼────────┤
+        │ Flags  │Fragment│  TTL   │Protocol│Checksum│
+        │3 bits  │13 bits │ 8 bits │ 8 bits │16 bits │
+        ├────────┴────────┴────────┴────────┴────────┤
+        │           Source IP Address (32 bits)       │
+        ├──────────────────────────────────────────────┤
+        │         Destination IP Address (32 bits)    │
+        └──────────────────────────────────────────────┘
+        ```
+        
+        ### 🛠️ **Crafting Techniques**
+        
+        | Layer | Protocol | Key Fields | Purpose |
+        |-------|----------|------------|---------|
+        | **L2** | Ethernet | MAC addresses | LAN communication |
+        | **L3** | IP | IP addresses, TTL | Routing |
+        | **L4** | TCP/UDP | Ports, Flags | Transport |
+        | **L7** | HTTP/DNS | Headers, Queries | Application |
+        """)
+    
+    # Packet crafting interface
+    st.markdown("### 🎯 **Custom Packet Builder**")
+    
+    col1, col2 = st.columns([1, 1])
+    
+    with col1:
+        st.markdown("#### ⚙️ **Packet Configuration**")
+        
+        packet_type = st.selectbox("📦 Packet Type:", [
+            "TCP SYN", "TCP ACK", "TCP RST",
+            "UDP", "ICMP Echo", "ICMP Redirect",
+            "ARP Request", "ARP Reply",
+            "DNS Query", "HTTP Request"
+        ])
+        
+        src_ip = st.text_input("📤 Source IP:", value="192.168.1.100")
+        dst_ip = st.text_input("📥 Destination IP:", value="192.168.1.1")
+        
+        if "TCP" in packet_type or "UDP" in packet_type:
+            src_port = st.number_input("Source Port:", min_value=1, max_value=65535, value=12345)
+            dst_port = st.number_input("Destination Port:", min_value=1, max_value=65535, value=80)
+        
+        ttl = st.slider("TTL Value:", 1, 255, 64)
+        
+        payload = st.text_area("📝 Custom Payload:", value="Hello Network!")
+        
+        if st.button("🚀 **Craft & Send Packet**", type="primary"):
+            packet_hex = craft_packet(packet_type, src_ip, dst_ip, ttl, payload)
+            st.session_state['crafted_packet'] = packet_hex
+    
+    with col2:
+        st.markdown("#### 📊 **Packet Analysis**")
+        
+        if 'crafted_packet' in st.session_state:
+            packet_hex = st.session_state['crafted_packet']
+            
+            st.success("✅ **Packet Crafted Successfully!**")
+            
+            # Display packet hex dump
+            st.markdown("**🔍 Hex Dump:**")
+            st.code(packet_hex, language="text")
+            
+            # Packet structure visualization
+            st.markdown("**📊 Packet Structure:**")
+            packet_structure = analyze_packet_structure(packet_hex)
+            st.json(packet_structure)
+            
+            # Wireshark-style decode
+            st.markdown("**🦈 Protocol Decode:**")
+            st.code("""
+Frame: 64 bytes on wire
+Ethernet II: Src: 00:11:22:33:44:55, Dst: aa:bb:cc:dd:ee:ff
+Internet Protocol Version 4: Src: 192.168.1.100, Dst: 192.168.1.1
+Transmission Control Protocol: Src Port: 12345, Dst Port: 80
+    [SYN] Seq=0 Win=65535 Len=0
+            """, language="text")
+
+def vlan_subnetting_lab():
+    """Lab for VLAN and Subnetting"""
+    
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%);
+                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="color: white; margin: 0;">🌐 VLAN & Subnetting Lab</h2>
+        <p style="color: white; margin: 5px 0 0 0;">Master Network Segmentation & IP Planning</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    tabs = st.tabs(["📐 Subnet Calculator", "🏷️ VLAN Configuration", "🗺️ Network Design"])
+    
+    with tabs[0]:
+        st.markdown("#### 📐 **Advanced Subnet Calculator**")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            network_input = st.text_input("🌐 Network Address:", value="192.168.1.0/24")
+            
+            subnet_method = st.radio("📊 Subnetting Method:", [
+                "Fixed Size Subnets",
+                "Variable Length (VLSM)",
+                "Optimal Allocation"
+            ])
+            
+            if subnet_method == "Fixed Size Subnets":
+                num_subnets = st.number_input("Number of Subnets:", min_value=2, max_value=256, value=4)
+            elif subnet_method == "Variable Length (VLSM)":
+                vlsm_requirements = st.text_area(
+                    "Subnet Requirements (hosts per subnet):",
+                    value="Sales: 50\nEngineering: 100\nManagement: 20\nGuest: 10"
+                )
+            
+            if st.button("🔢 **Calculate Subnets**"):
+                subnets = calculate_subnets(network_input, subnet_method)
+                st.session_state['calculated_subnets'] = subnets
+        
+        with col2:
+            if 'calculated_subnets' in st.session_state:
+                subnets = st.session_state['calculated_subnets']
+                
+                st.markdown("**📊 Subnet Allocation:**")
+                
+                for subnet in subnets:
+                    st.info(f"""
+                    **{subnet['name']}**
+                    - Network: {subnet['network']}
+                    - Broadcast: {subnet['broadcast']}
+                    - Usable IPs: {subnet['first_host']} - {subnet['last_host']}
+                    - Total Hosts: {subnet['total_hosts']}
+                    """)
+                
+                # Visual subnet map
+                fig = create_subnet_visualization(subnets)
+                st.plotly_chart(fig, use_container_width=True)
+    
+    with tabs[1]:
+        st.markdown("#### 🏷️ **VLAN Configuration Generator**")
+        
+        vlan_data = []
+        num_vlans = st.number_input("Number of VLANs:", min_value=1, max_value=10, value=3)
+        
+        for i in range(num_vlans):
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                vlan_id = st.number_input(f"VLAN {i+1} ID:", min_value=1, max_value=4094, value=10*(i+1))
+            with col2:
+                vlan_name = st.text_input(f"VLAN {i+1} Name:", value=f"VLAN_{i+1}")
+            with col3:
+                vlan_ip = st.text_input(f"VLAN {i+1} IP:", value=f"192.168.{i+1}.0/24")
+            
+            vlan_data.append({"id": vlan_id, "name": vlan_name, "ip": vlan_ip})
+        
+        if st.button("📝 **Generate Config**"):
+            config = generate_vlan_config(vlan_data)
+            st.code(config, language="cisco")
+
+def bgp_routing_lab():
+    """Lab for BGP and Routing Protocols"""
+    
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="color: white; margin: 0;">🔗 BGP & Routing Lab</h2>
+        <p style="color: white; margin: 5px 0 0 0;">Explore Dynamic Routing Protocols</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # BGP Theory
+    with st.expander("📚 **BGP & Routing Theory**"):
+        st.markdown("""
+        ### 🌐 **BGP (Border Gateway Protocol)**
+        
+        **Path Vector Protocol** - Makes routing decisions based on:
+        - AS Path
+        - Next Hop
+        - Local Preference
+        - MED (Multi-Exit Discriminator)
+        
+        ### 🔄 **Routing Protocols Comparison**
+        
+        | Protocol | Type | Metric | Use Case |
+        |----------|------|--------|----------|
+        | **RIP** | Distance Vector | Hop Count | Small networks |
+        | **OSPF** | Link State | Cost | Enterprise |
+        | **EIGRP** | Hybrid | Composite | Cisco networks |
+        | **BGP** | Path Vector | Path Attributes | Internet |
+        """)
+    
+    # BGP Simulator
+    st.markdown("### 🎮 **BGP Route Simulator**")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        as_number = st.number_input("Your AS Number:", min_value=1, max_value=65535, value=65001)
+        
+        st.markdown("**📍 BGP Peers:**")
+        peer1 = st.text_input("Peer 1:", value="198.51.100.1 AS65002")
+        peer2 = st.text_input("Peer 2:", value="203.0.113.1 AS65003")
+        
+        advertised_routes = st.text_area(
+            "📢 Advertised Routes:",
+            value="10.0.0.0/24\n10.0.1.0/24\n10.0.2.0/24"
+        )
+        
+        if st.button("🚀 **Simulate BGP Session**"):
+            bgp_table = simulate_bgp_session(as_number, [peer1, peer2], advertised_routes)
+            st.session_state['bgp_table'] = bgp_table
+    
+    with col2:
+        if 'bgp_table' in st.session_state:
+            st.markdown("**📊 BGP Routing Table:**")
+            
+            bgp_df = pd.DataFrame(st.session_state['bgp_table'])
+            st.dataframe(bgp_df, use_container_width=True)
+            
+            # AS Path visualization
+            st.markdown("**🛤️ AS Path Analysis:**")
+            fig = create_as_path_visualization(st.session_state['bgp_table'])
+            st.plotly_chart(fig, use_container_width=True)
+
+def sdn_cloud_networking_lab():
+    """Lab for SDN and Cloud Networking"""
+    
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="color: white; margin: 0;">☁️ SDN & Cloud Networking Lab</h2>
+        <p style="color: white; margin: 5px 0 0 0;">Software-Defined Networking & Cloud Architecture</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    tabs = st.tabs(["🎛️ SDN Controller", "☁️ Cloud Network Design", "🔄 Network Automation"])
+    
+    with tabs[0]:
+        st.markdown("#### 🎛️ **OpenFlow SDN Controller**")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("**🔌 Switch Configuration:**")
+            
+            num_switches = st.slider("Number of Switches:", 1, 10, 3)
+            
+            topology_type = st.selectbox("Topology:", [
+                "Star", "Ring", "Mesh", "Tree", "Custom"
+            ])
+            
+            flow_rules = st.text_area(
+                "📝 Flow Rules (OpenFlow):",
+                value="""
+priority=100,ip,nw_dst=10.0.0.1,actions=output:1
+priority=100,ip,nw_dst=10.0.0.2,actions=output:2
+priority=50,actions=CONTROLLER
+                """.strip()
+            )
+            
+            if st.button("🎮 **Deploy SDN Config**"):
+                sdn_config = deploy_sdn_config(num_switches, topology_type, flow_rules)
+                st.session_state['sdn_config'] = sdn_config
+        
+        with col2:
+            if 'sdn_config' in st.session_state:
+                st.markdown("**📊 SDN Network Status:**")
+                
+                config = st.session_state['sdn_config']
+                
+                # Network topology visualization
+                fig = create_sdn_topology_viz(config)
+                st.plotly_chart(fig, use_container_width=True)
+                
+                # Flow table
+                st.markdown("**📋 Active Flow Table:**")
+                flow_df = pd.DataFrame(config['flows'])
+                st.dataframe(flow_df, use_container_width=True)
+    
+    with tabs[1]:
+        st.markdown("#### ☁️ **Cloud Network Architecture**")
+        
+        cloud_provider = st.selectbox("Cloud Provider:", ["AWS", "Azure", "GCP", "Multi-Cloud"])
+        
+        st.markdown("**🏗️ Network Components:**")
+        
+        components = {
+            "VPC/VNet": st.checkbox("Virtual Private Cloud", value=True),
+            "Subnets": st.checkbox("Public & Private Subnets", value=True),
+            "NAT Gateway": st.checkbox("NAT Gateway/Instance", value=True),
+            "Load Balancer": st.checkbox("Application Load Balancer", value=True),
+            "VPN": st.checkbox("Site-to-Site VPN", value=False),
+            "Direct Connect": st.checkbox("Dedicated Connection", value=False)
+        }
+        
+        if st.button("🏗️ **Generate Cloud Network**"):
+            cloud_design = generate_cloud_network(cloud_provider, components)
+            
+            st.markdown("**📐 Network Design:**")
+            st.code(cloud_design['terraform'], language="hcl")
+            
+            st.markdown("**💰 Estimated Cost:**")
+            st.metric("Monthly Cost", f"${cloud_design['cost']}", "USD")
+
+# Helper functions for new labs
+def craft_packet(packet_type: str, src_ip: str, dst_ip: str, ttl: int, payload: str) -> str:
+    """Craft custom network packet"""
+    # Simulate packet crafting
+    packet_hex = f"""
+0000   {binascii.hexlify(b'ETHERNET_HEADER').decode()[:32]}
+0010   {binascii.hexlify(src_ip.encode()).decode()[:32]}
+0020   {binascii.hexlify(dst_ip.encode()).decode()[:32]}
+0030   {binascii.hexlify(f'TTL={ttl}'.encode()).decode()[:32]}
+0040   {binascii.hexlify(payload.encode()).decode()[:32]}
+    """.strip()
+    return packet_hex
+
+def analyze_packet_structure(packet_hex: str) -> Dict:
+    """Analyze packet structure"""
+    return {
+        "ethernet": {
+            "src_mac": "00:11:22:33:44:55",
+            "dst_mac": "aa:bb:cc:dd:ee:ff",
+            "type": "0x0800 (IPv4)"
+        },
+        "ip": {
+            "version": 4,
+            "header_length": 20,
+            "ttl": 64,
+            "protocol": "TCP (6)",
+            "src_ip": "192.168.1.100",
+            "dst_ip": "192.168.1.1"
+        },
+        "tcp": {
+            "src_port": 12345,
+            "dst_port": 80,
+            "flags": ["SYN"],
+            "window": 65535
+        }
+    }
+
+def calculate_subnets(network: str, method: str) -> List[Dict]:
+    """Calculate subnet allocation"""
+    try:
+        net = ipaddress.IPv4Network(network, strict=False)
+        subnets = []
+        
+        if method == "Fixed Size Subnets":
+            subnet_list = list(net.subnets(prefixlen_diff=2))
+            for i, subnet in enumerate(subnet_list[:4]):
+                subnets.append({
+                    "name": f"Subnet_{i+1}",
+                    "network": str(subnet.network_address),
+                    "broadcast": str(subnet.broadcast_address),
+                    "first_host": str(list(subnet.hosts())[0]) if subnet.num_addresses > 2 else "N/A",
+                    "last_host": str(list(subnet.hosts())[-1]) if subnet.num_addresses > 2 else "N/A",
+                    "total_hosts": subnet.num_addresses - 2 if subnet.num_addresses > 2 else 0
+                })
+        
+        return subnets
+    except:
+        return []
+
+def create_subnet_visualization(subnets: List[Dict]):
+    """Create subnet visualization"""
+    fig = go.Figure()
+    
+    for i, subnet in enumerate(subnets):
+        fig.add_trace(go.Bar(
+            x=[subnet['name']],
+            y=[subnet['total_hosts']],
+            text=f"{subnet['network']}",
+            textposition='auto',
+            marker_color=px.colors.qualitative.Set3[i % len(px.colors.qualitative.Set3)]
+        ))
+    
+    fig.update_layout(
+        title="Subnet Allocation",
+        xaxis_title="Subnet",
+        yaxis_title="Available Hosts",
+        showlegend=False
+    )
+    
+    return fig
+
+def generate_vlan_config(vlan_data: List[Dict]) -> str:
+    """Generate VLAN configuration"""
+    config = "! VLAN Configuration\n"
+    config += "! Generated by Advanced Networking Lab\n\n"
+    
+    for vlan in vlan_data:
+        config += f"""
+vlan {vlan['id']}
+ name {vlan['name']}
+!
+interface Vlan{vlan['id']}
+ ip address {vlan['ip'].split('/')[0]} 255.255.255.0
+ no shutdown
+!
+"""
+    
+    return config.strip()
+
+def simulate_bgp_session(as_num: int, peers: List[str], routes: str) -> List[Dict]:
+    """Simulate BGP routing table"""
+    bgp_table = []
+    route_list = routes.strip().split('\n')
+    
+    for route in route_list:
+        for peer in peers:
+            peer_ip, peer_as = peer.split(' ')
+            bgp_table.append({
+                "Network": route,
+                "Next_Hop": peer_ip,
+                "AS_Path": f"{peer_as.replace('AS', '')} {as_num}",
+                "Local_Pref": 100,
+                "MED": random.randint(0, 100),
+                "Origin": "IGP",
+                "Status": "Valid" if random.random() > 0.2 else "Invalid"
+            })
+    
+    return bgp_table
+
+def create_as_path_visualization(bgp_table: List[Dict]):
+    """Create AS path visualization"""
+    fig = go.Figure()
+    
+    # Create Sankey diagram for AS paths
+    as_paths = [entry['AS_Path'] for entry in bgp_table]
+    
+    # Simple bar chart as placeholder
+    path_counts = {}
+    for path in as_paths:
+        path_counts[path] = path_counts.get(path, 0) + 1
+    
+    fig.add_trace(go.Bar(
+        x=list(path_counts.keys()),
+        y=list(path_counts.values()),
+        marker_color='lightblue'
+    ))
+    
+    fig.update_layout(
+        title="AS Path Distribution",
+        xaxis_title="AS Path",
+        yaxis_title="Route Count"
+    )
+    
+    return fig
+
+def deploy_sdn_config(num_switches: int, topology: str, flow_rules: str) -> Dict:
+    """Deploy SDN configuration"""
+    flows = []
+    for i, rule in enumerate(flow_rules.strip().split('\n')):
+        if rule:
+            flows.append({
+                "id": i+1,
+                "rule": rule,
+                "packets": random.randint(100, 10000),
+                "bytes": random.randint(10000, 1000000)
+            })
+    
+    return {
+        "switches": num_switches,
+        "topology": topology,
+        "flows": flows,
+        "status": "Active"
+    }
+
+def create_sdn_topology_viz(config: Dict):
+    """Create SDN topology visualization"""
+    fig = go.Figure()
+    
+    # Create network nodes
+    num_switches = config['switches']
+    
+    # Generate positions based on topology
+    if config['topology'] == 'Star':
+        angles = [2 * np.pi * i / num_switches for i in range(num_switches)]
+        x = [np.cos(angle) for angle in angles]
+        y = [np.sin(angle) for angle in angles]
+        x.append(0)  # Controller at center
+        y.append(0)
+    else:
+        x = list(range(num_switches + 1))
+        y = [0] * (num_switches + 1)
+    
+    # Add switches
+    fig.add_trace(go.Scatter(
+        x=x[:-1], y=y[:-1],
+        mode='markers+text',
+        marker=dict(size=30, color='blue'),
+        text=[f"S{i+1}" for i in range(num_switches)],
+        textposition="top center",
+        name="Switches"
+    ))
+    
+    # Add controller
+    fig.add_trace(go.Scatter(
+        x=[x[-1]], y=[y[-1]],
+        mode='markers+text',
+        marker=dict(size=40, color='red', symbol='star'),
+        text=["Controller"],
+        textposition="top center",
+        name="Controller"
+    ))
+    
+    fig.update_layout(
+        title="SDN Network Topology",
+        showlegend=True,
+        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False)
+    )
+    
+    return fig
+
+def generate_cloud_network(provider: str, components: Dict) -> Dict:
+    """Generate cloud network design"""
+    terraform_code = f"""
+# {provider} Network Infrastructure
+
+resource "aws_vpc" "main" {{
+  cidr_block = "10.0.0.0/16"
+  
+  tags = {{
+    Name = "main-vpc"
+  }}
+}}
+
+resource "aws_subnet" "public" {{
+  vpc_id     = aws_vpc.main.id
+  cidr_block = "10.0.1.0/24"
+  
+  tags = {{
+    Name = "public-subnet"
+  }}
+}}
+
+resource "aws_subnet" "private" {{
+  vpc_id     = aws_vpc.main.id
+  cidr_block = "10.0.2.0/24"
+  
+  tags = {{
+    Name = "private-subnet"
+  }}
+}}
+    """
+    
+    # Calculate estimated cost
+    base_cost = 50
+    for component, enabled in components.items():
+        if enabled:
+            base_cost += random.randint(10, 100)
+    
+    return {
+        "terraform": terraform_code.strip(),
+        "cost": base_cost
+    }

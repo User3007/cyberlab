@@ -2,32 +2,104 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 import random
 import hashlib
 import base64
+import binascii
+import hmac
+import struct
+import socket
 from datetime import datetime, timedelta
 import json
+import re
+from typing import Dict, List, Tuple, Optional, Any
+from dataclasses import dataclass
+from enum import Enum
+import numpy as np
+import concurrent.futures
+import asyncio
 
 def run_lab():
-    """Wireless Security Lab - Học về bảo mật mạng không dây"""
+    """Wireless Security Lab - Master WiFi Security & Attack Techniques"""
     
-    st.title("📡 Wireless Security Lab")
-    st.markdown("---")
+    # Enhanced header with gradient animation
+    st.markdown("""
+    <style>
+    .wifi-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 2.5rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        position: relative;
+        overflow: hidden;
+    }
+    .wifi-wave {
+        animation: wave 3s ease-in-out infinite;
+    }
+    @keyframes wave {
+        0%, 100% { transform: translateX(-100%); }
+        50% { transform: translateX(100%); }
+    }
+    .security-badge {
+        background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        display: inline-block;
+        margin: 0.5rem;
+        color: white;
+        font-weight: bold;
+    }
+    </style>
+    """, unsafe_allow_html=True)
     
-    # Tabs cho các bài thực hành khác nhau
-    tab1, tab2, tab3, tab4, tab5 = st.tabs([
-        "🔍 WiFi Network Discovery", 
-        "🔐 WPA/WEP Analysis",
-        "📊 Signal Analysis", 
+    st.markdown("""
+    <div class="wifi-header">
+        <h1 style="color: white; text-align: center; margin: 0; font-size: 2.5rem;">
+            📡 Wireless Security Lab
+        </h1>
+        <p style="color: white; text-align: center; margin-top: 10px; font-size: 1.2rem;">
+            Advanced WiFi Hacking, Defense & Forensics
+        </p>
+        <div style="text-align: center; margin-top: 20px;">
+            <span class="security-badge">802.11 a/b/g/n/ac/ax</span>
+            <span class="security-badge">WEP/WPA/WPA2/WPA3</span>
+            <span class="security-badge">2.4GHz/5GHz/6GHz</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Quick WiFi Standards Reference
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("🌐 802.11ax", "WiFi 6E", "6 GHz Band")
+    with col2:
+        st.metric("🔒 WPA3", "Latest Security", "SAE Auth")
+    with col3:
+        st.metric("📡 Channels", "14 (2.4GHz)", "165 (5GHz)")
+    with col4:
+        st.metric("⚡ Speed", "9.6 Gbps", "WiFi 6 Max")
+    
+    # Enhanced tabs with more labs
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
+        "🔍 WiFi Discovery",
+        "🔐 WPA/WEP Cracking",
+        "📊 Signal Analysis",
         "🚫 Rogue AP Detection",
-        "🛡️ Wireless Security Assessment"
+        "🎯 Evil Twin Attack",
+        "🔑 WPS Attack",
+        "📡 Deauth Attack",
+        "🕵️ WiFi Forensics",
+        "🛡️ Defense Strategies",
+        "📊 Security Assessment"
     ])
     
     with tab1:
         wifi_discovery_lab()
     
     with tab2:
-        wpa_wep_analysis_lab()
+        wpa_wep_cracking_lab()
     
     with tab3:
         signal_analysis_lab()
@@ -36,6 +108,21 @@ def run_lab():
         rogue_ap_detection_lab()
         
     with tab5:
+        evil_twin_attack_lab()
+        
+    with tab6:
+        wps_attack_lab()
+        
+    with tab7:
+        deauth_attack_lab()
+        
+    with tab8:
+        wifi_forensics_lab()
+        
+    with tab9:
+        defense_strategies_lab()
+        
+    with tab10:
         wireless_security_assessment_lab()
 
 def wifi_discovery_lab():
@@ -115,7 +202,7 @@ def wifi_discovery_lab():
                 fig_signal.update_xaxis(tickangle=45)
                 st.plotly_chart(fig_signal, width='stretch')
 
-def wpa_wep_analysis_lab():
+def wpa_wep_cracking_lab():
     """Lab WPA/WEP Analysis"""
     st.subheader("🔐 WPA/WEP Analysis Lab")
     
@@ -698,3 +785,593 @@ def run_wireless_assessment(scope, compliance_standard):
         'action_items': action_items,
         'assessment_scope': scope
     }
+
+# New advanced wireless security labs
+def evil_twin_attack_lab():
+    """Lab for Evil Twin Attack simulation"""
+    
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #ff6a00 0%, #ee0979 100%);
+                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="color: white; margin: 0;">🎯 Evil Twin Attack Lab</h2>
+        <p style="color: white; margin: 5px 0 0 0;">Create Fake Access Points to Harvest Credentials</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Warning message
+    st.error("""
+    ⚠️ **CRITICAL WARNING**: Evil Twin attacks are illegal without explicit permission.
+    This lab is for educational purposes only in controlled environments.
+    """)
+    
+    # Theory section with diagrams
+    with st.expander("📚 **Evil Twin Attack Theory**", expanded=False):
+        st.markdown("""
+        ### 🎭 **How Evil Twin Works**
+        
+        ```
+        Attack Flow:
+        ┌──────────┐     Deauth     ┌──────────┐
+        │ Victim   │ <-------------- │ Attacker │
+        └──────────┘                 └──────────┘
+             │                            │
+             │   Connect to Fake AP       │
+             └──────────────────────────>│
+             │                            │
+             │   Enter Credentials        │
+             └──────────────────────────>│
+                                          │
+                              Harvest Credentials
+        ```
+        
+        ### 🛠️ **Attack Components**
+        
+        | Component | Purpose | Tools |
+        |-----------|---------|-------|
+        | **Deauth Attack** | Force disconnection | aireplay-ng |
+        | **Fake AP** | Impersonate legitimate AP | hostapd |
+        | **Captive Portal** | Credential harvesting | Apache/nginx |
+        | **DNS Server** | Redirect all traffic | dnsmasq |
+        
+        ### 📡 **Attack Stages**
+        
+        1. **Reconnaissance**: Identify target network
+        2. **Deauthentication**: Disconnect legitimate users
+        3. **AP Cloning**: Create identical fake AP
+        4. **Portal Setup**: Deploy phishing page
+        5. **Credential Harvest**: Capture passwords
+        """)
+    
+    # Attack configuration
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### ⚙️ **Attack Configuration**")
+        
+        target_ssid = st.text_input("🎯 Target SSID:", value="CompanyWiFi")
+        target_bssid = st.text_input("📡 Target BSSID:", value="AA:BB:CC:DD:EE:FF")
+        
+        attack_mode = st.selectbox("🎭 Attack Mode:", [
+            "Basic Evil Twin",
+            "WPA2 Enterprise Evil Twin",
+            "Captive Portal with SSL",
+            "Advanced KARMA Attack"
+        ])
+        
+        portal_template = st.selectbox("📄 Portal Template:", [
+            "Generic WiFi Login",
+            "Corporate Portal",
+            "Hotel WiFi",
+            "Airport WiFi",
+            "Coffee Shop",
+            "Custom HTML"
+        ])
+        
+        if st.button("🚀 **Launch Evil Twin**", type="primary"):
+            st.error("⛔ This is a simulation only - no actual attack performed")
+            results = simulate_evil_twin(target_ssid, attack_mode, portal_template)
+            st.session_state['evil_twin_results'] = results
+    
+    with col2:
+        st.markdown("#### 📊 **Attack Results**")
+        
+        if 'evil_twin_results' in st.session_state:
+            results = st.session_state['evil_twin_results']
+            
+            # Attack metrics
+            col_a, col_b = st.columns(2)
+            with col_a:
+                st.metric("👥 Victims Connected", results['victims_connected'])
+            with col_b:
+                st.metric("🔑 Credentials Captured", results['credentials_captured'])
+            
+            # Captured credentials (simulated)
+            st.markdown("**📋 Captured Credentials (Simulated):**")
+            creds_df = pd.DataFrame(results['credentials'])
+            st.dataframe(creds_df, use_container_width=True)
+            
+            # Detection indicators
+            with st.expander("🔍 **Detection Indicators**"):
+                st.markdown("""
+                **Signs of Evil Twin Attack:**
+                - 🔴 Duplicate SSIDs with different BSSIDs
+                - 🟡 Sudden disconnections
+                - 🟠 Certificate warnings
+                - 🔵 Unusual captive portal
+                - 🟣 Signal strength anomalies
+                """)
+
+def wps_attack_lab():
+    """Lab for WPS Attack techniques"""
+    
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="color: white; margin: 0;">🔑 WPS Attack Lab</h2>
+        <p style="color: white; margin: 5px 0 0 0;">Exploit WiFi Protected Setup Vulnerabilities</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # WPS Theory
+    with st.expander("📚 **WPS Vulnerability Theory**"):
+        st.markdown("""
+        ### 🔓 **WPS PIN Structure**
+        
+        ```
+        8-digit PIN: XXXX XXXX
+                     ↓     ↓
+                   Part1  Part2
+                   
+        Total combinations: 10^8 = 100,000,000
+        BUT... with vulnerability:
+        Part1: 10^4 = 10,000 attempts
+        Part2: 10^3 = 1,000 attempts
+        Total: 11,000 attempts (max)
+        ```
+        
+        ### 🎯 **Attack Methods**
+        
+        | Attack | Description | Time | Success Rate |
+        |--------|-------------|------|--------------|
+        | **Online Brute Force** | Try all PINs | 4-10 hours | High |
+        | **Pixie Dust** | Exploit weak RNG | < 1 minute | Medium |
+        | **Offline Attack** | Capture & crack | Variable | High |
+        | **NULL PIN** | Some routers accept empty PIN | Instant | Low |
+        """)
+    
+    # WPS Attack Interface
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### 🎯 **Target Selection**")
+        
+        # Scan for WPS-enabled APs
+        if st.button("📡 Scan for WPS Networks"):
+            wps_networks = scan_wps_networks()
+            st.session_state['wps_networks'] = wps_networks
+        
+        if 'wps_networks' in st.session_state:
+            wps_df = pd.DataFrame(st.session_state['wps_networks'])
+            selected_network = st.selectbox(
+                "Select Target:",
+                wps_df['SSID'].tolist() if not wps_df.empty else []
+            )
+            
+            attack_method = st.selectbox("🔨 Attack Method:", [
+                "Reaver (Online Brute Force)",
+                "Pixie Dust Attack",
+                "Bully Attack",
+                "Custom PIN List"
+            ])
+            
+            if attack_method == "Custom PIN List":
+                custom_pins = st.text_area(
+                    "Enter PIN list:",
+                    value="12345670\n00000000\n11111111"
+                )
+            
+            if st.button("⚡ **Start WPS Attack**"):
+                attack_results = simulate_wps_attack(selected_network, attack_method)
+                st.session_state['wps_attack_results'] = attack_results
+    
+    with col2:
+        st.markdown("#### 📊 **Attack Progress**")
+        
+        if 'wps_attack_results' in st.session_state:
+            results = st.session_state['wps_attack_results']
+            
+            # Progress bar
+            progress = results['progress']
+            st.progress(progress / 100)
+            st.metric("📌 PINs Tested", f"{results['pins_tested']}/11000")
+            
+            if results['cracked']:
+                st.success(f"✅ **WPS PIN Found:** {results['pin']}")
+                st.success(f"🔑 **PSK:** {results['psk']}")
+            else:
+                st.warning("⏳ Attack in progress...")
+            
+            # Attack log
+            st.markdown("**📝 Attack Log:**")
+            st.code(results['log'], language="text")
+
+def deauth_attack_lab():
+    """Lab for Deauthentication Attack"""
+    
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="color: white; margin: 0;">📡 Deauthentication Attack Lab</h2>
+        <p style="color: white; margin: 5px 0 0 0;">Disconnect WiFi Clients Using 802.11 Management Frames</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Deauth Theory
+    with st.expander("📚 **802.11 Deauthentication Theory**"):
+        st.markdown("""
+        ### 📡 **802.11 Management Frames**
+        
+        ```
+        Deauth Frame Structure:
+        ┌────────────┬────────────┬────────────┬────────────┐
+        │ Frame Ctrl │ Duration   │ Dest Addr  │ Src Addr   │
+        │ (2 bytes)  │ (2 bytes)  │ (6 bytes)  │ (6 bytes)  │
+        ├────────────┼────────────┼────────────┴────────────┤
+        │ BSSID      │ Seq Ctrl   │ Reason Code              │
+        │ (6 bytes)  │ (2 bytes)  │ (2 bytes)                │
+        └────────────┴────────────┴──────────────────────────┘
+        ```
+        
+        ### 🔴 **Reason Codes**
+        
+        | Code | Description | Use Case |
+        |------|-------------|----------|
+        | 1 | Unspecified reason | Generic disconnect |
+        | 2 | Previous auth invalid | Force reauth |
+        | 3 | Station leaving | Clean disconnect |
+        | 4 | Inactivity | Timeout simulation |
+        | 6 | Class 2 frame error | Protocol violation |
+        | 7 | Class 3 frame error | Association required |
+        """)
+    
+    # Deauth Attack Interface
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### ⚙️ **Attack Parameters**")
+        
+        target_ap = st.text_input("🎯 Target AP MAC:", value="AA:BB:CC:DD:EE:FF")
+        target_client = st.text_input("👤 Target Client MAC:", value="11:22:33:44:55:66")
+        
+        attack_type = st.radio("🎭 Attack Type:", [
+            "Targeted (Single Client)",
+            "Broadcast (All Clients)",
+            "AP Impersonation"
+        ])
+        
+        reason_code = st.selectbox("📝 Reason Code:", [
+            "1 - Unspecified",
+            "2 - Previous Auth Invalid",
+            "3 - Station Leaving",
+            "4 - Inactivity",
+            "6 - Class 2 Frame Error",
+            "7 - Class 3 Frame Error"
+        ])
+        
+        packet_count = st.slider("📦 Packets to Send:", 1, 1000, 100)
+        
+        if st.button("💥 **Send Deauth Packets**"):
+            results = simulate_deauth_attack(
+                target_ap, target_client, attack_type, 
+                int(reason_code.split(' ')[0]), packet_count
+            )
+            st.session_state['deauth_results'] = results
+    
+    with col2:
+        st.markdown("#### 📊 **Attack Results**")
+        
+        if 'deauth_results' in st.session_state:
+            results = st.session_state['deauth_results']
+            
+            # Attack statistics
+            col_a, col_b, col_c = st.columns(3)
+            with col_a:
+                st.metric("📤 Packets Sent", results['packets_sent'])
+            with col_b:
+                st.metric("✅ Success Rate", f"{results['success_rate']}%")
+            with col_c:
+                st.metric("⏱️ Duration", f"{results['duration']}s")
+            
+            # Packet hexdump
+            st.markdown("**🔍 Sample Deauth Frame (Hex):**")
+            st.code(results['packet_hex'], language="text")
+            
+            # Defense recommendations
+            with st.expander("🛡️ **Defense Against Deauth**"):
+                st.markdown("""
+                **Protection Methods:**
+                - ✅ **802.11w (PMF)**: Management Frame Protection
+                - 🔐 **WPA3**: Includes PMF by default
+                - 📡 **Channel Monitoring**: Detect anomalies
+                - 🚫 **MAC Filtering**: Limited effectiveness
+                - 📊 **IDS/IPS**: Detect attack patterns
+                """)
+
+def wifi_forensics_lab():
+    """Lab for WiFi Forensics and Analysis"""
+    
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%);
+                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="color: white; margin: 0;">🕵️ WiFi Forensics Lab</h2>
+        <p style="color: white; margin: 5px 0 0 0;">Analyze WiFi Traffic and Extract Evidence</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    tabs = st.tabs(["📦 Packet Analysis", "🔑 Handshake Capture", "📊 Traffic Patterns", "🗺️ Device Tracking"])
+    
+    with tabs[0]:
+        st.markdown("#### 📦 **PCAP Analysis**")
+        
+        # File upload simulation
+        st.markdown("**📁 Upload PCAP File:**")
+        uploaded_file = st.file_uploader("Choose PCAP file", type=['pcap', 'pcapng', 'cap'])
+        
+        if uploaded_file or st.button("📊 Use Sample PCAP"):
+            # Analyze PCAP
+            pcap_analysis = analyze_pcap_file(uploaded_file)
+            
+            # Display statistics
+            st.markdown("**📊 Capture Statistics:**")
+            stats_df = pd.DataFrame([pcap_analysis['stats']])
+            st.dataframe(stats_df, use_container_width=True)
+            
+            # Protocol distribution
+            fig = px.pie(
+                values=list(pcap_analysis['protocols'].values()),
+                names=list(pcap_analysis['protocols'].keys()),
+                title="Protocol Distribution"
+            )
+            st.plotly_chart(fig, use_container_width=True)
+            
+            # Suspicious activities
+            if pcap_analysis['suspicious']:
+                st.warning("⚠️ **Suspicious Activities Detected:**")
+                for activity in pcap_analysis['suspicious']:
+                    st.write(f"- {activity}")
+    
+    with tabs[1]:
+        st.markdown("#### 🔑 **WPA Handshake Analysis**")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("**🎯 Handshake Components:**")
+            
+            handshake_parts = {
+                "EAPOL 1": st.checkbox("Message 1 (ANonce)", value=True),
+                "EAPOL 2": st.checkbox("Message 2 (SNonce + MIC)", value=True),
+                "EAPOL 3": st.checkbox("Message 3 (GTK)", value=False),
+                "EAPOL 4": st.checkbox("Message 4 (Confirmation)", value=False)
+            }
+            
+            if st.button("🔍 Analyze Handshake"):
+                analysis = analyze_handshake(handshake_parts)
+                st.session_state['handshake_analysis'] = analysis
+        
+        with col2:
+            if 'handshake_analysis' in st.session_state:
+                analysis = st.session_state['handshake_analysis']
+                
+                st.markdown("**📊 Handshake Quality:**")
+                quality_score = analysis['quality']
+                st.progress(quality_score / 100)
+                
+                if quality_score >= 75:
+                    st.success("✅ Valid handshake captured!")
+                    st.info(f"**PMK:** {analysis['pmk'][:16]}...")
+                    st.info(f"**PTK:** {analysis['ptk'][:16]}...")
+                else:
+                    st.error("❌ Incomplete handshake")
+
+def defense_strategies_lab():
+    """Lab for WiFi Defense Strategies"""
+    
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="color: white; margin: 0;">🛡️ WiFi Defense Strategies Lab</h2>
+        <p style="color: white; margin: 5px 0 0 0;">Implement Robust Wireless Security Measures</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Defense categories
+    defense_categories = {
+        "🔐 Encryption": ["WPA3", "802.11w PMF", "VPN over WiFi", "Certificate-based Auth"],
+        "📡 Network Design": ["VLAN Segmentation", "Guest Isolation", "Hidden SSID", "MAC Filtering"],
+        "📊 Monitoring": ["WIDS/WIPS", "Rogue AP Detection", "Anomaly Detection", "Log Analysis"],
+        "⚙️ Configuration": ["Strong PSK", "Disable WPS", "Regular Updates", "Secure Management"]
+    }
+    
+    st.markdown("### 🎯 **Security Hardening Checklist**")
+    
+    total_items = sum(len(items) for items in defense_categories.values())
+    checked_items = 0
+    
+    for category, items in defense_categories.items():
+        st.markdown(f"#### {category}")
+        cols = st.columns(2)
+        for i, item in enumerate(items):
+            with cols[i % 2]:
+                if st.checkbox(item, key=f"defense_{item}"):
+                    checked_items += 1
+    
+    # Security score
+    security_score = (checked_items / total_items) * 100
+    
+    st.markdown("---")
+    st.markdown("### 📊 **Security Posture Score**")
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("🔒 Security Score", f"{security_score:.0f}%")
+    with col2:
+        st.metric("✅ Implemented", f"{checked_items}/{total_items}")
+    with col3:
+        if security_score >= 80:
+            st.success("🟢 Excellent")
+        elif security_score >= 60:
+            st.warning("🟡 Good")
+        else:
+            st.error("🔴 Needs Improvement")
+    
+    # Generate security report
+    if st.button("📄 **Generate Security Report**"):
+        report = generate_security_report(checked_items, total_items, security_score)
+        st.markdown("### 📋 **WiFi Security Assessment Report**")
+        st.code(report, language="markdown")
+
+# Helper functions for new labs
+def simulate_evil_twin(ssid: str, mode: str, template: str) -> Dict:
+    """Simulate Evil Twin attack results"""
+    return {
+        'victims_connected': random.randint(5, 20),
+        'credentials_captured': random.randint(2, 10),
+        'credentials': [
+            {'Time': f"00:{i:02d}:00", 'Username': f"user{i}", 'Password': "***hidden***", 'IP': f"192.168.1.{100+i}"}
+            for i in range(random.randint(2, 5))
+        ],
+        'attack_duration': random.randint(10, 60)
+    }
+
+def scan_wps_networks() -> List[Dict]:
+    """Scan for WPS-enabled networks"""
+    networks = []
+    ssids = ["HomeRouter", "NETGEAR_5G", "Linksys_2.4G", "TP-LINK_Guest", "D-Link_Office"]
+    
+    for ssid in random.sample(ssids, random.randint(2, 5)):
+        networks.append({
+            'SSID': ssid,
+            'BSSID': f"{random.randint(0,255):02X}:{random.randint(0,255):02X}:{random.randint(0,255):02X}:{random.randint(0,255):02X}:{random.randint(0,255):02X}:{random.randint(0,255):02X}",
+            'Channel': random.randint(1, 11),
+            'WPS': 'Enabled',
+            'WPS_Version': f"2.{random.randint(0, 1)}",
+            'Locked': random.choice(['No', 'Yes']) if random.random() > 0.7 else 'No'
+        })
+    
+    return networks
+
+def simulate_wps_attack(network: str, method: str) -> Dict:
+    """Simulate WPS attack"""
+    pins_tested = random.randint(100, 5000)
+    progress = min(100, (pins_tested / 11000) * 100)
+    cracked = random.random() > 0.3
+    
+    log = f"""
+[+] Starting WPS attack on {network}
+[+] Attack method: {method}
+[+] WPS PIN attack started
+[*] Trying PIN: 12345670
+[*] Trying PIN: 00000000
+[*] Trying PIN: 11111111
+[*] Trying PIN: 87654321
+[*] Progress: {pins_tested}/11000 PINs tested
+    """.strip()
+    
+    if cracked:
+        pin = f"{random.randint(10000000, 99999999)}"
+        psk = hashlib.md5(f"{network}{pin}".encode()).hexdigest()[:16]
+        log += f"\n[+] WPS PIN found: {pin}\n[+] PSK: {psk}"
+    
+    return {
+        'progress': progress,
+        'pins_tested': pins_tested,
+        'cracked': cracked,
+        'pin': f"{random.randint(10000000, 99999999)}" if cracked else None,
+        'psk': hashlib.md5(f"{network}".encode()).hexdigest()[:16] if cracked else None,
+        'log': log
+    }
+
+def simulate_deauth_attack(ap: str, client: str, attack_type: str, reason: int, count: int) -> Dict:
+    """Simulate deauthentication attack"""
+    
+    # Generate sample deauth frame hex
+    packet_hex = f"""
+0000   c0 00 3a 01 {client.replace(':', ' ')}
+0010   {ap.replace(':', ' ')} {ap.replace(':', ' ')}
+0020   00 00 {reason:02x} 00
+    """.strip()
+    
+    return {
+        'packets_sent': count,
+        'success_rate': random.randint(85, 100),
+        'duration': count * 0.01,
+        'packet_hex': packet_hex,
+        'clients_affected': random.randint(1, 10) if attack_type == "Broadcast (All Clients)" else 1
+    }
+
+def analyze_pcap_file(file) -> Dict:
+    """Analyze PCAP file for forensics"""
+    return {
+        'stats': {
+            'Total Packets': random.randint(1000, 50000),
+            'Duration': f"{random.randint(1, 60)} minutes",
+            'Unique MACs': random.randint(10, 100),
+            'Unique SSIDs': random.randint(5, 20)
+        },
+        'protocols': {
+            'Management': random.randint(100, 1000),
+            'Control': random.randint(50, 500),
+            'Data': random.randint(500, 10000),
+            'Encrypted': random.randint(300, 5000)
+        },
+        'suspicious': [
+            "Deauthentication flood detected",
+            "Possible Evil Twin (duplicate SSID)",
+            "WPS brute force attempt",
+            "Unusual beacon interval"
+        ] if random.random() > 0.5 else []
+    }
+
+def analyze_handshake(parts: Dict) -> Dict:
+    """Analyze WPA handshake"""
+    complete = sum(1 for v in parts.values() if v)
+    quality = (complete / 4) * 100
+    
+    return {
+        'quality': quality,
+        'complete': complete == 4,
+        'pmk': hashlib.sha256(b"pairwise_master_key").hexdigest(),
+        'ptk': hashlib.sha256(b"pairwise_transient_key").hexdigest(),
+        'messages_captured': complete
+    }
+
+def generate_security_report(implemented: int, total: int, score: float) -> str:
+    """Generate WiFi security report"""
+    grade = 'A' if score >= 90 else 'B' if score >= 80 else 'C' if score >= 70 else 'D' if score >= 60 else 'F'
+    
+    return f"""
+# WiFi Security Assessment Report
+
+**Date:** {datetime.now().strftime('%Y-%m-%d %H:%M')}
+**Overall Score:** {score:.1f}%
+**Grade:** {grade}
+
+## Security Metrics
+- Controls Implemented: {implemented}/{total}
+- Critical Findings: {random.randint(0, 3)}
+- Medium Findings: {random.randint(2, 5)}
+- Low Findings: {random.randint(3, 8)}
+
+## Recommendations
+1. Upgrade to WPA3 for enhanced security
+2. Implement 802.11w for management frame protection
+3. Deploy wireless IDS/IPS system
+4. Regular security audits and updates
+5. Employee security awareness training
+
+## Compliance Status
+- PCI DSS: {'Compliant' if score >= 80 else 'Non-Compliant'}
+- ISO 27001: {'Compliant' if score >= 75 else 'Partial'}
+- NIST: {'Compliant' if score >= 70 else 'Non-Compliant'}
+    """.strip()

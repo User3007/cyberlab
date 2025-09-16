@@ -49,8 +49,7 @@ from ..components.itsm import (
 
 # Import networking components
 from ..components.networking.common_protocols import explain_common_protocols
-# from ..components.networking.network_models import explain_network_models
-# from ..components.networking.routing_switching import explain_routing_switching
+from ..components.networking import explain_network_models, explain_routing_switching, explain_network_security_basics
 
 
 def run_lab():
@@ -110,8 +109,10 @@ def computer_systems_lab():
     if topic_choice == "Computer Architecture":
         explain_computer_architecture()
     elif topic_choice == "CPU & Memory":
+        from ..components.systems import explain_cpu_memory
         explain_cpu_memory()
     elif topic_choice == "Storage Systems":
+        from ..components.systems import explain_storage_systems
         explain_storage_systems()
     elif topic_choice == "Input/Output Systems":
         explain_io_systems()
@@ -132,13 +133,11 @@ def networking_basics_lab():
     ], key="it_networking_topic")
     
     if networking_topic == "Network Models (OSI/TCP-IP)":
-        # explain_network_models()  # Will be implemented
-        st.info("🚧 Network Models component is being refactored. Coming soon!")
+        explain_network_models()
     elif networking_topic == "Network Protocols":
         explain_common_protocols()
     elif networking_topic == "Routing & Switching":
-        # explain_routing_switching()  # Will be implemented
-        st.info("🚧 Routing & Switching component is being refactored. Coming soon!")
+        explain_routing_switching()
     elif networking_topic == "Network Troubleshooting":
         explain_network_troubleshooting()
     elif networking_topic == "Network Security Basics":
@@ -169,6 +168,7 @@ def operating_systems_lab():
     elif os_topic == "File Systems":
         explain_file_systems()
     elif os_topic == "OS Security":
+        from ..components.systems import explain_os_security
         explain_os_security()
 
 
@@ -181,7 +181,8 @@ def database_fundamentals_lab():
         "Relational Databases",
         "SQL Fundamentals",
         "Database Design",
-        "Database Security"
+        "Database Security",
+        "NoSQL Databases"
     ], key="it_db_topic")
     
     if db_topic == "Database Concepts":
@@ -194,6 +195,9 @@ def database_fundamentals_lab():
         explain_database_design()
     elif db_topic == "Database Security":
         explain_database_security()
+    elif db_topic == "NoSQL Databases":
+        from ..components.systems import explain_nosql_databases
+        explain_nosql_databases()
 
 
 def system_administration_lab():
@@ -253,16 +257,6 @@ def it_service_management_lab():
 # Legacy functions that still need to be refactored
 # These will be gradually moved to components
 
-def explain_cpu_memory():
-    """CPU & Memory explanation - to be refactored"""
-    st.markdown("### ⚡ CPU & Memory")
-    st.info("🚧 CPU & Memory component is being refactored. Coming soon!")
-
-
-def explain_storage_systems():
-    """Storage systems explanation - to be refactored"""
-    st.markdown("### 💾 Storage Systems")
-    st.info("🚧 Storage Systems component is being refactored. Coming soon!")
 
 
 def explain_io_systems():
@@ -282,28 +276,12 @@ def explain_network_troubleshooting():
     _impl()
 
 
-def explain_network_security_basics():
-    """Network security basics - to be refactored"""
-    st.markdown("### 🔒 Network Security Basics")
-    st.info("🚧 Network Security Basics component is being refactored. Coming soon!")
-
-
-def explain_os_security():
-    """OS security - to be refactored"""
-    st.markdown("### 🔒 OS Security")
-    st.info("🚧 OS Security component is being refactored. Coming soon!")
 
 
 def explain_database_security():
     """Database security - to be refactored"""
     st.markdown("### 🔒 Database Security")
     st.info("🚧 Database Security component is being refactored. Coming soon!")
-
-
-def explain_nosql_databases():
-    """NoSQL databases - to be refactored"""
-    st.markdown("### 🗃️ NoSQL Databases")
-    st.info("🚧 NoSQL Databases component is being refactored. Coming soon!")
 
 
 def explain_automation_scripting():

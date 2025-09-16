@@ -14,3 +14,11 @@ qrcode==8.2
 pycryptodome==3.23.0
 paramiko==4.0.0
 psutil==7.0.0
+PyJWT==2.8.0
+defusedxml==0.7.1
+ipaddress==1.0.23
+xmltodict==0.13.0
+lxml==4.9.3
+python-dateutil==2.8.2
+urllib3==2.2.3
+certifi==2024.8.30

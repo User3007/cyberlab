@@ -68,11 +68,10 @@ try:
 except ImportError:
     _network_troubleshooting_available = False
 
-# Placeholder functions for components not yet implemented
-def explain_network_models():
-    """Placeholder for network models component"""
-    import streamlit as st
-    st.info(" Network Models component is being refactored. Coming soon!")
+# Import working networking components
+from .network_models import explain_network_models
+from .routing_switching import explain_routing_switching
+from .network_security_basics import explain_network_security_basics
 
 __all__ = []
 if _osi_model_available:
@@ -83,8 +82,6 @@ if _network_protocols_available:
     __all__.append('explain_network_protocols')
 if _ip_addressing_available:
     __all__.append('explain_ip_addressing')
-if _routing_switching_available:
-    __all__.append('explain_routing_switching')
 if _network_topologies_available:
     __all__.append('explain_network_topologies')
 if _ip_subnetting_available:
@@ -96,6 +93,9 @@ if _common_protocols_available:
 if _network_troubleshooting_available:
     __all__.append('explain_network_troubleshooting')
 
+# Add working components
 __all__.extend([
-    'explain_network_models'
+    'explain_network_models',
+    'explain_routing_switching', 
+    'explain_network_security_basics'
 ])
