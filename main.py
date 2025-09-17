@@ -6,7 +6,7 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), 'labs'))
 
 # Import các lab modules
-from labs import network_security, web_security, cryptography_lab, digital_forensics, advanced_networking, wireless_security, theory_concepts, it_fundamentals, software_development
+from labs import network_fundamentals, network_advanced, network_security, web_security, cryptography_lab, digital_forensics, wireless_security, theory_concepts, it_fundamentals, software_development, linux_os, python_lab, ai_ml_security, cloud_security, devsecops
 
 def main():
     st.set_page_config(
@@ -52,8 +52,14 @@ def main():
             "📚 Theory & Concepts",
             "💻 IT Fundamentals",
             "💾 Software Development",
-            "🌐 Network Security",
-            "🌍 Advanced Networking",
+            "🐍 Python Programming",
+            "🐧 Linux OS Security",
+            "🌐 Network Fundamentals",
+            "🌍 Network Advanced",
+            "🔒 Network Security",
+            "🤖 AI/ML Security",
+            "☁️ Cloud Security",
+            "🔧 DevSecOps",
             "📡 Wireless Security",
             "🕸️ Web Security", 
             "🔐 Cryptography",
@@ -70,10 +76,22 @@ def main():
         it_fundamentals.run_lab()
     elif lab_choice == "💾 Software Development":
         software_development.run_lab()
-    elif lab_choice == "🌐 Network Security":
+    elif lab_choice == "🐍 Python Programming":
+        python_lab.run_lab()
+    elif lab_choice == "🐧 Linux OS Security":
+        linux_os.run_lab()
+    elif lab_choice == "🌐 Network Fundamentals":
+        network_fundamentals.run_lab()
+    elif lab_choice == "🌍 Network Advanced":
+        network_advanced.run_lab()
+    elif lab_choice == "🔒 Network Security":
         network_security.run_lab()
-    elif lab_choice == "🌍 Advanced Networking":
-        advanced_networking.run_lab()
+    elif lab_choice == "🤖 AI/ML Security":
+        ai_ml_security.run_lab()
+    elif lab_choice == "☁️ Cloud Security":
+        cloud_security.run_lab()
+    elif lab_choice == "🔧 DevSecOps":
+        devsecops.run_lab()
     elif lab_choice == "📡 Wireless Security":
         wireless_security.run_lab()
     elif lab_choice == "🕸️ Web Security":
@@ -120,14 +138,44 @@ def show_home_page():
                 "tools": "Agile/Scrum, OOP, Data structures, CI/CD, Project management"
             },
             {
-                "name": "🌐 Network Security",
-                "description": "Học về bảo mật mạng cơ bản, quét port, phân tích gói tin",
-                "tools": "Nmap, Scapy, Wireshark simulation"
+                "name": "🐍 Python Programming",
+                "description": "Học Python từ cơ bản đến nâng cao, OOP, testing, performance",
+                "tools": "Variables, Functions, OOP, Testing, Async, Best Practices"
             },
             {
-                "name": "🌍 Advanced Networking",
-                "description": "Networking nâng cao, topology mapping, performance analysis",
-                "tools": "Network reconnaissance, Protocol analysis, Traffic monitoring"
+                "name": "🐧 Linux OS Security",
+                "description": "Quản trị và bảo mật hệ thống Linux, hardening, monitoring",
+                "tools": "System admin, Firewall, SELinux/AppArmor, Kernel tuning, Container security"
+            },
+            {
+                "name": "🌐 Network Fundamentals",
+                "description": "Nền tảng mạng: OSI, TCP/IP, Subnetting, Routing, DNS/DHCP",
+                "tools": "OSI Model, IP Calculator, Protocol Analyzer, Network Simulator"
+            },
+            {
+                "name": "🌍 Network Advanced",
+                "description": "Enterprise networking: BGP, OSPF, MPLS, QoS, SDN/NFV",
+                "tools": "Routing protocols, Load balancing, VPN, Performance tuning"
+            },
+            {
+                "name": "🔒 Network Security",
+                "description": "Bảo mật mạng: Firewall, IDS/IPS, NAC, DDoS, Incident Response",
+                "tools": "ACLs, 802.1X, Port Security, SIEM, Penetration Testing"
+            },
+            {
+                "name": "🤖 AI/ML Security",
+                "description": "Bảo mật AI/ML: Adversarial attacks, Model security, LLM security",
+                "tools": "Data poisoning, Prompt injection, Privacy-preserving ML, AI ethics"
+            },
+            {
+                "name": "☁️ Cloud Security",
+                "description": "Bảo mật đám mây: AWS, Azure, GCP, Kubernetes, Container security",
+                "tools": "IAM, CSPM, CWPP, Serverless security, Multi-cloud management"
+            },
+            {
+                "name": "🔧 DevSecOps",
+                "description": "Tích hợp bảo mật vào CI/CD: SAST, DAST, SCA, Supply chain",
+                "tools": "Pipeline security, Secret management, IaC scanning, GitOps"
             },
             {
                 "name": "📡 Wireless Security",

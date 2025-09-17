@@ -20,66 +20,30 @@ import numpy as np
 import concurrent.futures
 import asyncio
 
+def create_lab_header(title: str, icon: str, gradient: str = "linear-gradient(90deg, #667eea 0%, #764ba2 100%)"):
+    """Create compact lab header"""
+    return f"""
+    <div style="background: {gradient}; 
+                padding: 0.8rem; border-radius: 6px; margin-bottom: 1rem;">
+        <h3 style="color: white; margin: 0; font-size: 1.2rem;">{icon} {title}</h3>
+    </div>
+    """
+
 def run_lab():
     """Wireless Security Lab - Master WiFi Security & Attack Techniques"""
     
-    # Enhanced header with gradient animation
+    # Compact Header
     st.markdown("""
-    <style>
-    .wifi-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 2.5rem;
-        border-radius: 15px;
-        margin-bottom: 2rem;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        position: relative;
-        overflow: hidden;
-    }
-    .wifi-wave {
-        animation: wave 3s ease-in-out infinite;
-    }
-    @keyframes wave {
-        0%, 100% { transform: translateX(-100%); }
-        50% { transform: translateX(100%); }
-    }
-    .security-badge {
-        background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
-        padding: 0.5rem 1rem;
-        border-radius: 20px;
-        display: inline-block;
-        margin: 0.5rem;
-        color: white;
-        font-weight: bold;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("""
-    <div class="wifi-header">
-        <h1 style="color: white; text-align: center; margin: 0; font-size: 2.5rem;">
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                padding: 1rem; border-radius: 8px; margin-bottom: 1rem; text-align: center;">
+        <h2 style="color: white; margin: 0; font-size: 1.5rem;">
             📡 Wireless Security Lab
-        </h1>
-        <p style="color: white; text-align: center; margin-top: 10px; font-size: 1.2rem;">
-            Advanced WiFi Hacking, Defense & Forensics
+        </h2>
+        <p style="color: white; margin: 0; font-size: 0.9rem; opacity: 0.9;">
+            WiFi Hacking, Defense & Forensics
         </p>
-        <div style="text-align: center; margin-top: 20px;">
-            <span class="security-badge">802.11 a/b/g/n/ac/ax</span>
-            <span class="security-badge">WEP/WPA/WPA2/WPA3</span>
-            <span class="security-badge">2.4GHz/5GHz/6GHz</span>
-        </div>
     </div>
     """, unsafe_allow_html=True)
-    
-    # Quick WiFi Standards Reference
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.metric("🌐 802.11ax", "WiFi 6E", "6 GHz Band")
-    with col2:
-        st.metric("🔒 WPA3", "Latest Security", "SAE Auth")
-    with col3:
-        st.metric("📡 Channels", "14 (2.4GHz)", "165 (5GHz)")
-    with col4:
-        st.metric("⚡ Speed", "9.6 Gbps", "WiFi 6 Max")
     
     # Enhanced tabs with more labs
     tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
@@ -790,13 +754,7 @@ def run_wireless_assessment(scope, compliance_standard):
 def evil_twin_attack_lab():
     """Lab for Evil Twin Attack simulation"""
     
-    st.markdown("""
-    <div style="background: linear-gradient(90deg, #ff6a00 0%, #ee0979 100%);
-                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-        <h2 style="color: white; margin: 0;">🎯 Evil Twin Attack Lab</h2>
-        <p style="color: white; margin: 5px 0 0 0;">Create Fake Access Points to Harvest Credentials</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(create_lab_header("Evil Twin Attack Lab", "🎯", "linear-gradient(90deg, #ff6a00 0%, #ee0979 100%)"), unsafe_allow_html=True)
     
     # Warning message
     st.error("""
@@ -904,13 +862,7 @@ def evil_twin_attack_lab():
 def wps_attack_lab():
     """Lab for WPS Attack techniques"""
     
-    st.markdown("""
-    <div style="background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
-                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-        <h2 style="color: white; margin: 0;">🔑 WPS Attack Lab</h2>
-        <p style="color: white; margin: 5px 0 0 0;">Exploit WiFi Protected Setup Vulnerabilities</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(create_lab_header("WPS Attack Lab", "🔑", "linear-gradient(90deg, #4facfe 0%, #00f2fe 100%)"), unsafe_allow_html=True)
     
     # WPS Theory
     with st.expander("📚 **WPS Vulnerability Theory**"):
@@ -998,13 +950,7 @@ def wps_attack_lab():
 def deauth_attack_lab():
     """Lab for Deauthentication Attack"""
     
-    st.markdown("""
-    <div style="background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
-                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-        <h2 style="color: white; margin: 0;">📡 Deauthentication Attack Lab</h2>
-        <p style="color: white; margin: 5px 0 0 0;">Disconnect WiFi Clients Using 802.11 Management Frames</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(create_lab_header("Deauthentication Attack Lab", "📡", "linear-gradient(90deg, #f093fb 0%, #f5576c 100%)"), unsafe_allow_html=True)
     
     # Deauth Theory
     with st.expander("📚 **802.11 Deauthentication Theory**"):
@@ -1100,13 +1046,7 @@ def deauth_attack_lab():
 def wifi_forensics_lab():
     """Lab for WiFi Forensics and Analysis"""
     
-    st.markdown("""
-    <div style="background: linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%);
-                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-        <h2 style="color: white; margin: 0;">🕵️ WiFi Forensics Lab</h2>
-        <p style="color: white; margin: 5px 0 0 0;">Analyze WiFi Traffic and Extract Evidence</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(create_lab_header("WiFi Forensics Lab", "🕵️", "linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%)"), unsafe_allow_html=True)
     
     tabs = st.tabs(["📦 Packet Analysis", "🔑 Handshake Capture", "📊 Traffic Patterns", "🗺️ Device Tracking"])
     
@@ -1177,13 +1117,7 @@ def wifi_forensics_lab():
 def defense_strategies_lab():
     """Lab for WiFi Defense Strategies"""
     
-    st.markdown("""
-    <div style="background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-                padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-        <h2 style="color: white; margin: 0;">🛡️ WiFi Defense Strategies Lab</h2>
-        <p style="color: white; margin: 5px 0 0 0;">Implement Robust Wireless Security Measures</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(create_lab_header("WiFi Defense Strategies Lab", "🛡️"), unsafe_allow_html=True)
     
     # Defense categories
     defense_categories = {
