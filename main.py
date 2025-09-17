@@ -45,60 +45,64 @@ def main():
     st.sidebar.title("🎯 Chọn Lab")
     st.sidebar.markdown("Chọn một lab để bắt đầu học:")
     
-    lab_choice = st.sidebar.selectbox(
+    # Main labs menu (including Theory items at the end)
+    main_labs = [
+        "🏠 Trang chủ",
+        "🌐 Network Fundamentals",
+        "🌍 Network Advanced",
+        "🐧 Linux OS Security",
+        "🔒 Network Security",
+        "🐍 Python Programming",
+        "☁️ Cloud Security",
+        "🤖 AI/ML Security",
+        "🕸️ Web Security",
+        "📡 Wireless Security",
+        "🔧 DevSecOps",
+        "🔐 Cryptography",
+        "🔍 Digital Forensics",
+        "📚 Theory & Concepts",
+        "💻 IT Fundamentals",
+        "💾 Software Development"
+    ]
+
+    # Single menu selection
+    final_choice = st.sidebar.selectbox(
         "Danh sách Labs:",
-        [
-            "🏠 Trang chủ",
-            "📚 Theory & Concepts",
-            "💻 IT Fundamentals",
-            "💾 Software Development",
-            "🐍 Python Programming",
-            "🐧 Linux OS Security",
-            "🌐 Network Fundamentals",
-            "🌍 Network Advanced",
-            "🔒 Network Security",
-            "🤖 AI/ML Security",
-            "☁️ Cloud Security",
-            "🔧 DevSecOps",
-            "📡 Wireless Security",
-            "🕸️ Web Security", 
-            "🔐 Cryptography",
-            "🔍 Digital Forensics"
-        ]
+        main_labs
     )
     
     # Main content area
-    if lab_choice == "🏠 Trang chủ":
+    if final_choice == "🏠 Trang chủ":
         show_home_page()
-    elif lab_choice == "📚 Theory & Concepts":
+    elif final_choice == "📚 Theory & Concepts":
         theory_concepts.run_lab()
-    elif lab_choice == "💻 IT Fundamentals":
+    elif final_choice == "💻 IT Fundamentals":
         it_fundamentals.run_lab()
-    elif lab_choice == "💾 Software Development":
+    elif final_choice == "💾 Software Development":
         software_development.run_lab()
-    elif lab_choice == "🐍 Python Programming":
+    elif final_choice == "🐍 Python Programming":
         python_lab.run_lab()
-    elif lab_choice == "🐧 Linux OS Security":
+    elif final_choice == "🐧 Linux OS Security":
         linux_os.run_lab()
-    elif lab_choice == "🌐 Network Fundamentals":
+    elif final_choice == "🌐 Network Fundamentals":
         network_fundamentals.run_lab()
-    elif lab_choice == "🌍 Network Advanced":
+    elif final_choice == "🌍 Network Advanced":
         network_advanced.run_lab()
-    elif lab_choice == "🔒 Network Security":
+    elif final_choice == "🔒 Network Security":
         network_security.run_lab()
-    elif lab_choice == "🤖 AI/ML Security":
+    elif final_choice == "🤖 AI/ML Security":
         ai_ml_security.run_lab()
-    elif lab_choice == "☁️ Cloud Security":
+    elif final_choice == "☁️ Cloud Security":
         cloud_security.run_lab()
-    elif lab_choice == "🔧 DevSecOps":
+    elif final_choice == "🔧 DevSecOps":
         devsecops.run_lab()
-    elif lab_choice == "📡 Wireless Security":
+    elif final_choice == "📡 Wireless Security":
         wireless_security.run_lab()
-    elif lab_choice == "🕸️ Web Security":
+    elif final_choice == "🕸️ Web Security":
         web_security.run_lab()
-    elif lab_choice == "🔐 Cryptography":
+    elif final_choice == "🔐 Cryptography":
         cryptography_lab.run_lab()
-    elif lab_choice == "🔍 Digital Forensics":
+    elif final_choice == "🔍 Digital Forensics":
         digital_forensics.run_lab()
 
 def show_home_page():
@@ -121,32 +125,8 @@ def show_home_page():
         
         st.markdown("### 📚 Danh sách Labs có sẵn:")
         
-        labs_info = [
-            {
-                "name": "📚 Theory & Concepts",
-                "description": "Học các khái niệm cơ bản và thủ thuật cybersecurity",
-                "tools": "OSI Model, CIA Triad, Attack methodologies, Risk assessment"
-            },
-            {
-                "name": "💻 IT Fundamentals",
-                "description": "Kiến thức nền tảng CNTT: Computer systems, OS, Database",
-                "tools": "Computer architecture, Networking basics, System administration"
-            },
-            {
-                "name": "💾 Software Development",
-                "description": "Phát triển phần mềm: SDLC, Programming, Testing, DevOps",
-                "tools": "Agile/Scrum, OOP, Data structures, CI/CD, Project management"
-            },
-            {
-                "name": "🐍 Python Programming",
-                "description": "Học Python từ cơ bản đến nâng cao, OOP, testing, performance",
-                "tools": "Variables, Functions, OOP, Testing, Async, Best Practices"
-            },
-            {
-                "name": "🐧 Linux OS Security",
-                "description": "Quản trị và bảo mật hệ thống Linux, hardening, monitoring",
-                "tools": "System admin, Firewall, SELinux/AppArmor, Kernel tuning, Container security"
-            },
+        # Main labs
+        main_labs_info = [
             {
                 "name": "🌐 Network Fundamentals",
                 "description": "Nền tảng mạng: OSI, TCP/IP, Subnetting, Routing, DNS/DHCP",
@@ -158,14 +138,19 @@ def show_home_page():
                 "tools": "Routing protocols, Load balancing, VPN, Performance tuning"
             },
             {
-                "name": "🔒 Network Security",
+                "name": "🐧 Linux OS Security",
+                "description": "Quản trị và bảo mật hệ thống Linux, hardening, monitoring",
+                "tools": "System admin, Firewall, SELinux/AppArmor, Kernel tuning, Container security"
+            },
+            {
+                "name": "� Network Security",
                 "description": "Bảo mật mạng: Firewall, IDS/IPS, NAC, DDoS, Incident Response",
                 "tools": "ACLs, 802.1X, Port Security, SIEM, Penetration Testing"
             },
             {
-                "name": "🤖 AI/ML Security",
-                "description": "Bảo mật AI/ML: Adversarial attacks, Model security, LLM security",
-                "tools": "Data poisoning, Prompt injection, Privacy-preserving ML, AI ethics"
+                "name": "🐍 Python Programming",
+                "description": "Học Python từ cơ bản đến nâng cao, OOP, testing, performance",
+                "tools": "Variables, Functions, OOP, Testing, Async, Best Practices"
             },
             {
                 "name": "☁️ Cloud Security",
@@ -173,14 +158,9 @@ def show_home_page():
                 "tools": "IAM, CSPM, CWPP, Serverless security, Multi-cloud management"
             },
             {
-                "name": "🔧 DevSecOps",
-                "description": "Tích hợp bảo mật vào CI/CD: SAST, DAST, SCA, Supply chain",
-                "tools": "Pipeline security, Secret management, IaC scanning, GitOps"
-            },
-            {
-                "name": "📡 Wireless Security",
-                "description": "Bảo mật mạng không dây, WiFi analysis, rogue AP detection",
-                "tools": "WiFi scanning, WPA/WEP analysis, Signal monitoring"
+                "name": "🤖 AI/ML Security",
+                "description": "Bảo mật AI/ML: Adversarial attacks, Model security, LLM security",
+                "tools": "Data poisoning, Prompt injection, Privacy-preserving ML, AI ethics"
             },
             {
                 "name": "🕸️ Web Security", 
@@ -188,18 +168,54 @@ def show_home_page():
                 "tools": "SQL Injection, XSS, CSRF simulation"
             },
             {
+                "name": "� Wireless Security",
+                "description": "Bảo mật mạng không dây, WiFi analysis, rogue AP detection",
+                "tools": "WiFi scanning, WPA/WEP analysis, Signal monitoring"
+            },
+            {
+                "name": "🔧 DevSecOps",
+                "description": "Tích hợp bảo mật vào CI/CD: SAST, DAST, SCA, Supply chain",
+                "tools": "Pipeline security, Secret management, IaC scanning, GitOps"
+            },
+            {
                 "name": "🔐 Cryptography",
                 "description": "Thực hành mã hóa và giải mã",
                 "tools": "AES, RSA, Hash functions, Digital signatures"
             },
             {
-                "name": "🔍 Digital Forensics",
+                "name": "� Digital Forensics",
                 "description": "Phân tích bằng chứng số và điều tra",
                 "tools": "File analysis, Metadata extraction, Steganography"
             }
         ]
         
-        for lab in labs_info:
+        # Display main labs
+        for lab in main_labs_info:
+            with st.expander(f"**{lab['name']}**"):
+                st.write(f"**Mô tả:** {lab['description']}")
+                st.write(f"**Công cụ:** {lab['tools']}")
+        
+        # Theory & Concepts section
+        st.markdown("### 📚 Theory & Concepts")
+        theory_labs_info = [
+            {
+                "name": "� Theory & Concepts",
+                "description": "Học các khái niệm cơ bản và thủ thuật cybersecurity",
+                "tools": "OSI Model, CIA Triad, Attack methodologies, Risk assessment"
+            },
+            {
+                "name": "� IT Fundamentals",
+                "description": "Kiến thức nền tảng CNTT: Computer systems, OS, Database",
+                "tools": "Computer architecture, Networking basics, System administration"
+            },
+            {
+                "name": "� Software Development",
+                "description": "Phát triển phần mềm: SDLC, Programming, Testing, DevOps",
+                "tools": "Agile/Scrum, OOP, Data structures, CI/CD, Project management"
+            }
+        ]
+        
+        for lab in theory_labs_info:
             with st.expander(f"**{lab['name']}**"):
                 st.write(f"**Mô tả:** {lab['description']}")
                 st.write(f"**Công cụ:** {lab['tools']}")

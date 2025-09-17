@@ -77,16 +77,16 @@ def run_lab():
 
     # Map OWASP 2021 to labs
     tabs = st.tabs([
-        "🔑 A1: Broken Access Control",
-        "⚿ A2: Cryptographic Failures",
-        "💉 A3: Injection",
-        "📐 A4: Insecure Design",
-        "⚙️ A5: Security Misconfig",
-        "📦 A6: Vulnerable Components",
-        "🎭 A7: Auth Failures",
-        "🔗 A8: Integrity Failures",
-        "📉 A9: Logging Failures",
-        "🌐 A10: SSRF"
+        "A1: Broken Access Control",
+        "A2: Cryptographic Failures",
+        "A3: Injection (SQLi, XXE)",
+        "A4: Insecure Design",
+        "A5: Security Misconfiguration",
+        "A6: Vulnerable Components",
+        "A7: Auth Failures (JWT)",
+        "A8: Integrity Failures",
+        "A9: Logging Failures",
+        "A10: SSRF"
     ])
 
     with tabs[0]:
@@ -209,7 +209,7 @@ def injection_lab():
     
     st.markdown("Injection flaws, such as SQL, NoSQL, OS, and LDAP injection, occur when untrusted data is sent to an interpreter as part of a command or query.")
     
-    lab_type = st.selectbox("Choose Injection Lab:", ["💉 SQL Injection", "🎆 XML External Entity (XXE)"])
+    lab_type = st.selectbox("Choose Injection Lab:", ["SQL Injection", "XML External Entity (XXE)"])
 
     if lab_type == "SQL Injection":
         sql_injection_lab()
@@ -460,7 +460,7 @@ def logging_failures_lab():
 
 def ssrf_lab():
     """A10:2021 - Server-Side Request Forgery Lab"""
-    create_lab_header("Server-Side Request Forgery (SSRF)", "🌐", "linear-gradient(90deg, #fdfbfb 0%, #ebedee 100%)")
+    create_lab_header("Server-Side Request Forgery (SSRF)", "🔗", "linear-gradient(90deg, #fdfbfb 0%, #ebedee 100%)")
 
     with st.expander("📖 **SSRF Theory**", expanded=True):
         st.markdown("""
