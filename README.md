@@ -70,31 +70,12 @@ Môi trường học tập An toàn thông tin tương tác được thiết k�
 
 ## 🛠️ Cài đặt
 
-### Phương pháp 1: Tự động (Khuyến nghị)
 
 1. **Clone repository:**
 ```bash
 git clone <repository-url>
 cd cybersecurity-lab
 ```
-
-2. **Chạy script setup:**
-```bash
-chmod +x setup.sh
-./setup.sh
-```
-
-3. **Reboot hệ thống:**
-```bash
-sudo reboot
-```
-
-4. **Khởi động lab:**
-```bash
-start-lab
-```
-
-### Phương pháp 2: Thủ công
 
 1. **Cài đặt Python 3.9+:**
 ```bash
