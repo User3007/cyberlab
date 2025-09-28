@@ -248,3 +248,106 @@ def show_home_page():
 
 if __name__ == "__main__":
     main()
+
+
+# Cài đặt MySQL và tạo database + user
+import streamlit as st
+from utils import auth, db
+from utils.auth import init_db, create_user, authenticate_user, list_users, change_password, get_user_by_username
+
+# Khởi tạo DB (tạo bảng nếu chưa có)
+init_db()
+
+st.set_page_config(page_title="Cybersecurity Lab - Login", layout="centered")
+
+if "user" not in st.session_state:
+    st.session_state.user = None
+
+def login_ui():
+    st.title("Cybersecurity Lab - Login")
+    with st.form("login_form"):
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
+        submitted = st.form_submit_button("Login")
+        if submitted:
+            user = authenticate_user(username.strip(), password)
+            if user:
+                st.session_state.user = {"id": user.id, "username": user.username, "is_admin": user.is_admin}
+                st.experimental_rerun()
+            else:
+                st.error("Invalid username or password")
+
+def register_ui():
+    st.title("Create account")
+    with st.form("register_form"):
+        username = st.text_input("Choose a username")
+        email = st.text_input("Email (optional)")
+        password = st.text_input("Password", type="password")
+        password2 = st.text_input("Confirm password", type="password")
+        submitted = st.form_submit_button("Register")
+        if submitted:
+            if not username or not password:
+                st.error("Username and password are required")
+            elif password != password2:
+                st.error("Passwords do not match")
+            else:
+                created = create_user(username.strip(), password, email=email, is_admin=False)
+                if created:
+                    st.success("Account created. Please login.")
+                else:
+                    st.error("User already exists")
+
+def account_ui():
+    st.sidebar.write(f"Logged in as: {st.session_state.user['username']}")
+    if st.sidebar.button("Logout"):
+        st.session_state.user = None
+        st.experimental_rerun()
+
+    st.header("Secure Content")
+    st.write("Welcome to the Cybersecurity Lab. Use the sidebar to navigate labs.")
+
+    # Password change
+    st.subheader("Change password")
+    with st.form("change_pw"):
+        old = st.text_input("Old password", type="password")
+        new = st.text_input("New password", type="password")
+        new2 = st.text_input("Confirm new password", type="password")
+        go = st.form_submit_button("Change")
+        if go:
+            user = get_user_by_username(st.session_state.user["username"])
+            if user and user.password_hash:
+                from passlib.hash import bcrypt
+                if bcrypt.verify(old, user.password_hash):
+                    if new == new2:
+                        success = change_password(user.username, new)
+                        if success:
+                            st.success("Password updated")
+                        else:
+                            st.error("Failed to update password")
+                    else:
+                        st.error("New passwords do not match")
+                else:
+                    st.error("Old password is incorrect")
+
+    # Admin-only area
+    if st.session_state.user.get("is_admin"):
+        st.subheader("User management (admin)")
+        users = list_users()
+        for u in users:
+            st.text(f"{u.id} - {u.username} - {u.email} - admin={u.is_admin}")
+
+def main():
+    st.sidebar.title("Navigation")
+    if st.session_state.user:
+        st.sidebar.write("Account")
+        st.sidebar.button("Home")
+        account_ui()
+    else:
+        page = st.sidebar.selectbox("Go to", ["Login", "Register"])
+        if page == "Login":
+            login_ui()
+        else:
+            register_ui()
+
+if __name__ == "__main__":
+    main()
